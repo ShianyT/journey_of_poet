@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body::-webkit-scrollbar {
+        display: none;
+    }
+    /* 对整个词条的父元素entryBox添加一个右浮动，在给这个元素添加一个相对定位 */
+    .entryBox {
+        transition: all 1.5s;
+        float: right;
+        position: relative;
+        width: 25%;
+        height: 100vh;
+        background-color: pink;
+    }
+    /* 给所有的词条增加宽度，然后通过opacity来让词条出现或者消失 */
+    .entryBox .dynasty_entry {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+    /* 词条中的文字的样式 */
+    .entryBox .tang {
+        opacity: 1;
+    }
+    .entryBox .dynasty_entry .content {
+        margin: 10%;
+        margin-top: 20%;
+    }
+    .entryBox .dynasty_entry .content .title {
+        font-size: 40px;
+        font-weight: 700;
+    }
+    .entryBox .dynasty_entry .content .time {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .entryBox .dynasty_entry .content .text {
+        font-size: 20px;
+    }
+    .entryBox .dynasty_entry .content .text p {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .entryBox .dynasty_entry .button {
+        transition: all .5s;
+        position: absolute;
+        top: 3%;
+        left: -6%;
+        width: 20px;
+        height: 20px;
+        border-right: 2px solid red;
+        border-bottom: 2px solid red;
+        transform:rotate(-45deg);
+        cursor: pointer;
+    }
+</style>
+<body>
+    <!-- 首先地图词条会出现在页面的最右侧，这个效果可以通过绝对定位以及浮动来实现。
+    1.朝代词条的出现和消失取决于左侧朝代地图的出现和消失，可以通过自定义属性让两者对应起来
+    2.词条有一个隐藏和消失效果，点击按钮隐藏词条，点击按钮出现词条
+    3.有多个词条，那么词条的按钮，就需要绑定同一个事件，每次点击都是一个按钮 -->
+
+    <div class="entryBox">
+        <div class="dynasty_entry tang" data-id="0">
+            <div class="button"></div>
+            <div class="content">
+                <div class="title">唐朝</div>
+                <div class="time">公元200年</div>
+                <div class="text">
+                    <p>唐诗篇什繁富，仅据清代编纂的《全唐诗》录存的作品已达48900多首,有姓名可考的作者2200多人。</p>
+                    <p>唐前期以王勃、杨炯、卢照邻、骆宾王、陈子昂为最。武则天专权时期，宋之问、沈佺期的诗歌成就较高，使绝句、律诗最终定形。</p>
+                    <p>盛唐时期，诗歌极盛，田园诗、边塞诗兴起，田园诗以王维、孟浩然为最，边塞诗以岑参、高适为佳。李白、杜甫为盛唐诗歌出众的作者。</p>
+                    <p>中唐时期，白居易为中国诗歌的又一高峰。唐朝晚期，杜牧、李商隐的诗歌成就很大，诗歌创作多忧国伤时。</p>
+                    <p>唐朝中期，词定型。唐中晚期产生了不少词作，大量写词的有温庭筠。</p>
+                </div>
+            </div>
+        </div>
+        <div class="dynasty_entry song" data-id="1">
+            <div class="button"></div>
+            <div class="content">
+                <div class="title">宋朝</div>
+                <div class="time">公元200年</div>
+                <div class="text">
+                    <p>唐诗篇什繁富，仅据清代编纂的《全唐诗》录存的作品已达48900多首,有姓名可考的作者2200多人。</p>
+                    <p>唐前期以王勃、杨炯、卢照邻、骆宾王、陈子昂为最。武则天专权时期，宋之问、沈佺期的诗歌成就较高，使绝句、律诗最终定形。</p>
+                    <p>盛唐时期，诗歌极盛，田园诗、边塞诗兴起，田园诗以王维、孟浩然为最，边塞诗以岑参、高适为佳。李白、杜甫为盛唐诗歌出众的作者。</p>
+                    <p>中唐时期，白居易为中国诗歌的又一高峰。唐朝晚期，杜牧、李商隐的诗歌成就很大，诗歌创作多忧国伤时。</p>
+                    <p>唐朝中期，词定型。唐中晚期产生了不少词作，大量写词的有温庭筠。</p>
+                </div>
+            </div>
+        </div>
+        <div class="dynasty_entry yuan" data-id="2">
+            <div class="button"></div>
+            <div class="content">
+                <div class="title">元朝</div>
+                <div class="time">公元200年</div>
+                <div class="text">
+                    <p>唐诗篇什繁富，仅据清代编纂的《全唐诗》录存的作品已达48900多首,有姓名可考的作者2200多人。</p>
+                    <p>唐前期以王勃、杨炯、卢照邻、骆宾王、陈子昂为最。武则天专权时期，宋之问、沈佺期的诗歌成就较高，使绝句、律诗最终定形。</p>
+                    <p>盛唐时期，诗歌极盛，田园诗、边塞诗兴起，田园诗以王维、孟浩然为最，边塞诗以岑参、高适为佳。李白、杜甫为盛唐诗歌出众的作者。</p>
+                    <p>中唐时期，白居易为中国诗歌的又一高峰。唐朝晚期，杜牧、李商隐的诗歌成就很大，诗歌创作多忧国伤时。</p>
+                    <p>唐朝中期，词定型。唐中晚期产生了不少词作，大量写词的有温庭筠。</p>
+                </div>
+            </div>
+        </div>
+        <div class="dynasty_entry ming" data-id="3">
+            <div class="button"></div>
+            <div class="content">
+                <div class="title">明朝</div>
+                <div class="time">公元200年</div>
+                <div class="text">
+                    <p>唐诗篇什繁富，仅据清代编纂的《全唐诗》录存的作品已达48900多首,有姓名可考的作者2200多人。</p>
+                    <p>唐前期以王勃、杨炯、卢照邻、骆宾王、陈子昂为最。武则天专权时期，宋之问、沈佺期的诗歌成就较高，使绝句、律诗最终定形。</p>
+                    <p>盛唐时期，诗歌极盛，田园诗、边塞诗兴起，田园诗以王维、孟浩然为最，边塞诗以岑参、高适为佳。李白、杜甫为盛唐诗歌出众的作者。</p>
+                    <p>中唐时期，白居易为中国诗歌的又一高峰。唐朝晚期，杜牧、李商隐的诗歌成就很大，诗歌创作多忧国伤时。</p>
+                    <p>唐朝中期，词定型。唐中晚期产生了不少词作，大量写词的有温庭筠。</p>
+                </div>
+            </div>
+        </div>
+        <div class="dynasty_entry qing" data-id="4">
+            <div class="button"></div>
+            <div class="content">
+                <div class="title">清朝</div>
+                <div class="time">公元200年</div>
+                <div class="text">
+                    <p>唐诗篇什繁富，仅据清代编纂的《全唐诗》录存的作品已达48900多首,有姓名可考的作者2200多人。</p>
+                    <p>唐前期以王勃、杨炯、卢照邻、骆宾王、陈子昂为最。武则天专权时期，宋之问、沈佺期的诗歌成就较高，使绝句、律诗最终定形。</p>
+                    <p>盛唐时期，诗歌极盛，田园诗、边塞诗兴起，田园诗以王维、孟浩然为最，边塞诗以岑参、高适为佳。李白、杜甫为盛唐诗歌出众的作者。</p>
+                    <p>中唐时期，白居易为中国诗歌的又一高峰。唐朝晚期，杜牧、李商隐的诗歌成就很大，诗歌创作多忧国伤时。</p>
+                    <p>唐朝中期，词定型。唐中晚期产生了不少词作，大量写词的有温庭筠。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 获取词条按钮，对按钮添加一个点击事件，点击之后词条就开始隐藏（收到页面中之外），同时按钮反向。（此时需要有一个flag去判断词条是隐藏了还是消失了）
+    const entryButtons=document.querySelectorAll('.entryBox .dynasty_entry .button');
+    // 获取词条的父元素
+    const entryBox=document.querySelector('.entryBox');
+
+    // 第一次进入页面的时候词条肯定是显示的，那么就先定义flag为1
+    flag=1;
+    // 定义一个词条变化函数
+    function entryChange(){
+        // 先判断此时词条是处于什么样的状态，flag为1表示显示，flag为0表示隐藏
+        if(flag==1){
+            entryBox.style.transform='translateX(100%)';
+            for(let j=0;j<entryButtons.length;j++){
+                entryButtons[j].style.transform='rotate(135deg)';
+            }
+            flag=0;
+        }
+        else{
+            entryBox.style.transform='translateX(0)';
+            for(let j=0;j<entryButtons.length;j++){
+                entryButtons[j].style.transform='rotate(-45deg)';
+            }
+            flag=1;
+        }
+    }
+    
+    // 对按钮都添加点击事件
+    for(let i=0;i<entryButtons.length;i++){
+        entryButtons[i].addEventListener('click',entryChange);
+    
+    }
+    
+</script>
+</html>
