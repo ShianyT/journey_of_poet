@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/game.css">
     <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4168452_h926tsmuu3l.css">
 </head>
 
@@ -52,15 +53,47 @@
                 </div>
                 <div class="map-pic">
                     <img src="./images/vex.svg" alt="">
+                    <div class="point">
+                        <div class="p p-Lib"></div>
+                        <div class="p p-Bjy"></div>
+                        <div class="p p-Wangw"></div>
+                        <div class="p p-Dum"></div>
+                        <div class="p p-Lsy"></div>
+                        <div class="p p-Duf"></div>
+                    </div>
                 </div>
                 <div class="map-pic">
                     <img src="./images/vex.svg" alt="">
+                    <div class="point">
+                        <div class="p p-Lib"></div>
+                        <div class="p p-Bjy"></div>
+                        <div class="p p-Wangw"></div>
+                        <div class="p p-Dum"></div>
+                        <div class="p p-Lsy"></div>
+                        <div class="p p-Duf"></div>
+                    </div>
                 </div>
                 <div class="map-pic">
                     <img src="./images/vex.svg" alt="">
+                    <div class="point">
+                        <div class="p p-Lib"></div>
+                        <div class="p p-Bjy"></div>
+                        <div class="p p-Wangw"></div>
+                        <div class="p p-Dum"></div>
+                        <div class="p p-Lsy"></div>
+                        <div class="p p-Duf"></div>
+                    </div>
                 </div>
                 <div class="map-pic">
                     <img src="./images/vex.svg" alt="">
+                    <div class="point">
+                        <div class="p p-Lib"></div>
+                        <div class="p p-Bjy"></div>
+                        <div class="p p-Wangw"></div>
+                        <div class="p p-Dum"></div>
+                        <div class="p p-Lsy"></div>
+                        <div class="p p-Duf"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,9 +180,188 @@
             </div>
         </div>
     </div>
-    <script src="./scroll.js"></script>
-    <script src="./index.js"></script>
-    <script src="./map.js"></script>
+    <div class="game">
+        <div class="game-inner">
+            <div class="game-table">
+                <table class="level1" border="1" cellspacing='0'>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="w-txt tips-arise">天</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt tips-arise"></td>
+                            <td class="b-txt">远</td>
+                            <td class="b-txt"></td>
+                            <td class="b-txt"></td>
+                            <td class="b-txt">偏</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="w-txt">理</td>
+                            <td></td>
+                            <td class="b-txt">悠</td>
+                            <td class="b-txt"></td>
+                            <td class="b-txt"></td>
+                            <td class="b-txt">南</td>
+                            <td class="b-txt"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="w-txt"></td>
+                            <td></td>
+                            <td class="w-txt"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-txt tips-arise">交</td>
+                            <td class="w-txt"></td>
+                            <td class="w-txt">询</td>
+                            <td class="b-txt"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt">君</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt">菊</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt">能</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="b-txt">下</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tips">
+                <div class="tips-tit">
+                    <span class="tips-tit-txt">一首关于隐居的诗</span>
+                </div>
+                <div class="select">
+                    <table class="sel1" border="1" cellspacing='0'>
+                        <tbody>
+                            <tr>
+                                <td>教</td>
+                                <td>悠</td>
+                                <td></td>
+                                <td></td>
+                                <td>山</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>然</td>
+                                <td>主</td>
+                                <td>自</td>
+                                <td>东</td>
+                                <td>篱</td>
+                                <td>何</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>尔</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>心</td>
+                                <td></td>
+                                <td>问</td>
+                            </tr>
+                            <tr>
+                                <td>地</td>
+                                <td></td>
+                                <td></td>
+                                <td>叉</td>
+                                <td></td>
+                                <td>采</td>
+                            </tr>
+                            <tr>
+                                <td>就</td>
+                                <td></td>
+                                <td>见</td>
+                                <td></td>
+                                <td>咨</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tips-part">
+                    <div class="tips-txt">
+                        <span>纵：</span>
+                        <span class="col-txt"></span>
+                    </div>
+                    <div class="tips-txt">
+                        <span>横：</span>
+                        <span class="row-txt"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/scroll.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/map.js"></script>
+    <script src="./js/map.js"></script>
 </body>
 
 </html>
