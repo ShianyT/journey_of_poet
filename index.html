@@ -183,6 +183,7 @@
     <div class="game">
         <div class="game-inner">
             <div class="game-table">
+                <div class="table-tips">请点击选择右侧表格中的字，再点击下方表格将其填入，补充诗句或词语。</div>
                 <table class="level1" border="1" cellspacing='0'>
                     <tbody>
                         <tr>
@@ -199,10 +200,10 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            <td class="b-txt tips-arise"></td>
+                            <td class="b-txt tips-arise fill"></td>
                             <td class="b-txt">远</td>
-                            <td class="b-txt"></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
+                            <td class="b-txt fill"></td>
                             <td class="b-txt">偏</td>
                             <td></td>
                             <td></td>
@@ -213,17 +214,17 @@
                             <td class="w-txt">理</td>
                             <td></td>
                             <td class="b-txt">悠</td>
-                            <td class="b-txt"></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
+                            <td class="b-txt fill"></td>
                             <td class="b-txt">南</td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td class="w-txt"></td>
+                            <td class="w-txt fill"></td>
                             <td></td>
-                            <td class="w-txt"></td>
+                            <td class="w-txt fill"></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -231,14 +232,14 @@
                         </tr>
                         <tr>
                             <td class="w-txt tips-arise">交</td>
-                            <td class="w-txt"></td>
+                            <td class="w-txt fill"></td>
                             <td class="w-txt">询</td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -255,12 +256,12 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -271,13 +272,13 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="b-txt"></td>
+                            <td class="b-txt fill"></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -286,6 +287,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="confirm">
+                    <button class="confirm-btn">确定</button>
+                </div>
             </div>
             <div class="tips">
                 <div class="tips-tit">
@@ -295,65 +299,88 @@
                     <table class="sel1" border="1" cellspacing='0'>
                         <tbody>
                             <tr>
-                                <td>教</td>
-                                <td>悠</td>
-                                <td></td>
-                                <td></td>
-                                <td>山</td>
-                                <td></td>
+                                <td class="choice">教</td>
+                                <td class="choice">悠</td>
+                                <td class="choice">田</td>
+                                <td class="choice">日</td>
+                                <td class="choice">山</td>
+                                <td class="choice">而</td>
                             </tr>
                             <tr>
-                                <td>然</td>
-                                <td>主</td>
-                                <td>自</td>
-                                <td>东</td>
-                                <td>篱</td>
-                                <td>何</td>
+                                <td class="choice">然</td>
+                                <td class="choice">主</td>
+                                <td class="choice">自</td>
+                                <td class="choice">东</td>
+                                <td class="choice">篱</td>
+                                <td class="choice">何</td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td>尔</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="choice">上</td>
+                                <td class="choice">尔</td>
+                                <td class="choice">佳</td>
+                                <td class="choice">意</td>
+                                <td class="choice">头</td>
+                                <td class="choice">已</td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>心</td>
-                                <td></td>
-                                <td>问</td>
+                                <td class="choice">灵</td>
+                                <td class="choice">酒</td>
+                                <td class="choice">人</td>
+                                <td class="choice">心</td>
+                                <td class="choice">天</td>
+                                <td class="choice">问</td>
                             </tr>
                             <tr>
-                                <td>地</td>
-                                <td></td>
-                                <td></td>
-                                <td>叉</td>
-                                <td></td>
-                                <td>采</td>
+                                <td class="choice">地</td>
+                                <td class="choice">鸟</td>
+                                <td class="choice">在</td>
+                                <td class="choice">叉</td>
+                                <td class="choice">非</td>
+                                <td class="choice">采</td>
                             </tr>
                             <tr>
-                                <td>就</td>
-                                <td></td>
-                                <td>见</td>
-                                <td></td>
-                                <td>咨</td>
-                                <td></td>
+                                <td class="choice">就</td>
+                                <td class="choice">子</td>
+                                <td class="choice">见</td>
+                                <td class="choice">此</td>
+                                <td class="choice">咨</td>
+                                <td class="choice">底</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="tips-guide">( 鼠标经过词语或古诗的第一个字，会在下方出现对应横/纵行的提示 )</div>
                 <div class="tips-part">
                     <div class="tips-txt">
                         <span>纵：</span>
-                        <span class="col-txt"></span>
+                        <span class="tt col-txt"></span>
                     </div>
                     <div class="tips-txt">
                         <span>横：</span>
-                        <span class="row-txt"></span>
+                        <span class="tt row-txt"></span>
                     </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="fail">
+            <div class="fail-txt">啊哦答错啦 再试试吧</div>
+            <button class="fail-btn">重来</button>
+        </div>
+        <div class="succ-alert"></div>
+        <div class="success">
+            <div class="answer">
+                <div class="ans-txt">
+                    <span class="ans-tit">饮酒</span>
+                    <span class="poet">陶渊明</span>
+                    <span class="ans-content">采菊东篱下，悠然见南山。<br>问君何能尔，心远地自偏。</span>
+                </div>
+            </div>
+            <div class="succ-part">
+                <div class="succ-txt">你已通关</div>
+                <div class="level-part">
+                    <button class="succ-btn improve">优化关卡</button>
+                    <button class="succ-btn next-level">下一关</button>
                 </div>
             </div>
         </div>
@@ -361,7 +388,7 @@
     <script src="./js/scroll.js"></script>
     <script src="./js/index.js"></script>
     <script src="./js/map.js"></script>
-    <script src="./js/map.js"></script>
+    <script src="./js/game.js"></script>
 </body>
 
 </html>
