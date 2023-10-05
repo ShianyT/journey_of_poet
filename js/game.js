@@ -27,12 +27,14 @@ for (let i = 0; i < choice.length; i++) {
     choice[i].addEventListener('click', function () {
         // 排他法 只能选中一个
         for (let j = 0; j < choice.length; j++) {
+            // 用户选中字 想换一个字 让前一个点击后变色的字变回灰色
             if (choice[j].getAttribute('choose') === '1') {
                 choice[j].style.backgroundColor = '#d9d9d9'
                 choice[j].style.color = '#000'
                 choice[j].setAttribute('choose', '0')
             }
         }
+        // 用户之前选中并填过的字不能再选
         if (this.getAttribute('choose') == '0') {
             this.setAttribute('choose', '1')
             this.style.backgroundColor = '#3e586e'
@@ -49,7 +51,6 @@ const fill = document.querySelectorAll('.fill')
 for (let j = 0; j < fill.length; j++) {
     fill[j].addEventListener('click', function () {
         // 判断有无选中字
-        console.log(cflag);
         if (cflag == 1) {
             fill[j].innerHTML = choice[windex].innerHTML
             // choose[index].
@@ -70,7 +71,6 @@ const confirm = document.querySelector('.confirm-btn')
 const failBtn = document.querySelector('.fail-btn')
 const ansArr = ['心', '地', '自', '然', '见', '山', '咨', '悠', '叉', '问', '采', '何', '东', '篱', '尔']
 function TorF() {
-    console.log('ok');
     for (let i = 0; i < fill.length; i++) {
         if (fill[i].innerHTML != ansArr[i]) {
             for (let j = 0; j < fill.length; j++) {
@@ -80,7 +80,7 @@ function TorF() {
                 succAlert.style.opacity = '.2'
                 succAlert.style.visibility = 'visible'
             }
-            return result = 0
+            result = 0
         }
     }
     if (result) {
@@ -98,6 +98,7 @@ failBtn.addEventListener('click', () => {
     fail.style.visibility = 'hidden'
     succAlert.style.opacity = '0'
     succAlert.style.visibility = 'hidden'
+    result = 1
     for (let i = 0; i < choice.length; i++) {
         choice[i].style.color = '#000'
     }
