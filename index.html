@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录页面</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+    
+    <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4168452_h926tsmuu3l.css">
 </head>
-<link rel="stylesheet" href="css/index.css">
+
 <body>
-    <section>
-        <div class="color"></div>
-        <div class="color"></div>
-        <div class="color"></div>
-        <div class="box">
-            <div class="square" style="--i:0;"></div>
-            <div class="square" style="--i:1;"></div>
-            <div class="square" style="--i:2;"></div>
-            <div class="square" style="--i:3;"></div>
-            <div class="square" style="--i:4;"></div>
-            <div class="container">
-                <div class="form">
-                    <h2>欢迎来到登录界面</h2>
-                    <form>
-                        <div class="inputBox">
-                            <input type="text" placeholder="用户名">
-                        </div>
-                        <div class="inputBox">
-                            <input type="password" placeholder="密码">
-                        </div>
-                        <div class="inputBox">
-                            <input type="submit" value="登录">
-                        </div>
-                    </form>
-                    <p>你好，在此地，</p>
-                    <p>你可以向陌生人送信，也可以收到来自陌生人的信。</p>
-                    <p>欢迎来到曼达，祝你旅途愉快！&nbsp;——曼达</p>
+    <div class="index">
+        <div class="nav">
+            <div class="logo">诗歌舞街</div>
+            <div class="search">
+                <div class="search-box">
+                    <div class="search-txt">
+                        <input type="text" placeholder="诗人/古诗">
+                    </div>
+                    <button class="search-btn iconfont icon-search"></button>
+                </div>
+            </div>
+            <div class="nav-part">
+                <div class="nav-item">
+                    <a href="登录注册.html" class="nav-text">个人中心</a>
+                </div>
+                <div class="nav-item">
+                    <a href="时空图.html" class="nav-text">时空图</a>
+                </div>
+                <div class="nav-item">
+                    <a href="game.html" class="nav-text">游戏助记</a>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="index-bg"></div>
+    </div>
+    
+    
+    <script src="./js/index.js"></script>
+    <script src="./js/map.js"></script>
+    
 </body>
+
 </html>

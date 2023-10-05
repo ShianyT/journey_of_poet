@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url(images/logon-background.jpg);
+        background-position: 10%;
+        overflow: hidden;
+    }
+    .box {
+        position: relative;
+        display: flex;
+        align-items: center;      
+        width: 80vw;
+        height: 60vh;
+        background: url(images/logon-background.jpg);
+        background-position: 10%;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+        overflow: hidden;
+    }
+    /* 通过定位属性让这个元素在盒子的正中间显示 */
+    /* 登录表单左侧盒子样式 */
+    .introduceLogon {
+        transition: all .5s;
+        opacity: 1;
+        position: absolute;
+        top:0;
+        left:0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        height: 100%;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+        z-index: 5;  
+        background: url(images/logon-background.jpg);   
+    }
+    /* 登录表单左侧的文字 */
+    .introduceLogon .title {
+        font-size: 25px;
+        margin-bottom: 10%;
+    }
+    .introduceLogon .text {
+        font-size: 18px;
+        margin-bottom: 5%;
+        margin-left: 5%;
+    }
+    /* 登录表单样式 */
+    .logon {
+        top: 0;
+        left: 0;
+        transition: opacity .5s;
+        opacity: 1;
+        left: 50%;
+        z-index: 4;
+    }
+    /* 注册表单样式 */
+    .register {
+        top: 0;
+        left: 0;
+        transition: opacity .5s;
+        opacity: 0;
+    }
+    /* 注册表单左侧盒子样式 */
+    .introduceRegister {
+        transition: opacity .5s;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        left: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        height: 100%;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+        background: url(images/logon-background.jpg);
+    }
+    /* 注册表单右侧的文字 */
+    .introduceRegister .title {
+        font-size: 25px;
+        margin-bottom: 10%;
+    }
+    .introduceRegister .text {
+        font-size: 18px;
+        margin-bottom: 5%;
+        margin-left: 5%;
+    }
+    /* 表单盒子的样式 */
+    .box .intBox {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;     
+        width: 50%;
+        height: 100%;  
+        /* pointer-events: none; */
+    }
+    /* 表单盒子上面标题的样式 */
+    .box .intBox .title {
+        width: 90%;
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 40px;
+        border-bottom: 2px solid ;
+    }
+    /* 表单的样式 */
+    .box .intBox form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 80%;
+        height: 70%;
+    }
+    .box .intBox form [class$=Box] {
+        width: 80%;
+        margin: 4px 0;
+    }
+    .box .intBox form [class$=Box] input{
+        width: 100%;
+        height: 50px;
+        margin: 5px;
+        padding: 0 20px;
+        border: 1px solid rgba(0, 0, 0, .3);
+        border-radius: 25px;
+        outline: none;
+        font-size: 18px;
+    }
+    /* 注册表单上的提示文字的样式 */
+    .box .register [class$=tip] {
+        opacity: 0;
+        text-align: left;
+        color:red;
+    }
+    /* 对点击按钮的样式单独调整 */
+    .box .buttonBox {
+        max-width: 40%;
+        width: 100%;
+        height: 70%;
+        max-height: 10%;
+        margin-bottom: 10px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, .3);
+        background-color: bisque;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    /* 点击切换时登录表单左侧文字盒子的动画样式 */
+    @keyframes logonMove {
+        50% {
+            left: 25%;
+            transform: scale(1.2);
+        }
+        75% {
+            left: 37.5%;
+            transform: scale(1.1);
+        }
+        100% {
+            left: 50%;
+            transform: scale(1);
+        }
+    }
+    /* 登录表单的动画样式 */
+    @keyframes lgformMove {
+        50% {
+            left: 25%;
+            transform: scale(.9);
+        }
+        75% {
+            left: 12.5%;
+            transform: scale(.8);
+        }
+        100% {
+            left: 0%;
+            transform: scale(1);
+        }
+    }
+    /* 点击切换时注册表单右侧文字盒子的动画样式 */
+    @keyframes registerMove {
+        50% {
+            left: 25%;
+            transform: scale(1.2);
+        }
+        75% {
+            left: 12.5%;
+            transform: scale(1.1);
+        }
+        100% {
+            left: 0%;
+            transform: scale(1);
+        }
+    }
+    /* 注册表单的动画样式 */
+    @keyframes rgformMove {
+        50% {
+            left: 25%;
+            transform: scale(.9);
+        }
+        75% {
+            left: 37.5%;
+            transform: scale(.8);
+        }
+        100% {
+            left: 50%;
+            transform: scale(1);
+        }
+    }
+    .logonMove {
+        animation: logonMove linear .8s forwards;
+    }
+    .registerMove {
+        animation: registerMove linear .8s forwards;
+    }
+    .lgformMove {
+        animation: lgformMove linear .8s forwards;
+    }
+    .rgformMove {
+        animation: rgformMove linear .8s forwards;
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="introduceLogon">
+            <div class="title">诗歌舞街</div>
+            <p class="text">欢迎来到诗歌舞街，在这里，遇见诗歌的浪漫，遇见诗歌的奇趣。</p>
+            <p class="text">还没有用户账号吗？赶快去注册一个吧！</p>
+            <button class="buttonBox jumpright">注册账号</button>
+        </div>
+        <div class="logon intBox">
+            <div class="title">登录</div>
+            <form>
+                <div class="usernameBox">
+                    <input type="text" class="username" placeholder="用户名">
+                </div>
+                <div class="passwordBox">
+                    <input type="password" class="password" placeholder="密码">
+                </div>
+            </form>
+            <button class="buttonBox">登录</button>
+        </div>
+        <div class="register intBox">
+            <div class="title">创建用户</div>
+            <form>
+                <div class="first_tip">用户名不能为空！</div>
+                <div class="usernameBox">
+                    <input type="text" class="username" placeholder="输入你的用户名">
+                </div>
+                <div class="second_tip">设置的密码不能为空！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_first" placeholder="输入你的用户密码">
+                </div>
+                <div class="third_tip">第二次输入的密码与第一次不一致！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_second" placeholder="再次确认你的用户密码">
+                </div>
+            </form>
+            <button class="buttonBox">注册</button>
+        </div>
+        <div class="introduceRegister">
+            <div class="title">诗歌舞街</div>
+            <p class="text">欢迎来到诗歌舞街，在这里，遇见诗歌的浪漫，遇见诗歌的奇趣。</p>
+            <p class="text">注册好用户了吗？那么开始登录进入网站吧！</p>
+            <button class="buttonBox jumpleft">开始登录</button>
+        </div>   
+    </div>
+</body>
+<script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    // 获取登录表单左侧文字盒子元素
+    let logonText=document.querySelector('.introduceLogon');
+    // 获取登录表单所在的盒子的元素
+    let logonBox =document.querySelector('.logon');
+    // 获取登录表单左侧盒子中的按钮元素
+    let jump_rt=document.querySelector('.jumpright');
+    // 获取注册表单所在的盒子的元素
+    let registerBox=document.querySelector('.register');
+    // 获取注册表单右侧文字盒子元素
+    let registerText=document.querySelector('.introduceRegister');
+    // 获取注册表单右侧盒子中的按钮元素
+    let jump_lf=document.querySelector('.jumpleft');
+
+    // 点击“注册账号”按钮时：(需要借助css动画属性，让透明度属性延后消失)
+    // 1.登录表单左侧文字盒子开始向右移动，同时登录表单所在的盒子的透明度开始逐步降低。
+    // 2.处在右侧的注册表单的透明度开始逐步提高，同时注册表单右侧的文字盒子透明度开始提高。
+    // 对按钮添加一个点击事件
+    jump_rt.addEventListener('click',function(e){
+        // 先取消按钮的默认事件
+        e.preventDefault();
+        // 先移除注册表单右侧文字盒子的移动类,以及注册表单的移动类
+        registerText.classList.remove('registerMove');
+        registerBox.classList.remove('rgformMove');
+        // 对登录表单左侧盒子添加一个移动类,对登录表单也增加一个移动类
+        logonText.classList.add('logonMove');
+        logonBox.classList.add('lgformMove');
+
+        // 监听登录表单左侧盒子的动画
+        logonText.addEventListener('animationend',function(){
+            // 动画结束对登录表单和自身减少透明度属性
+            logonText.style.opacity='0';
+            logonBox.style.opacity='0';
+            logonBox.style.zIndex='1';
+            logonText.style.zIndex='1';
+            // 动画结束对注册表单和注册表单右侧的文字盒子提高透明度属性
+            // 同时提高注册表单右侧文字盒子和注册表单的图层
+            registerText.style.opacity='1';
+            registerBox.style.opacity='1';
+            registerText.style.zIndex='5';
+            registerBox.style.zIndex='4';
+        })
+    })
+
+    // 点击“开始登录”按钮时：
+    // 1.登录表单左侧文字盒子先移除移动类，回到原来的位置。
+    // 2.注册表单右侧文字盒子添加移动类，当动画结束时，自身和注册表单的透明度属性开始降低.
+    // 3.登录表单左侧文字盒子和登录表单的透明度属性开始提高
+    jump_lf.addEventListener('click',function(e){
+        // 同样是先取消按钮的默认事件
+        e.preventDefault();
+        // 先移除登录表单左侧文字盒子的移动类,以及登录表单的移动类
+        logonText.classList.remove('logonMove');
+        logonBox.classList.remove('lgformMove');
+        // 对注册表单右侧文字盒子添加一个移动类
+        registerText.classList.add('registerMove');
+        registerBox.classList.add('rgformMove');
+        // 监听注册表单右侧文字盒子的动画
+        registerText.addEventListener('animationend',function(){
+            // 动画结束注册表单和自身减少透明度属性
+            registerText.style.opacity='0';
+            registerBox.style.opacity='0';
+            registerBox.style.zIndex='1';
+            registerText.style.zIndex='1';
+            // 动画结束登录表单和登录表单左侧的文字盒子提高透明度属性
+            // 同时提高登录表单的图层
+            logonText.style.opacity='1';
+            logonBox.style.opacity='1';
+            logonText.style.zIndex='5';
+            logonBox.style.zIndex='4';
+        })
+    })
+
+    // 页面登录响应板块
+    // 首先需要去获取登录表单中的值，然后将这些值通过Ajax传输到后端
+    // 获取登录表单的登录按钮并对该按钮添加一个点击事件
+    document.querySelector('.logon .buttonBox').addEventListener('click',function(){
+
+        // 获取登录表单中用户输入的用户名和密码的值
+        const username=document.querySelector('.logon .username').value;
+        const password=document.querySelector('.logon .password').value;
+        // 使用axios将数据传递给后端
+        axios({
+            url:'http://localhost:8080/users/login',
+            method:'POST',
+            data:{
+                username,
+                password
+            }
+        }).then(result => {
+            alert("恭喜，登录成功！")
+        }).catch(error => {
+            alert("用户名或密码错误！");
+        })
+
+    })
+
+    // 页面注册响应板块
+    // 首先需要去获取注册表单中的值，然后将这些值传递给后端
+    // 获取注册表单的注册按钮并对该按钮添加一个点击事件
+    document.querySelector('.register .buttonBox').addEventListener('click',function(){
+        console.log(11)
+        const userName=document.querySelector('.register .username').value;
+        const passWordFirst=document.querySelector('.register .password_first').value;
+        const passWordSecond=document.querySelector('.register .password_second').value;
+        console.log(userName);
+        console.log(passWordFirst);
+        console.log(passWordSecond);
+        // 判断一下用户名有没有输入，用户名不能为空
+        if(userName==''){
+            document.querySelector('.register .first_tip').style.opacity='1';
+            let timeone=setTimeout(function(){
+                document.querySelector('.register .first_tip').style.opacity='0';
+            },1500)
+        }
+        // 判断一下用户是不是什么都没有填
+        if(userName==''&&passWordFirst==''&&passWordSecond==''){
+                document.querySelector('.register .first_tip').style.opacity='1';
+                document.querySelector('.register .second_tip').style.opacity='1';
+                document.querySelector('.register .third_tip').style.opacity='1';
+            let timefour=setTimeout(function(){
+                document.querySelector('.register .first_tip').style.opacity='0';
+                document.querySelector('.register .second_tip').style.opacity='0';
+                document.querySelector('.register .third_tip').style.opacity='0';
+            },1500)
+        }
+        // 判断一下密码有没有输入，密码不能为空
+        if(passWordFirst==''){
+            document.querySelector('.register .second_tip').style.opacity='1';
+            let timetwo=setTimeout(function(){
+                document.querySelector('.register .second_tip').style.opacity='0';
+            },1500)
+        }
+        // 在提交数据前先比较一下第一次输入的密码和第二次输入的密码是不是一致的
+        // 如果两次输入一致，那么就可以存入后端
+        if(passWordFirst==passWordSecond&&passWordFirst!=''){
+            axios({
+                url:'http://localhost:8080/users/signup',
+                method:'POST',
+                data: {
+                    username:userName,
+                    password:passWordFirst
+                }
+            }).then(result => {
+                alert("恭喜注册成功！")
+            }).catch(error => {
+                alert("注册失败，网络不佳");
+            })
+        }
+        // 如果两次输入不一致，那么就跳出事件，同时提示用户“两次输入不一致”
+        else{
+            document.querySelector('.register .third_tip').style.opacity='1';
+            let timethree=setTimeout(function(){
+                document.querySelector('.register .third_tip').style.opacity='0';
+            },1500)  
+        }      
+    })
+
+</script>
+</html>

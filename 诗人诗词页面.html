@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: '宋体';
+        background: url(images/background.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .ContainBox {
+        height: 100vh;
+        overflow-y: scroll;
+        position: relative;
+        margin: 0 auto;
+    }
+    .ContainBox::-webkit-scrollbar {
+        display: none;
+    }
+    /* 清楚浮动 */
+    .ContainBox::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    [class^=contain] {
+        float: left;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 30px;
+        padding-top: 15px;
+        width: 450px;
+    }
+    [class^=contain] .item {
+        transition: all 1s;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 30px;
+        padding-bottom: 10px;
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 25px 45px rgba(0,0,0,.1);
+    }
+    [class^=contain] .item .btnav {
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+        height: 30px;
+    }
+    [class^=contain] .item .btnav .one {
+        transition: all .3s;
+        width: 20px;
+        height: 20px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    [class^=contain] .item .btnav .one:hover {
+        color:white;
+    }
+    [class^=contain] .item .btnav .two {
+        transition: all .3s;
+        width: 20px;
+        height: 20px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    [class^=contain] .item .btnav .two:hover {
+        color:white;
+    }
+    [class^=contain] .title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    [class^=contain] .verse {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    [class^=contain] .translate {
+        display: none;
+        font-size: 16px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color:brown;
+    }
+    [class^=contain] .explanatory {
+        display: none;
+        font-size: 16px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color: rgb(255, 210, 168);
+    }
+</style>
+<body>
+    <!-- 作为存放瀑布流的大盒子 -->
+    <div class="ContainBox">
+        <div class="contain1">
+            <div class="item">
+                <div class="btnav">
+                    <div class="one" data-id="1">注</div>
+                    <div class="two" data-id="1">翻</div>
+                </div>
+                <div class="title">行路难.其一</div>
+                <div class="verse">金樽清酒斗十千，玉盘珍羞直万钱。</div>
+                <div class="translate" data-id="1">金杯中的美酒一斗价十千，玉盘里的菜肴珍贵值万钱。</div>
+                <div class="explanatory" data-id="1">金樽：古代盛酒的器具，以金为饰。²清酒：清醇的美酒。³斗十千：一斗值十千钱（即万钱），形容酒美价高。⁴玉盘：精美的食具。⁵珍羞：珍贵的菜肴。羞：同“馐”，美味的食物。⁶直：通“值”，价值。</div>
+                <div class="verse">停杯投箸不能食，拔剑四顾心茫然。</div>
+                <div class="translate" data-id="1">心中郁闷，我放下杯筷不愿进餐；拔出宝剑环顾四周，心里一片茫然。</div>
+                <div class="explanatory" data-id="1">¹投箸：丢下筷子。箸：筷子。²不能食：咽不下。³茫然：无所适从。</div>
+                <div class="verse">欲渡黄河冰塞川，将登太行雪满山。</div>
+                <div class="translate" data-id="1">想渡黄河，冰雪却冻封了河川；想登太行山，莽莽风雪早已封山。</div>
+                <div class="explanatory" data-id="1">¹太行：太行山。</div>
+                <div class="verse">闲来垂钓碧溪上，忽复乘舟梦日边。</div>
+                <div class="translate" data-id="1">像姜太公吕尚垂钓溪，闲待东山再起；又像伊尹做梦，乘船经过日边。</div>
+                <div class="explanatory" data-id="1">¹碧：一作“坐”。²忽复：忽然又。</div>
+                <div class="verse">行路难，行路难，多歧路，今安在？</div>
+                <div class="translate" data-id="1">人生道路多么艰难，多么艰难；歧路纷杂，如今又身在何处？</div>
+                <div class="explanatory" data-id="1">¹多歧路，今安在：岔道这么多，如今身在何处？歧：一作“岐”，岔路。安：哪里。</div>
+                <div class="verse">长风破浪会有时，直挂云帆济沧海。</div>
+                <div class="translate" data-id="1">相信乘风破浪的时机总会到来，到时定要扬起征帆，横渡沧海！</div>
+                <div class="explanatory" data-id="1">¹长风破浪：比喻实现政治理想。²会：终将。³云帆：高高的船帆。船在海里航行，因天水相连，船帆好像出没在云雾之中。⁴济：渡。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">静夜思</div>
+                <div class="verse">床前明月光</div>
+                <div class="verse">疑是地上霜</div>
+                <div class="verse">举头望明月</div>
+                <div class="verse">低头思故乡</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">望天门山</div>
+                <div class="verse">天门中断楚江开，碧水东流至此回。</div>
+                <div class="verse">两岸青山相对出，孤帆一片日边来。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">送友人</div>
+                <div class="verse">青山横北郭，白水绕东城。</div>
+                <div class="verse">此地一为别，孤蓬万里征。</div>
+                <div class="verse">浮云游子意，落日故人情。</div>
+                <div class="verse">挥手自兹去，萧萧班马鸣。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其一</div>
+                <div class="verse">金樽清酒斗十千，玉盘珍羞直万钱。</div>
+                <div class="verse">停杯投箸不能食，拔剑四顾心茫然。</div>
+                <div class="verse">欲渡黄河冰塞川，将登太行雪满山。</div>
+                <div class="verse">闲来垂钓碧溪上，忽复乘舟梦日边。</div>
+                <div class="verse">行路难，行路难，多歧路，今安在？</div>
+                <div class="verse">长风破浪会有时，直挂云帆济沧海。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">静夜思</div>
+                <div class="verse">床前明月光</div>
+                <div class="verse">疑是地上霜</div>
+                <div class="verse">举头望明月</div>
+                <div class="verse">低头思故乡</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">望天门山</div>
+                <div class="verse">天门中断楚江开，碧水东流至此回。</div>
+                <div class="verse">两岸青山相对出，孤帆一片日边来。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其四</div>
+                <div class="verse">青山横北郭，白水绕东城。</div>
+                <div class="verse">此地一为别，孤蓬万里征。</div>
+                <div class="verse">浮云游子意，落日故人情。</div>
+                <div class="verse">挥手自兹去，萧萧班马鸣。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其一</div>
+                <div class="verse">金樽清酒斗十千，玉盘珍羞直万钱。</div>
+                <div class="verse">停杯投箸不能食，拔剑四顾心茫然。</div>
+                <div class="verse">欲渡黄河冰塞川，将登太行雪满山。</div>
+                <div class="verse">闲来垂钓碧溪上，忽复乘舟梦日边。</div>
+                <div class="verse">行路难，行路难，多歧路，今安在？</div>
+                <div class="verse">长风破浪会有时，直挂云帆济沧海。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">静夜思</div>
+                <div class="verse">床前明月光</div>
+                <div class="verse">疑是地上霜</div>
+                <div class="verse">举头望明月</div>
+                <div class="verse">低头思故乡</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其三</div>
+                <div class="verse">天门中断楚江开，碧水东流至此回。</div>
+                <div class="verse">两岸青山相对出，孤帆一片日边来。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其四</div>
+                <div class="verse">青山横北郭，白水绕东城。</div>
+                <div class="verse">此地一为别，孤蓬万里征。</div>
+                <div class="verse">浮云游子意，落日故人情。</div>
+                <div class="verse">挥手自兹去，萧萧班马鸣。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其一</div>
+                <div class="verse">金樽清酒斗十千，玉盘珍羞直万钱。</div>
+                <div class="verse">停杯投箸不能食，拔剑四顾心茫然。</div>
+                <div class="verse">欲渡黄河冰塞川，将登太行雪满山。</div>
+                <div class="verse">闲来垂钓碧溪上，忽复乘舟梦日边。</div>
+                <div class="verse">行路难，行路难，多歧路，今安在？</div>
+                <div class="verse">长风破浪会有时，直挂云帆济沧海。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">静夜思</div>
+                <div class="verse">床前明月光</div>
+                <div class="verse">疑是地上霜</div>
+                <div class="verse">举头望明月</div>
+                <div class="verse">低头思故乡</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其三</div>
+                <div class="verse">天门中断楚江开，碧水东流至此回。</div>
+                <div class="verse">两岸青山相对出，孤帆一片日边来。</div>
+            </div>
+        </div>
+        <div class="contain">
+            <div class="item">
+                <div class="btnav"></div>
+                <div class="title">行路难.其四</div>
+                <div class="verse">青山横北郭，白水绕东城。</div>
+                <div class="verse">此地一为别，孤蓬万里征。</div>
+                <div class="verse">浮云游子意，落日故人情。</div>
+                <div class="verse">挥手自兹去，萧萧班马鸣。</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    // 从后端获取数据的一个标志值
+    let poem_flag=1;
+    // 页面加载的时候
+    window.onload =function(){
+        // Rendering(poem_flag);
+        // poem_flag++;
+        WaterFall(); 
+    }
+    // 页面滚动的时候
+    window.onscroll =function(){
+            // 做一个判断，判断什么情况下是鼠标往下滑了
+            if(scrolljudge()){
+                // 获取box
+                let containBox=document.querySelector('.ContainBox');
+                // // 创建一个新的contain元素
+                // let contain=document.createElement('div');
+                // contain.className='contain';
+                // // 创建一个新的item元素
+                // let item=document.createElement('div');
+                // // 创建一个新的title元素
+                // let title=document.createElement('div');
+                // // 创建一个新的verse节点
+                // let verse=document.createElement('div');
+                // // 增加操作
+                // containBox.appendChild(contain);
+
+
+                WaterFall();
+            }
+            
+        }
+
+    // 盒子的摆放：函数，需要调用两次
+    // 1.页面加载时；2.页面滚动时
+    // 首先需要去计算整个大的盒子的宽度
+    // 可以通过去获取可视区域的宽度减去每一个小盒子的宽度得到一行有多少个小盒子
+    // 盒子摆放函数
+    function WaterFall(){
+        // 获取最外面的大盒子的元素
+        let containBox=document.querySelector('.ContainBox');
+
+        // 获取可是区域的宽度
+        const clientWidth =document.documentElement.clientWidth;
+        
+        // 获取到页面所有class为item的元素
+        const allcontain=document.querySelectorAll('[class^=contain]');
+        // 获取到其中一个item的宽度
+        const containWidth=allcontain[0].offsetWidth;
+        // 计算出一行有多少个
+        let num=Math.floor(clientWidth/containWidth);
+
+        containBox.style.width = num*containWidth+30+'px';
+        // 定义一个数组去接收承载盒子高度
+        let hrr=[];
+        for(let i=0;i<allcontain.length;i++){
+            // 过滤掉第一排的元素
+            if(i<num){
+                hrr.push(allcontain[i].offsetHeight);
+                
+            }
+            else{
+                let minHeight=Math.min(...hrr);
+                
+                let index=find(minHeight,hrr)
+                console.log("索引是："+index);
+                allcontain[i].style.position='absolute'
+                // 距离左侧的距离=索引*一个盒子宽度+‘px’
+                allcontain[i].style.left =index*containWidth+'px';
+                console.log("此时距离左侧的距离："+index*containWidth);
+                // 距离上侧的距离=上面盒子的高度+px
+                allcontain[i].style.top=minHeight+'px';
+
+                // 改变数组的最小值
+                hrr[index]=hrr[index]+allcontain[i].offsetHeight+15;
+            }
+           
+        }
+
+    }
+    // 定义一个找到最小高度值索引的函数
+    function find(min,hrr){
+        for(let j=0;j<hrr.length;j++){
+            if(hrr[j]==min){
+                return j;
+            }
+        }
+    }
+    // 判断函数
+    function scrolljudge(){
+        // 所有的item
+        console.log(1231323)
+        let contains=document.querySelectorAll('[class^=contain]');
+        // 最后一个item
+        let lastcontain=contains[contains.length-1];
+        // 可视区域高度
+        let clientHeight=document.documentElement.clientHeight;
+        // 滑动距离
+        let scrollTop=document.documentElement.scrollTop;
+        
+        
+        let lastitemheight=lastcontain.offsetTop+lastcontain.offsetTop;
+        
+        let flag=clientHeight+scrollTop;
+        
+        if(lastcontain.scrollTop/2+lastcontain.scrollTop<(clientHeight+scrollTop)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // 获取这诗词卡片有上角的两个按钮
+    let a=0;let b=0;
+    const one =document.querySelector('.btnav .one');
+    const two =document.querySelector('.btnav .two');
+    one.addEventListener('click',function(){
+        if(a==0){
+            let i=this.dataset.id;
+            const exs=document.querySelectorAll(`.contain${i} .explanatory`);
+            for(let j=0;j<exs.length;j++){
+                exs[j].style.display='block';
+            }
+            WaterFall();
+            a=1;
+        }
+        else {
+            let i=this.dataset.id;
+            const exs=document.querySelectorAll(`.contain${i} .explanatory`);
+            for(let j=0;j<exs.length;j++){
+                exs[j].style.display='none';
+            }
+            WaterFall();
+            a=0;
+        }
+        
+    })
+    two.addEventListener('click',function(){
+        if(b==0){
+            let i=this.dataset.id;
+            const trs=document.querySelectorAll(`.contain${i} .translate`);
+            for(let j=0;j<trs.length;j++){
+                trs[j].style.display='block';
+            }
+            b=1;
+            WaterFall();
+        }
+        else {
+            let i=this.dataset.id;
+            const trs=document.querySelectorAll(`.contain${i} .translate`);
+            for(let j=0;j<trs.length;j++){
+                trs[j].style.display='none';
+            }
+            b=0;
+            WaterFall();
+        }
+    })
+    
+//    封装一个函数： 通过Ajax去获取后端数据
+// 设定一个标志值，每请求一次，标志值就+1，根据该标志值的不同获取到不一样的数据
+    // function Rendering(poem_flag){
+    //     axios({
+    //         url:'',
+    //         method:'GET',
+            
+    //     }).then(result =>{
+    //         // 成功获取数据,对数据进行解构。
+    //         const {data}=result;
+    //         const {records}=data;
+
+    //     })
+    // }
+</script>
+</html>
