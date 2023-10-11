@@ -1,4 +1,4 @@
-package com.zhengaicha.sycamore_street.common;
+package com.zhengaicha.journey_of_poet.common;
 
 import lombok.Data;
 
@@ -11,13 +11,13 @@ import lombok.Data;
 public class Result<T> {
     private Integer code; // 状态码 （操作成功为 1，失败为0或其他）
     private String msg; // 错误信息
-    private T data; // 数据
+    private T resultData; // 数据
 
 
     //操作成功
     public static <T> Result<T> success(T object){
         Result<T> result = new Result<>();
-        result.data = object;
+        result.resultData = object;
         result.code = 1;
         return result;
     }
