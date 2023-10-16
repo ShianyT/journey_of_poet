@@ -1,8 +1,11 @@
 package com.zhengaicha.journey_of_poet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.entity.UserInfo;
+
+import javax.servlet.http.HttpSession;
 
 public interface UserInfoService extends IService<UserInfo> {
     /**
@@ -10,4 +13,9 @@ public interface UserInfoService extends IService<UserInfo> {
      * @param user
      */
     void init(User user);
+
+    public Result modifyGender(Integer gender, HttpSession session);
+    public Result modifySignature(String signature, HttpSession session);
+
+    public Result showUser();
 }

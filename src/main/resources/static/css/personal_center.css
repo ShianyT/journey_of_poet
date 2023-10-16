@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* 个人中心页面中让主体盒子保持在页面的中间位置 */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 定义主体盒子的宽高，让盒子可以在页面的中间位置呈现 */
+.box {
+    width: 70vw;
+    height: 100vh;
+}
+/* 主体盒子中包含用户头像的一个小导航栏 */
+.box .head{
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 20%;
+    margin-top: 5%;
+}
+/* 用户头像的样式 */
+.box .head .user_profile {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    border: 1px solid;
+    border-radius: 115px;
+}
+.box .head .user_profile div {   
+    position: absolute;
+    top: 10%;
+    left: 14%;
+    width: 75%;
+    height: 75%;
+}   
+.box .head .user_profile div svg {
+    width: 100%;
+    height: 100%;
+}
+/* 下方选择“点赞”、“收藏”的盒子 */
+.box .select {
+    display: flex;
+    justify-content: space-between;
+    width: 15%;
+    height: 5%;
+    margin: 0 auto;
+}
+.box .select div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+   font-size: 20px;
+}
+/* 最下方盒子中的瀑布流父盒子 */
+.box .content {
+    width: 100%;
+    height: 70%;
+    background-color: pink;
+}

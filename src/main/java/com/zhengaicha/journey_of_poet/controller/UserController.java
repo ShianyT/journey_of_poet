@@ -1,174 +1,100 @@
 package com.zhengaicha.journey_of_poet.controller;
 
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zhengaicha.journey_of_poet.common.Result;
-import com.zhengaicha.journey_of_poet.entity.User;
-import com.zhengaicha.journey_of_poet.service.UserInfoService;
+import com.zhengaicha.journey_of_poet.dto.LoginDTO;
+import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.service.UserService;
-import com.zhengaicha.journey_of_poet.utils.RegexUtils;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpSession;
-import net.sf.jsqlparser.util.validation.metadata.NamedObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
-
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin
+@Api(tags = "登陆注册，以及获取和修改用户信息接口")
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserInfoService userInfoService;
 
-    /**
-     * 给未注册过的邮箱账号发送激活码（用于用户注册邮箱）
-     */
+
+    @ApiOperation(value = "发送验证码", notes = "验证码保留三分钟失效")
     @PostMapping("/code")
-    public Result<User> sendCodeByNotExist(@RequestBody User user) {
-        // 1、验证邮箱是否有效
-        if (RegexUtils.isEmailValid(user.getMail())) {
-            // 2、检查数据库是否有该邮箱
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getMail, user.getMail());
-            User user1 = userService.getOne(queryWrapper);
-            if (user1 == null) {
-                // 3、发送邮件
-                if (userService.sendCode(user.getMail())) {
-                    return Result.success(null);
-                } else return Result.error("邮件发送失败");
-            } else return Result.error("该邮箱已存在");
-        } else return Result.error("该邮箱无效");
-    }
-
-    /**
-     * 给以注册过的邮箱账号发送激活码（用于修改密码或更换邮箱）
-     */
-    @GetMapping("/mail/code")
-    public Result<User> sendCodeByExist(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        // 1、验证邮箱是否有效
-        if (RegexUtils.isEmailValid(user.getMail())) {
-            // 2、检查数据库是否有该邮箱
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getMail, user.getMail());
-            User user1 = userService.getOne(queryWrapper);
-            if (user1 != null) {
-                // 3、发送邮件
-                if (userService.sendCode(user.getMail())) {
-                    return Result.success(null);
-                } else return Result.error("邮件发送失败");
-            } else return Result.error("该邮箱账号不存在");
-        } else return Result.error("该邮箱无效");
+    public Result sendCode(@ApiParam(name = "mail", value = "用户邮箱") @RequestBody Map<String, String> mail) {
+        return userService.sendCode(mail);
     }
 
     /**
      * 用户注册账号，要求：
      * 1、用户名不可重复
      */
-    @PostMapping("/sign-up")
-    public Result<User> signUp(@RequestBody User user) {
-        // 1、密码加密
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-        User user1;
-        int uid;
-        // 2、获得非重复uid
-        do {
-            uid = RandomUtil.getRandom().nextInt(100000000, 999999999);
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getUid, uid);
-            user1 = userService.getOne(queryWrapper);
-        } while (user1 != null);
-        user.setUid(uid);
-        // 3、保存新用户信息
-        userService.save(user);
-        // 4、初始化该用户信息
-        userInfoService.init(user);
-        return Result.success(user);
+    @ApiOperation(value = "注册用户", notes = "")
+    @PostMapping("/create")
+    public Result createUser(@ApiParam(name = "用户对象", value = "传入mail,password,code") @RequestBody LoginDTO login) {
+        return userService.createUser(login);
     }
 
     /**
      * 用户登录
      */
+    @ApiOperation(value = "登录", notes = "请将token放入名为\"authorization\"的请求头中")
     @PostMapping("/login")
-    public Result<User> login(HttpSession session, @RequestBody User loginUser) {
-        // 1、验证邮箱是否有效
-        if (RegexUtils.isEmailValid(loginUser.getMail())) {
-            // 2、检查数据库是否有该邮箱
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getMail, loginUser.getMail());
-            User user = userService.getOne(queryWrapper);
-            if (user != null) {
-                // 3、比对密码
-                loginUser.setPassword(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes()));
-                if (user.getPassword().equals(loginUser.getPassword())) {
-                    session.setAttribute("user", user);
-                    return Result.success(user);
-                } else return Result.error("密码错误");
-            } else return Result.error("该邮箱账号不存在");
-        } else return Result.error("该邮箱无效");
+    public Result login(@ApiParam(name = "用户对象", value = "传入mail,password") @RequestBody LoginDTO loginUser) {
+        return userService.login(loginUser);
     }
 
     /**
      * 当用户忘记密码时修改密码，通过邮箱发送验证码来修改
      */
+    @ApiOperation(value = "用邮箱修改密码", notes = "在登录页用户忘记密码时，使用验证码来修改密码")
     @PostMapping("/modify")
-    public Result<User> modifyPasswordByEmail(@RequestBody User user) {
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(User::getMail, user.getMail()).set(User::getPassword, user.getPassword());
-        userService.update(updateWrapper);
-        return Result.success(user);
-    }
-
-    /**
-     * 当用户记得旧密码并想修改密码，通过旧密码来修改
-     */
-    @PostMapping("/pwd/modify")
-    public Result<User> modifyPasswordByOldPassword(@RequestBody Map passwords,HttpSession session) {
-        String oldPassword = (String) passwords.get("oldPassword");
-        String newPassword = (String) passwords.get("newPassword");
-        User user = (User) session.getAttribute("user");
-        if (user.getPassword().equals(DigestUtils.md5DigestAsHex(oldPassword.getBytes()))) {
-            LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<User>()
-                    .eq(User::getMail, user.getMail())
-                    .set(User::getPassword, DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-            if (userService.update(updateWrapper)) {
-                session.removeAttribute("user");
-                return Result.success(null);
-            } else return Result.error("密码修改失败");
-        } else return Result.error("旧密码错误");
+    public Result modifyPasswordByEmail(@ApiParam(name = "用户对象", value = "传入mail,code") @RequestBody LoginDTO loginUser) {
+        return userService.modifyPasswordByEmail(loginUser);
     }
 
     /**
      * 更换邮箱时，比对验证码
      */
-    @PostMapping("/mail/next")
-    public Result<User> verifyCode(@RequestBody User user) {
+    @ApiOperation(value = "更换邮箱", notes = "在个人主页中，用户使用验证码更换邮箱")
+    public Result verifyCode(@ApiParam(name = "用户对象", value = "传入mail,code") @RequestBody LoginDTO loginUser) {
         return Result.success(null);
+    }
+
+    /**
+     * 当用户记得旧密码并想修改密码，通过旧密码来修改
+     */
+    @ApiOperation(value = "用密码修改密码", notes = "在个人主页中，用户使用旧密码修改密码")
+    @PostMapping("/modify/pwd")
+    public Result modifyPasswordByOldPassword(@ApiParam(name = "密码集合", value = "传入oldPassword,newPassword") @RequestBody Map<String,String> passwords) {
+        return userService.modifyPasswordByOldPassword(passwords);
     }
 
     /**
      * 更换新邮箱
      */
-    @PostMapping("/mail/new")
-    public Result<User> modifyMail( @RequestBody User newMailUser,HttpSession session) {
-        User oldMailUser = (User) session.getAttribute("user");
-        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(User::getMail, oldMailUser.getMail()).set(User::getMail, newMailUser.getMail());
-        userService.update(updateWrapper);
-        return Result.success(newMailUser);
+    @ApiOperation(value = "更换邮箱", notes = "在个人主页中，用户使用验证码更换邮箱")
+    @PostMapping("/modify/mail")
+    public Result modifyMail(@ApiParam(name = "用户对象", value = "传入mail,password") @RequestBody LoginDTO newMailUser) {
+        return userService.modifyMail(newMailUser);
     }
+
+    /**
+     * 上传头像
+     */
+    @ApiOperation(value = "上传头像", notes = "在个人主页中，用户上传头像")
+    @PostMapping("/modify/icon")
+    public Result uploadAvatar(@ApiParam(name = "文件对象", value = "") @RequestBody MultipartFile multipartFile) {
+        return userService.uploadAvatar(multipartFile);
+    }
+
+    @ApiOperation(value = "修改昵称", notes = "在个人主页中，用户修改昵称")
+    @PostMapping("/modify/nickname")
+    public Result modifyNickname(@ApiParam(name = "newNickname", value = "新昵称") @RequestParam String newNickname) {
+        return userService.modifyNickname(newNickname);
+    }
+
 }

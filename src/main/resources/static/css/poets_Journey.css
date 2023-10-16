@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+}
+.scene_1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+.scene_1 .prompt {
+    transition: all 2s ;
+    opacity: 0;
+    margin-bottom: 5%;
+    font-family: '宋体';
+    font-size: 80px;
+    color:#856913;
+}
+.scene_1 .text {
+    transition: all 2s;
+    opacity: 0;
+    font-family: '宋体';
+    font-size: 40px;
+    color:#b40c0cde;
+}
+/* 第一个场景中文本出现动画 */
+@keyframes textMove {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+/* 第一个场景中文本出现类 */
+.textMove {
+    animation: textMove linear 2s forwards;
+}
