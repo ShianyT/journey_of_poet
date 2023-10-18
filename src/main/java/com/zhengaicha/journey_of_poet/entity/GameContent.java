@@ -29,9 +29,9 @@ public class GameContent {
     private Integer form;
 
     /**
-     * 场景，前端判断该文本在哪个场景
+     * 场景id，前端判断该文本在哪个场景
      */
-    private Integer scene;
+    private Integer sceneId;
 
     /**
      * 选项支线操作和内容文本

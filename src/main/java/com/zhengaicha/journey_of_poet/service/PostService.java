@@ -16,4 +16,6 @@ public interface PostService extends IService<Post> {
     public Result deleteImage(int index);
 
     public Result cancelPost();
+
+    public Result deletePost(int currentPage, int index);
 }

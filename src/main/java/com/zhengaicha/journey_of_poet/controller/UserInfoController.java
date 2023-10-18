@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RestController
 @RequestMapping("/user/infos")
-@CrossOrigin
 @Api(tags = "用户个人详细信息接口")
 public class UserInfoController {
     @Autowired
@@ -32,7 +31,7 @@ public class UserInfoController {
         return userInfoService.modifySignature(signature, session);
     }
 
-    @ApiOperation(value = "展示用户信息" ,notes = "在个人主页，展示用户详细信息; 头像请在地址前加上\"ip:端口号\"")
+    @ApiOperation(value = "展示用户信息" ,notes = "在个人主页，展示用户详细信息; 头像请在地址前加上\"http://ip:端口号/images/icon/\"")
     @GetMapping("/show")
     public Result showUser(){
         return userInfoService.showUser();

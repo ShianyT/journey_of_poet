@@ -13,6 +13,7 @@ import com.zhengaicha.journey_of_poet.mapper.UserMapper;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.service.UserInfoService;
 import com.zhengaicha.journey_of_poet.service.UserService;
+import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.RegexUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import org.apache.commons.io.FileUtils;
@@ -28,10 +29,12 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_CODE_KEY;
@@ -53,6 +56,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -61,7 +67,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserInfoService userInfoService;
-
 
 
     /**
@@ -107,11 +112,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             do {
                 uid = UUID.randomUUID().toString(true).hashCode();
                 uid = uid < 0 ? -uid : uid;
-                uid = Integer.parseInt(String.format("%010d", uid).substring(0,10));
+                uid = Integer.parseInt(String.format("%010d", uid).substring(0, 10));
             } while (lambdaQuery().eq(User::getUid, uid).exists());
             String nickName = USER_NICKNAME_PREFIX + RandomUtil.randomNumbers(12);
             // 4.创建新用户
-            User newUser = new User(uid, login.getMail(), login.getPassword(), nickName, USER_DEFAULT_ICON);
+            User newUser = new User(uid, login.getMail(), login.getPassword(), nickName, USER_DEFAULT_ICON_NAME);
             this.save(newUser);
             // 5、创建用户详细信息实例并保存
             userInfoService.init(newUser);
@@ -126,113 +131,141 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result login(LoginDTO loginUser) {
         // 校邮箱是否有效
         String mail = loginUser.getMail();
-        if (RegexUtils.isEmailValid(mail)) {
-            // 查询用户
-            User user = this.lambdaQuery().eq(User::getMail, mail).one();
-            // 判断用户是否存在
-            if (user != null) {
-                // TODO 改用jwt存储用户信息生成token，redis保存token
-                // 随机生成token，作为登录令牌
-                String token = UUID.randomUUID().toString(true);
-                // 将User对象转为HashMap存储
-                UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
-                Map<String, Object> userMap =
-                        BeanUtil.beanToMap(userDTO, new HashMap<>(), CopyOptions.create()
-                                .setIgnoreNullValue(true)
-                                .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-                // 存储
-                String tokenKey = LOGIN_CODE_KEY + token;
-                stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-                // 设置token有效期
-                stringRedisTemplate.expire(tokenKey, USER_TOKEN_TTL, TimeUnit.MINUTES);
-                HashMap<String,String> tokenMap = new HashMap<>();
-                tokenMap.put("token",token);
-                // 返回token
-                return Result.success(tokenMap);
-            } else return Result.error("用户不存在");
-        } else return Result.error("邮箱格式错误");
+        if (!RegexUtils.isEmailValid(mail))
+            return Result.error("邮箱格式错误");
+
+        // 判断用户是否存在
+        User user = this.lambdaQuery().eq(User::getMail, mail).one();
+        if (user != null)
+            return Result.error("用户不存在");
+
+        if(Objects.isNull(user.getPassword()))
+            return Result.error("请输入密码");
+
+        if (user.getPassword().equals(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes())))
+            return Result.error("密码错误");
+
+        // TODO 改用jwt存储用户信息生成token，redis保存token
+        // 随机生成token，作为登录令牌
+        String token = UUID.randomUUID().toString(true);
+        // 将User对象转为HashMap存储
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+        Map<String, Object> userMap =
+                BeanUtil.beanToMap(userDTO, new HashMap<>(), CopyOptions.create()
+                        .setIgnoreNullValue(true)
+                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+        // 存储
+        String tokenKey = LOGIN_CODE_KEY + token;
+        stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
+        // 设置token有效期
+        stringRedisTemplate.expire(tokenKey, USER_TOKEN_TTL, TimeUnit.MINUTES);
+        HashMap<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        // 返回token
+        return Result.success(tokenMap);
     }
 
     /**
      * 更换新邮箱
      */
-    public Result modifyMail(LoginDTO newMailUser) {
+    public Result modifyMail(LoginDTO newMailUser, HttpServletRequest request) {
         UserDTO oldMailUser = UserHolder.getUser();
+        if (lambdaQuery().eq(User::getMail, newMailUser.getMail()).exists())
+            return Result.error("该邮箱账号已存在");
+
         boolean update = lambdaUpdate().eq(User::getUid, oldMailUser.getUid())
                 .set(User::getMail, newMailUser.getMail()).update();
         if (update) {
-            return Result.success(newMailUser);
+            if (redisUtils.deleteToken(request))
+                return Result.success();
+            return Result.error("数据刷新失败");
         } else return Result.error("修改失败");
     }
 
     /**
      * 当用户忘记密码时修改密码，通过邮箱发送验证码来修改
      */
-    public Result modifyPasswordByEmail(LoginDTO user) {
+    public Result modifyPasswordByEmail(LoginDTO user, HttpServletRequest request) {
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         boolean update = lambdaUpdate().eq(User::getMail, user.getMail())
                 .set(User::getPassword, user.getPassword()).update();
         if (update) {
-            return Result.success();
+            if (redisUtils.deleteToken(request))
+                return Result.success();
+            return Result.error("数据刷新失败");
         } else return Result.error("修改失败");
     }
 
     /**
      * 当用户记得旧密码并想修改密码，通过旧密码来修改
      */
-    public Result modifyPasswordByOldPassword(Map<String, String> passwords) {
+    public Result modifyPasswordByOldPassword(Map<String, String> passwords, HttpServletRequest request) {
         String oldPassword = passwords.get("oldPassword");
         String newPassword = passwords.get("newPassword");
         UserDTO user = UserHolder.getUser();
         User user1 = lambdaQuery().eq(User::getUid, user.getUid()).one();
-        if (user1.getPassword().equals(DigestUtils.md5DigestAsHex(oldPassword.getBytes()))) {
-            boolean update = this.lambdaUpdate().eq(User::getMail, user1.getMail())
-                    .set(User::getPassword, DigestUtils.md5DigestAsHex(newPassword.getBytes())).update();
-            if (update) {
-                UserHolder.removeUser();
+
+        if (!user1.getPassword().equals(DigestUtils.md5DigestAsHex(oldPassword.getBytes())))
+            return Result.error("旧密码错误");
+
+        boolean update = this.lambdaUpdate().eq(User::getMail, user1.getMail())
+                .set(User::getPassword, DigestUtils.md5DigestAsHex(newPassword.getBytes())).update();
+        if (update) {
+            if (redisUtils.deleteToken(request))
                 return Result.success();
-            } else return Result.error("密码修改失败");
-        } else return Result.error("旧密码错误");
+            return Result.error("数据刷新失败");
+        } else return Result.error("密码修改失败");
     }
 
 
     /**
      * 用户上传头像
      */
-    public Result uploadAvatar(MultipartFile multipartFile) {
+    public Result uploadIcon(MultipartFile multipartFile, HttpServletRequest request) {
         UserDTO user = UserHolder.getUser();
-        if (multipartFile != null) {
-            // 获取文件名
-            String OriginalFilename = multipartFile.getOriginalFilename();
-            String format = OriginalFilename.substring(OriginalFilename.lastIndexOf("."));
-            // 判断文件后缀是否为图片类型
-            if (format.equals(".jpg") || format.equals(".jpeg") || format.equals(".png")) {
-                String fileName = UUID.randomUUID().toString().replace("-", "")
-                        + RandomUtil.randomNumbers(5) + format;
-                File file = new File(ICON_PATH + "/" + fileName);
-                try {
-                    FileUtils.copyInputStreamToFile(multipartFile.getInputStream(),file);
-                    file.deleteOnExit();
-                } catch (IOException e) {
-                    log.error("服务器存储文件失败" + e.getMessage());
-                    throw new RuntimeException("图片文件存储失败，服务器异常", e);
-                }
-                this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getIcon, user.getIcon()).update();
-                // 图片回显
-                return Result.success(new HashMap<String,String>().put("icon_url", ICON_PATH + "/" + fileName));
-            } else return Result.error("请上传jpg/jpeg/png格式的图片文件");
-        } else return Result.error("请先上传图片");
+        if (Objects.isNull(user))
+            return Result.error("出错啦！请登录");
+
+        if (Objects.isNull(multipartFile))
+            return Result.error("请先上传图片");
+
+        // 获取文件名
+        String OriginalFilename = multipartFile.getOriginalFilename();
+        String format = OriginalFilename.substring(OriginalFilename.lastIndexOf("."));
+        // 判断文件后缀是否为图片类型
+        if (!(format.equals(".jpg") || format.equals(".jpeg") || format.equals(".png")))
+            return Result.error("请上传jpg/jpeg/png格式的图片文件");
+
+        if (multipartFile.getSize() > (1024 * 1024 * 5))
+            return Result.error("图片不可超过5M");
+
+        String fileName = UUID.randomUUID().toString().replace("-", "")
+                + RandomUtil.randomNumbers(5) + format;
+        File file = new File(ICON_PATH + "/" + fileName);
+        try {
+            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
+            file.deleteOnExit();
+        } catch (IOException e) {
+            log.error("服务器存储文件失败" + e.getMessage());
+            throw new RuntimeException("图片文件存储失败，服务器异常", e);
+        }
+        this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getIcon, fileName).update();
+        boolean isFlush = redisUtils.flushTokenData("icon", fileName, request);
+        if (isFlush) return Result.success();
+        else return Result.error("数据刷新失败");
     }
 
     /**
      * 修改昵称
      */
-    public Result modifyNickname(String newNickname) {
-        if (newNickname != null) {
-            UserDTO user = UserHolder.getUser();
-            this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getNickname, user.getNickname()).update();
-            return Result.success();
-        } else return Result.error("请先输入昵称");
-    }
+    public Result modifyNickname(String newNickname, HttpServletRequest request) {
+        if (Objects.isNull(newNickname))
+            return Result.error("请先输入昵称");
 
+        UserDTO user = UserHolder.getUser();
+        this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getNickname, newNickname).update();
+        if (redisUtils.flushTokenData("nickname", newNickname, request))
+            return Result.success();
+        else return Result.error("数据刷新失败");
+    }
 }

@@ -9,16 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/games")
+@RequestMapping("/games/content")
 @Api(tags = "获取游戏文本接口")
-@CrossOrigin
 public class GameContentController {
 
     @Autowired
     private GameContentService gameContentService;
 
     @ApiOperation(value = "获得一整个场景的游戏文本", notes = "get方法，路径后面跟上scene获得该场景的全部文本")
-    @GetMapping("/content/{scene}")
+    @GetMapping("/{scene}")
     public Result getContent(@ApiParam(name = "scene",value = "0为旁白，1为对话，2为选项") @PathVariable Integer scene){
        return gameContentService.getContent(scene);
     }

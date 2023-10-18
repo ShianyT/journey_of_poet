@@ -20,7 +20,7 @@ public class GameContentServiceImpl
     public Result getContent(Integer scene) {
         // 获取一整个场景文本数组
         List<GameContent> contentList = this.lambdaQuery()
-                .eq(GameContent::getScene, scene).list();
+                .eq(GameContent::getSceneId, scene).list();
         if (! contentList.isEmpty()) {
             // 对每个文本进行处理
             for (int i = 0; i < contentList.size(); i++) {

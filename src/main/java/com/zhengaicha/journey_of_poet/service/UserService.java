@@ -6,6 +6,7 @@ import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface UserService extends IService<User> {
@@ -21,14 +22,14 @@ public interface UserService extends IService<User> {
 
     public Result login(LoginDTO loginUser);
 
-    public Result modifyMail(LoginDTO newMailUser);
+    public Result modifyMail(LoginDTO newMailUser,HttpServletRequest request);
 
-    public Result modifyPasswordByEmail(LoginDTO user);
+    public Result modifyPasswordByEmail(LoginDTO user,HttpServletRequest request);
 
-    public Result modifyPasswordByOldPassword(Map<String, String> passwords);
+    public Result modifyPasswordByOldPassword(Map<String, String> passwords,HttpServletRequest request);
 
-    public Result uploadAvatar(MultipartFile multipartFile);
+    public Result uploadIcon(MultipartFile multipartFile, HttpServletRequest result);
 
-    public Result modifyNickname(String newNickname);
+    public Result modifyNickname(String newNickname, HttpServletRequest request);
 
 }

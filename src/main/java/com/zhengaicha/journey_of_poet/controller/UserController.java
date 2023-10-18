@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin
 @Api(tags = "登陆注册，以及获取和修改用户信息接口")
 public class UserController {
     @Autowired
@@ -52,8 +52,9 @@ public class UserController {
      */
     @ApiOperation(value = "用邮箱修改密码", notes = "在登录页用户忘记密码时，使用验证码来修改密码")
     @PostMapping("/modify")
-    public Result modifyPasswordByEmail(@ApiParam(name = "用户对象", value = "传入mail,code") @RequestBody LoginDTO loginUser) {
-        return userService.modifyPasswordByEmail(loginUser);
+    public Result modifyPasswordByEmail(@ApiParam(name = "用户对象", value = "传入mail,code")
+                                            @RequestBody LoginDTO loginUser,HttpServletRequest request) {
+        return userService.modifyPasswordByEmail(loginUser,request);
     }
 
     /**
@@ -69,8 +70,9 @@ public class UserController {
      */
     @ApiOperation(value = "用密码修改密码", notes = "在个人主页中，用户使用旧密码修改密码")
     @PostMapping("/modify/pwd")
-    public Result modifyPasswordByOldPassword(@ApiParam(name = "密码集合", value = "传入oldPassword,newPassword") @RequestBody Map<String,String> passwords) {
-        return userService.modifyPasswordByOldPassword(passwords);
+    public Result modifyPasswordByOldPassword(@ApiParam(name = "密码集合", value = "传入oldPassword,newPassword")
+                                                  @RequestBody Map<String,String> passwords,HttpServletRequest request) {
+        return userService.modifyPasswordByOldPassword(passwords,request);
     }
 
     /**
@@ -78,8 +80,9 @@ public class UserController {
      */
     @ApiOperation(value = "更换邮箱", notes = "在个人主页中，用户使用验证码更换邮箱")
     @PostMapping("/modify/mail")
-    public Result modifyMail(@ApiParam(name = "用户对象", value = "传入mail,password") @RequestBody LoginDTO newMailUser) {
-        return userService.modifyMail(newMailUser);
+    public Result modifyMail(@ApiParam(name = "用户对象", value = "传入mail,password")
+                                 @RequestBody LoginDTO newMailUser,HttpServletRequest request) {
+        return userService.modifyMail(newMailUser,request);
     }
 
     /**
@@ -87,14 +90,16 @@ public class UserController {
      */
     @ApiOperation(value = "上传头像", notes = "在个人主页中，用户上传头像")
     @PostMapping("/modify/icon")
-    public Result uploadAvatar(@ApiParam(name = "文件对象", value = "") @RequestBody MultipartFile multipartFile) {
-        return userService.uploadAvatar(multipartFile);
+    public Result uploadIcon(@ApiParam(name = "file", value = "名字与file一致") @RequestPart MultipartFile file,
+                             HttpServletRequest request) {
+        return userService.uploadIcon(file,request);
     }
 
     @ApiOperation(value = "修改昵称", notes = "在个人主页中，用户修改昵称")
     @PostMapping("/modify/nickname")
-    public Result modifyNickname(@ApiParam(name = "newNickname", value = "新昵称") @RequestParam String newNickname) {
-        return userService.modifyNickname(newNickname);
+    public Result modifyNickname(@ApiParam(name = "newNickname", value = "新昵称") @RequestBody Map<String,String> newNickname,
+                                 HttpServletRequest request) {
+        return userService.modifyNickname(newNickname.get("newNickname"),request);
     }
 
 }

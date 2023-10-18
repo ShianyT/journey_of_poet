@@ -33,15 +33,18 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public Result getPost(Integer currentPage) {
-        if (!Objects.isNull(UserHolder.getUser())) {
-            Integer uid = UserHolder.getUser().getUid();
-            IPage<Post> postPage = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10));
-            List<Post> posts = postPage.getRecords();
-            if (!posts.isEmpty()) {
-                return Result.success(posts);
-            } else return Result.error("帖子不存在");
-        }
-        return Result.error("出错啦！请先登录");
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user))
+            return Result.error("出错啦！请先登录");
+
+        // 分页查询
+        Integer uid = user.getUid();
+        IPage<Post> postPage = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10));
+        List<Post> posts = postPage.getRecords();
+        if (posts.isEmpty())
+            return Result.error("帖子不存在");
+        return Result.success(posts);
+
     }
 
     @Override
@@ -101,9 +104,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         File file = new File(POST_IMAGES_PATH + "/" + fileName);
         try {
             // multipartFile.transferTo(file);
-            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(),file);
+            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
             file.deleteOnExit();
-            stringRedisTemplate.opsForHash().put(imageKey, size+"" , fileName);
+            stringRedisTemplate.opsForHash().put(imageKey, size + "", fileName);
             // 图片回显
             return Result.success(stringRedisTemplate.opsForHash().values(imageKey));
         } catch (IOException e) {
@@ -126,7 +129,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("超过角标范围");
 
         // 删除该角标下的图片
-        stringRedisTemplate.opsForHash().delete(imageKey, index+"");
+        stringRedisTemplate.opsForHash().delete(imageKey, index + "");
         // 图片回显
         return Result.success(stringRedisTemplate.opsForHash().values(imageKey));
     }
@@ -134,11 +137,35 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public Result cancelPost() {
         UserDTO user = UserHolder.getUser();
-        // 判断用户是否为空
-        if (!Objects.isNull(user)) {
-            String imageKey = POST_IMAGES_KEY_PREFIX + user.getUid();
-            stringRedisTemplate.delete(imageKey);
+        if (!Objects.isNull(user))
+            return Result.error("出错啦！请先登录");
+
+        String imageKey = POST_IMAGES_KEY_PREFIX + user.getUid();
+        stringRedisTemplate.delete(imageKey);
+        return Result.success();
+
+    }
+
+    @Override
+    public Result deletePost(int currentPage, int index) {
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user))
+            return Result.error("出错啦！请先登录");
+
+        Integer uid = user.getUid();
+        IPage<Post> postPage = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10));
+        List<Post> posts = postPage.getRecords();
+
+        if (posts.isEmpty())
+            return Result.error("帖子不存在");
+
+        if (index >= posts.size())
+            return Result.error("角标超出删除范围");
+
+        Post post = posts.get(index);
+        if (this.removeById(post.getId()))
             return Result.success();
-        } else return Result.error("出错啦！请先登录");
+        log.error("服务器出错啦！post删除失败");
+        return Result.error("删除失败");
     }
 }
