@@ -19,16 +19,18 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    @ApiOperation(value = "修改性别", notes = "")
+    @ApiOperation(value = "修改性别")
     @PostMapping("/modify/gender")
-    public Result modifyGender(@ApiParam(name = "gender", value = "-1为未知（默认），0为女，1为男") @RequestBody Integer gender, HttpSession session) {
-        return userInfoService.modifyGender(gender, session);
+    public Result modifyGender(@ApiParam(name = "gender", value = "-1为未知（默认），0为女，1为男；不用传入json，数据即可")
+                                   @RequestParam Integer gender) {
+        return userInfoService.modifyGender(gender);
     }
 
-    @ApiOperation(value = "修改个性签名", notes = "")
+    @ApiOperation(value = "修改个性签名")
     @PostMapping("/modify/signature")
-    public Result modifySignature(@ApiParam(name = "signature", value = "个性签名") @RequestBody String signature, HttpSession session) {
-        return userInfoService.modifySignature(signature, session);
+    public Result modifySignature(@ApiParam(name = "signature", value = "个性签名；不用传入json，数据即可")
+                                      @RequestParam String signature) {
+        return userInfoService.modifySignature(signature);
     }
 
     @ApiOperation(value = "展示用户信息" ,notes = "在个人主页，展示用户详细信息; 头像请在地址前加上\"http://ip:端口号/images/icon/\"")

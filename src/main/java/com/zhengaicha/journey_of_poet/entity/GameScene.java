@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("tb_game_sence")
+@TableName("tb_game_scene")
 public class GameScene {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

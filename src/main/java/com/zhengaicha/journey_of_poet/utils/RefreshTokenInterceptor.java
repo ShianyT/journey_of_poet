@@ -25,6 +25,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception  {
+        // System.out.println("有请求进入");
         // 放掉第一次options请求
         if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
@@ -52,6 +53,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         UserHolder.saveUser(userDTO);
         // 7.刷新token有效期
         stringRedisTemplate.expire(key, USER_TOKEN_TTL, TimeUnit.DAYS);
+        System.out.println("请求...");
         // 8.放行
         return true;
     }

@@ -6,5 +6,5 @@ import com.zhengaicha.journey_of_poet.entity.GameContent;
 
 public interface GameContentService extends IService<GameContent> {
 
-    public Result getContent(Integer id);
+    public Result getContent(Integer sceneId);
 }

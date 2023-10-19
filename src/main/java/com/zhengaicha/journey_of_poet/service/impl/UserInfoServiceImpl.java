@@ -10,12 +10,13 @@ import com.zhengaicha.journey_of_poet.service.UserInfoService;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
     // @Autowired
     // private UserService userService;
+
     /**
      * 创建userInfo对象并保存
      *
@@ -29,44 +30,47 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     /**
      * 修改性别
-     *
-     * @param gender
-     * @param session
-     * @return
      */
-    public Result modifyGender(Integer gender, HttpSession session) {
-        if (gender != null) {
-            UserDTO user = (UserDTO) session.getAttribute("user");
-            boolean update = this.lambdaUpdate().eq(UserInfo::getUid, user.getUid())
-                    .set(UserInfo::getGender, gender).update();
-            if (update) {
-                return Result.success();
-            } else return Result.error("修改失败");
-        } else return Result.error("请先选择选项");
+    public Result modifyGender(Integer gender) {
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user)) {
+            return Result.error("出错啦！请登录");
+        }
+
+        if (Objects.isNull(gender)) {
+            return Result.error("请先选择选项");
+        }
+
+        boolean update = this.lambdaUpdate().eq(UserInfo::getUid, user.getUid())
+                .set(UserInfo::getGender, gender).update();
+        if (update) {
+            return Result.success();
+        }
+        return Result.error("修改失败");
     }
 
 
     /**
      * 修改个性签名
-     *
-     * @param signature
-     * @param session
-     * @return
      */
-    public Result modifySignature(String signature, HttpSession session) {
-        if (signature != null) {
-            UserDTO user = (UserDTO) session.getAttribute("user");
-            boolean update = this.lambdaUpdate().eq(UserInfo::getUid, user.getUid())
-                    .set(UserInfo::getSignature, signature).update();
-            if (update) {
-                return Result.success();
-            } else return Result.error("修改失败");
-        } else return Result.error("请先输入文字");
+    public Result modifySignature(String signature) {
+
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user)) {
+            return Result.error("出错啦！请登录");
+        }
+
+        boolean update = this.lambdaUpdate().eq(UserInfo::getUid, user.getUid())
+                .set(UserInfo::getSignature, signature).update();
+        if (update) {
+            return Result.success();
+        }
+        return Result.error("修改失败");
+
     }
 
     /**
      * 用于主页用户信息展示
-     * @return
      */
     @Override
     public Result showUser() {

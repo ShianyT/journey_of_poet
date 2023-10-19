@@ -5,6 +5,8 @@ import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.Post;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 public interface PostService extends IService<Post> {
 
     public Result getPost(Integer currentPage);
@@ -17,5 +19,8 @@ public interface PostService extends IService<Post> {
 
     public Result cancelPost();
 
-    public Result deletePost(int currentPage, int index);
+    public Result deletePost(int id);
+
+    public Post getOnePost(int id);
+
 }

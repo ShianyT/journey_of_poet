@@ -44,7 +44,7 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/users/login",
                         "/users/modify",
                         "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
-                        "/games/content/**",
+                        "/games/**",
                         "/images/**"
                 ).order(1);
         // token刷新的拦截器
@@ -55,7 +55,7 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/users/login",
                         "/users/modify",
                         "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
-                        "/games/content/**",
+                        "/games/**",
                         "/images/**"
                 ).order(0);
     }

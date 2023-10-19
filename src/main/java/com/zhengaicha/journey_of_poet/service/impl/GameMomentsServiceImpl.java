@@ -1,14 +1,13 @@
 package com.zhengaicha.journey_of_poet.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhengaicha.journey_of_poet.dto.Result;
-import com.zhengaicha.journey_of_poet.entity.GameComments;
+import com.zhengaicha.journey_of_poet.entity.GameComment;
 import com.zhengaicha.journey_of_poet.entity.GameLiked;
 import com.zhengaicha.journey_of_poet.entity.GameMoments;
 import com.zhengaicha.journey_of_poet.entity.GameScene;
-import com.zhengaicha.journey_of_poet.mapper.GameCommentsMapper;
-import com.zhengaicha.journey_of_poet.mapper.GameLikedMapper;
 import com.zhengaicha.journey_of_poet.mapper.GameMomentsMapper;
 import com.zhengaicha.journey_of_poet.mapper.GameSceneMapper;
 import com.zhengaicha.journey_of_poet.service.GameCommentsService;
@@ -39,7 +38,7 @@ public class GameMomentsServiceImpl extends ServiceImpl<GameMomentsMapper, GameM
             return Result.error("场景参数错误");
 
         // 获得场景id
-        GameScene gameScene = gameSceneMapper.selectById(scene);
+        GameScene gameScene = gameSceneMapper.selectOne(new LambdaQueryWrapper<GameScene>().eq(GameScene::getId,scene));
         if (Objects.isNull(gameScene))
             return Result.error("场景不存在");
 
@@ -54,10 +53,10 @@ public class GameMomentsServiceImpl extends ServiceImpl<GameMomentsMapper, GameM
         // 获取朋友圈评论
         for (int i = 0; i < gameMomentsList.size(); i++) {
             GameMoments gameMoments = gameMomentsList.get(i);
-            List<GameComments> gameCommentsList = gameCommentsService.lambdaQuery()
-                    .eq(GameComments::getMomentsId, gameMoments.getId()).list();
-            if (!gameCommentsList.isEmpty())
-                gameMoments.setGameComments(gameCommentsList);
+            List<GameComment> gameCommentList = gameCommentsService.lambdaQuery()
+                    .eq(GameComment::getMomentsId, gameMoments.getId()).list();
+            if (!gameCommentList.isEmpty())
+                gameMoments.setGameComments(gameCommentList);
 
             // 获取朋友圈点赞
             List<GameLiked> gameLikedList = gameLikedService.lambdaQuery()

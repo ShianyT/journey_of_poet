@@ -73,8 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 发送验证码给用户
      */
     @Override
-    public Result sendCode(Map<String, String> mailMap) {
-        String mail = mailMap.get("mail");
+    public Result sendCode(String mail) {
         try {
             // 1.邮箱是否有效
             if (RegexUtils.isEmailValid(mail)) {
@@ -129,20 +128,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public Result login(LoginDTO loginUser) {
-        // 校邮箱是否有效
+        // 校验邮箱是否有效
         String mail = loginUser.getMail();
         if (!RegexUtils.isEmailValid(mail))
             return Result.error("邮箱格式错误");
 
         // 判断用户是否存在
         User user = this.lambdaQuery().eq(User::getMail, mail).one();
-        if (user != null)
+        if (Objects.isNull(user))
             return Result.error("用户不存在");
 
-        if(Objects.isNull(user.getPassword()))
+        if (Objects.isNull(user.getPassword()))
             return Result.error("请输入密码");
 
-        if (user.getPassword().equals(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes())))
+        if (!user.getPassword().equals(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes())))
             return Result.error("密码错误");
 
         // TODO 改用jwt存储用户信息生成token，redis保存token
@@ -158,7 +157,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String tokenKey = LOGIN_CODE_KEY + token;
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
         // 设置token有效期
-        stringRedisTemplate.expire(tokenKey, USER_TOKEN_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.expire(tokenKey, USER_TOKEN_TTL, TimeUnit.DAYS);
         HashMap<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         // 返回token
@@ -267,5 +266,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (redisUtils.flushTokenData("nickname", newNickname, request))
             return Result.success();
         else return Result.error("数据刷新失败");
+    }
+
+    @Override
+    public boolean isUserNotExist(Integer commentedUid) {
+        return !lambdaQuery().eq(User::getUid,commentedUid).exists();
     }
 }

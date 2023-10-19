@@ -37,12 +37,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (Objects.isNull(user))
             return Result.error("出错啦！请先登录");
 
+        if(currentPage < 1)
+            return Result.error("页码错误");
+
         // 分页查询
         Integer uid = user.getUid();
-        IPage<Post> postPage = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10));
-        List<Post> posts = postPage.getRecords();
+        List<Post> posts = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10)).getRecords();
         if (posts.isEmpty())
             return Result.error("帖子不存在");
+
         return Result.success(posts);
 
     }
@@ -73,6 +76,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Override
     public Result uploadImage(MultipartFile multipartFile) {
+        // MultipartFile multipartFile = fileMap.get("file");
         // 用户是否登录
         UserDTO user = UserHolder.getUser();
         if (Objects.isNull(user))
@@ -137,35 +141,35 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public Result cancelPost() {
         UserDTO user = UserHolder.getUser();
-        if (!Objects.isNull(user))
+        if (Objects.isNull(user))
             return Result.error("出错啦！请先登录");
 
         String imageKey = POST_IMAGES_KEY_PREFIX + user.getUid();
         stringRedisTemplate.delete(imageKey);
         return Result.success();
-
     }
 
     @Override
-    public Result deletePost(int currentPage, int index) {
+    public Result deletePost(int id) {
         UserDTO user = UserHolder.getUser();
         if (Objects.isNull(user))
             return Result.error("出错啦！请先登录");
 
-        Integer uid = user.getUid();
-        IPage<Post> postPage = lambdaQuery().eq(Post::getUid, uid).page(new Page<>(currentPage, 10));
-        List<Post> posts = postPage.getRecords();
-
-        if (posts.isEmpty())
+        Post post = lambdaQuery().eq(Post::getId, id).one();
+        if (Objects.isNull(post))
             return Result.error("帖子不存在");
 
-        if (index >= posts.size())
-            return Result.error("角标超出删除范围");
+        if (!Objects.equals(post.getUid(), user.getUid())) {
+            return Result.error("该帖子为其他用户所发布");
+        }
 
-        Post post = posts.get(index);
-        if (this.removeById(post.getId()))
+        if (removeById(id))
             return Result.success();
-        log.error("服务器出错啦！post删除失败");
+        log.error("帖子删除失败");
         return Result.error("删除失败");
+    }
+
+    public Post getOnePost(int id){
+        return lambdaQuery().eq(Post::getId, id).one();
     }
 }

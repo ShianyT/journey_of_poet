@@ -40,7 +40,7 @@ public class GameMoments {
      * 该朋友圈的评论
      */
     @TableField(exist = false)
-    private List<GameComments> gameComments;
+    private List<GameComment> gameComments;
 
     /**
      * 该朋友圈的点赞

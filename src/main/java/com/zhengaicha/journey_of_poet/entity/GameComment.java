@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @TableName(value = "tb_game_comments")
-public class GameComments {
+public class GameComment {
     @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 

@@ -7,8 +7,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/posts")
@@ -17,10 +20,10 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @ApiOperation(value = "用户删除帖子", notes = "路径传参，第一个参数为第几页，第二个参数为该页的第几个，从0开始")
-    @DeleteMapping("/{currentPage}/{index}")
-    public Result deletePost(@PathVariable Integer currentPage, @PathVariable Integer index) {
-        return postService.deletePost(currentPage, index);
+    @ApiOperation(value = "用户删除帖子", notes = "这里需要判断，只能删除用户自己发布的帖子")
+    @DeleteMapping("/{id}")
+    public Result deletePost(@ApiParam(value = "帖子id") @PathVariable Integer id) {
+        return postService.deletePost(id);
     }
 
     /**
@@ -47,8 +50,8 @@ public class PostController {
         return postService.deleteImage(index);
     }
 
-    @ApiOperation(value = "用户上传图片", notes = "用户在即将发布的该帖子下所上传的图片，最多上传四张（图片路径：）")
-    @PostMapping("/image")
+    @ApiOperation(value = "用户上传图片", notes = "用户在即将发布的该帖子下所上传的图片，最多上传四张（图片路径：\"http://ip:端口号/images/post/\"）")
+    @PostMapping(value = "/image")
     public Result uploadImage(@RequestBody MultipartFile file) {
         return postService.uploadImage(file);
     }

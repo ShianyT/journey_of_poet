@@ -22,6 +22,7 @@ spring:
   #          max-idle: 10
   #          min-idle: 0
 
+
   jackson:
     default-property-inclusion: non_null # json处理时忽略非空字段
 
@@ -40,13 +41,15 @@ spring:
     resources:
       static-locations:
         [ 'classpath:/static/' ]
+  main:
+    allow-circular-references: true
 
 mybatis-plus:
   configuration:
     #驼峰命名法
     map-underscore-to-camel-case: true
     #打印sql日志
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 ---
 server:
@@ -60,7 +63,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/journey_of_poet?useSSL=false
+    url: jdbc:mysql://localhost:3306/journey_of_poet?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
 

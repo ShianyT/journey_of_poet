@@ -14,8 +14,8 @@ public interface UserInfoService extends IService<UserInfo> {
      */
     void init(User user);
 
-    public Result modifyGender(Integer gender, HttpSession session);
-    public Result modifySignature(String signature, HttpSession session);
+    public Result modifyGender(Integer gender);
+    public Result modifySignature(String signature);
 
     public Result showUser();
 }

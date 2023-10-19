@@ -13,10 +13,8 @@ public interface UserService extends IService<User> {
 
     /**
      * 发送验证码
-     * @param mail
-     * @return
      */
-    public Result sendCode(Map<String,String> mail);
+    public Result sendCode(String mail);
 
     public Result createUser(LoginDTO loginUser);
 
@@ -32,4 +30,5 @@ public interface UserService extends IService<User> {
 
     public Result modifyNickname(String newNickname, HttpServletRequest request);
 
+    public boolean isUserNotExist(Integer commentedUid);
 }
