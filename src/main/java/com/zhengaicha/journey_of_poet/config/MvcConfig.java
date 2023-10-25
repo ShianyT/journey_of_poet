@@ -1,14 +1,12 @@
 package com.zhengaicha.journey_of_poet.config;
-// TODO 为测试方便暂时注释
+
 
 import com.zhengaicha.journey_of_poet.utils.LoginInterceptor;
+import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.RefreshTokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -18,13 +16,25 @@ public class MvcConfig implements WebMvcConfigurer {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 资源静态映射
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // /images/**是静态映射， file:/root/images/是文件在服务器的路径
-        registry.addResourceHandler("/images/**")
+        registry.addResourceHandler("/imgs/**")
                 .addResourceLocations("file:C:/images/");
     }
 
+    // public void
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("/index.html");
+    }
+
+    /**
+     * 跨域配置
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -37,26 +47,25 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(new LoginInterceptor())
                 .excludePathPatterns(
-                        "/users/code",
-                        "/users/create",
-                        "/users/login",
-                        "/users/modify",
+                        "/",
+                        "/static/**",
+                        "/css/**","/font/**","/images/**","/js/**",
+                        "/users/code", "/users/create", "/users/login", "/users/modify",
                         "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
-                        "/games/**",
-                        "/images/**"
+                        "/imgs/**"
                 ).order(1);
         // token刷新的拦截器
         registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate))
                 .excludePathPatterns(
-                        "/users/code",
-                        "/users/create",
-                        "/users/login",
-                        "/users/modify",
+                        "/",
+                        "/static/**",
+                        "/css/**","/font/**","/images/**","/js/**",
+                        "/users/code", "/users/create", "/users/login", "/users/modify",
                         "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
-                        "/games/**",
-                        "/images/**"
+                        "/imgs/**"
                 ).order(0);
     }
 }

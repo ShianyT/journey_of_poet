@@ -18,9 +18,6 @@ public class SystemConstants {
     public static final String POST_IMAGES_PATH = "C:\\images\\post";
     // public static final String POST_IMAGES_PATH = "D:\\software_design\\journey_of_poet\\src\\main\\resources\\static\\imgs\\post";
 
-    public static final Long USER_TOKEN_TTL = 10L;
 
-    public static final String SECRET_KEY = "zhengaicha.123";
-
-    public static final String USER_AUTHORIZATION = "authorization";
+    public static final String USER_AUTHORIZATION = "Authorization";
 }

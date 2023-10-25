@@ -33,9 +33,16 @@ public class PostComment {
     private Integer uid;
 
     /**
-     * 点赞数
+     * 用户昵称，方便展示
      */
-    private Integer likes;
+    @TableField(exist = false)
+    private String nickname;
+
+    /**
+     * 用户头像，方便展示
+     */
+    @TableField(exist = false)
+    private String icon;
 
     /**
      * 创建时间
@@ -53,5 +60,7 @@ public class PostComment {
      */
     @TableField(exist = false)
     private long postSubCommentNum;
+
+
 
 }

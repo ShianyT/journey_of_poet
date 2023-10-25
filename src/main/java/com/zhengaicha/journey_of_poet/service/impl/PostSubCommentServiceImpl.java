@@ -94,7 +94,7 @@ public class PostSubCommentServiceImpl extends ServiceImpl<PostSubCommentMapper,
             return Result.error("页码错误");
 
         List<PostSubComment> postSubComments = lambdaQuery().eq(PostSubComment::getCommentId, commentId)
-                .page(new Page<>(currentPage, 15)).getRecords();
+                .page(new Page<>(currentPage, 10)).getRecords();
         if(postSubComments.isEmpty()){
             return Result.error("评论已经到最尾");
         }

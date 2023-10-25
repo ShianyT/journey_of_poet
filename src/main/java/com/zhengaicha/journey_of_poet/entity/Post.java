@@ -36,12 +36,6 @@ public class Post {
     private String icon;
 
     /**
-     * 判断用户是否点赞过该帖子
-     */
-    @TableField(exist = false)
-    private Boolean isLike;
-
-    /**
      * 标题
      */
     private String title;
@@ -52,7 +46,7 @@ public class Post {
     private String content;
 
     /**
-     * 图片，最多支持上传九张图片
+     * 图片，最多支持上传四张图片
      */
     private String images;
 
@@ -60,6 +54,12 @@ public class Post {
      * 点赞数量
      */
     private Integer likes;
+
+    /**
+     * 判断用户是否点赞过该帖子
+     */
+    @TableField(exist = false)
+    private Boolean isLike;
 
     /**
      * 收藏数量

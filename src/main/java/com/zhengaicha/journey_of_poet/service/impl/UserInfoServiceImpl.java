@@ -14,13 +14,9 @@ import java.util.Objects;
 
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements UserInfoService {
-    // @Autowired
-    // private UserService userService;
 
     /**
      * 创建userInfo对象并保存
-     *
-     * @param user
      */
     @Override
     public void init(User user) {

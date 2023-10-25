@@ -44,6 +44,7 @@ public class GameMomentsServiceImpl extends ServiceImpl<GameMomentsMapper, GameM
 
         // 查询在当前场景时间之前的朋友圈
         Page<GameMoments> page = lambdaQuery().lt(GameMoments::getReleaseTime, gameScene.getTime())
+                .orderByDesc(GameMoments::getId)
                 .page(new Page<>(currentPage, 5));
         List<GameMoments> gameMomentsList = page.getRecords();
 

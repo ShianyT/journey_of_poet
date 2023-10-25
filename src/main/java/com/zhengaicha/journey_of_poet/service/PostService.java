@@ -23,4 +23,5 @@ public interface PostService extends IService<Post> {
 
     public Post getOnePost(int id);
 
+    public Result getHotPost(Integer currentPage);
 }

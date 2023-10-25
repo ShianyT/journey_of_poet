@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +49,7 @@ public class PostController {
         return postService.deleteImage(index);
     }
 
-    @ApiOperation(value = "用户上传图片", notes = "用户在即将发布的该帖子下所上传的图片，最多上传四张（图片路径：\"http://ip:端口号/images/post/\"）")
+    @ApiOperation(value = "用户上传图片", notes = "用户在即将发布的该帖子下所上传的图片，最多上传四张（图片路径：\"http://ip:端口号/imgs/post/\"）")
     @PostMapping(value = "/image")
     public Result uploadImage(@RequestBody MultipartFile file) {
         return postService.uploadImage(file);
@@ -59,10 +58,22 @@ public class PostController {
     /**
      * 用户获取个人的帖子，根据页数使用分页查询，用于主页展示
      */
-    @ApiOperation(value = "获取个人帖子", notes = "根据页数使用分页查询，用于个人主页展示；每张图片用\",\"分开，" +
+    @ApiOperation(value = "获取个人帖子", notes = "根据页数使用分页查询，用于个人主页展示，每次10条；每张图片用\",\"分开，" +
             "得麻烦前端自行切割，并在图片地址前加上\"http://ip:端口号/images/post/\"")
     @GetMapping("/{currentPage}")
     public Result getPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage) {
         return postService.getPost(currentPage);
     }
+
+    /**
+     * 获取所有帖子，根据页数使用分页查询，用于社区主页展示
+     * TODO 改成获取每日热门帖子
+     */
+    @ApiOperation(value = "获取所有帖子", notes = "根据页数使用分页查询，用于社区主页展示，一次20条；只需展示一张图片即可" +
+            "图片地址前加上\"http://ip:端口号/images/post/\"")
+    @GetMapping("/hot/{currentPage}")
+    public Result getHotPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage) {
+        return postService.getHotPost(currentPage);
+    }
+
 }

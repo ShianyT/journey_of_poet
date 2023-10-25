@@ -5,6 +5,8 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhengaicha.journey_of_poet.dto.LoginDTO;
 import com.zhengaicha.journey_of_poet.dto.Result;
 
@@ -37,8 +39,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_CODE_KEY;
-import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_CODE_TTL;
+import static com.zhengaicha.journey_of_poet.utils.RedisConstants.*;
 import static com.zhengaicha.journey_of_poet.utils.SystemConstants.*;
 
 /**
@@ -86,9 +87,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 // 3.将验证码存储在redis中
                 stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + mail, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
                 message.setText("尊敬的用户您好！\n您的验证码是：" + code + "，请在3分钟内进行验证。如果该验证码不为您本人申请，请无视。");
-                // javaMailSender.send(message);
-                log.warn(code);
-                return Result.success(code);
+                javaMailSender.send(message);
+                // log.warn(code);
+                return Result.success();
             } else return Result.error("该邮箱无效");
         } catch (MailException e) {
             log.error("邮件发送失败");
@@ -147,17 +148,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // TODO 改用jwt存储用户信息生成token，redis保存token
         // 随机生成token，作为登录令牌
         String token = UUID.randomUUID().toString(true);
-        // 将User对象转为HashMap存储
+
+        // 将User对象转为json
+        ObjectMapper objectMapper = new ObjectMapper();
         UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
-        Map<String, Object> userMap =
-                BeanUtil.beanToMap(userDTO, new HashMap<>(), CopyOptions.create()
-                        .setIgnoreNullValue(true)
-                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
-        // 存储
-        String tokenKey = LOGIN_CODE_KEY + token;
-        stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-        // 设置token有效期
-        stringRedisTemplate.expire(tokenKey, USER_TOKEN_TTL, TimeUnit.DAYS);
+        String userDTOJson = null;
+        try {
+            userDTOJson = objectMapper.writeValueAsString(userDTO);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        // 存储并设置过期时间
+        stringRedisTemplate.opsForValue().set(redisUtils.getTokenKey(token),userDTOJson,USER_TOKEN_TTL,TimeUnit.DAYS);
         HashMap<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         // 返回token

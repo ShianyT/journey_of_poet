@@ -8,10 +8,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.Post;
+import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.mapper.PostMapper;
+import com.zhengaicha.journey_of_poet.service.PostLikeService;
 import com.zhengaicha.journey_of_poet.service.PostService;
+import com.zhengaicha.journey_of_poet.service.UserService;
+import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +36,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+    @Autowired
+    private PostLikeService postLikeService;
+
+    @Autowired
+    private UserService userservice;
+
     @Override
     public Result getPost(Integer currentPage) {
         UserDTO user = UserHolder.getUser();
@@ -46,9 +60,15 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (posts.isEmpty())
             return Result.error("帖子不存在");
 
+        for(Post post : posts){
+            post.setNickname(user.getNickname());
+            post.setIcon(user.getIcon());
+            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
+            post.setIsLike(postLikeService.isLike(post.getId(),user.getUid()));
+        }
         return Result.success(posts);
-
     }
+
 
     @Override
     public Result savePost(Post post) {
@@ -65,8 +85,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 stringRedisTemplate.delete(imageKey);
             }
             post.setUid(user.getUid());
-            post.setNickname(user.getNickname());
-            post.setIcon(user.getIcon());
             this.save(post);
             return Result.success();
         }
@@ -171,5 +189,29 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     public Post getOnePost(int id){
         return lambdaQuery().eq(Post::getId, id).one();
+    }
+
+    @Override
+    public Result getHotPost(Integer currentPage) {
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user))
+            return Result.error("出错啦！请先登录");
+
+        if(currentPage < 1)
+            return Result.error("页码错误");
+
+        // 分页查询
+        List<Post> posts = lambdaQuery().page(new Page<>(currentPage, 20)).getRecords();
+        if (posts.isEmpty())
+            return Result.error("帖子不存在");
+
+        for(Post post : posts){
+            User postUser = userservice.lambdaQuery().eq(User::getUid, post.getUid()).one();
+            post.setNickname(postUser.getNickname());
+            post.setIcon((postUser.getIcon()));
+            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
+            post.setIsLike(postLikeService.isLike(post.getId(),user.getUid()));
+        }
+        return Result.success(posts);
     }
 }

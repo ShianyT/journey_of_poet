@@ -30,7 +30,7 @@ public class PostSubCommentController {
     }
 
 
-    @ApiOperation(value = "获取子评论")
+    @ApiOperation(value = "获取子评论",notes = "一次10条")
     @GetMapping("/{commentId}/{currentPage}")
     public Result getPostSubComment(@ApiParam(value = "主表评论id") @PathVariable Integer commentId
             ,@ApiParam(value = "当前子评论页码") @PathVariable Integer currentPage){

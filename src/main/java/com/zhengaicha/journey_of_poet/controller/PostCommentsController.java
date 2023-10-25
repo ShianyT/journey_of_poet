@@ -28,7 +28,7 @@ public class PostCommentsController {
         return postCommentsService.deletePostComment(id);
     }
 
-    @ApiOperation(value = "获得直接评论",notes = "当用户直接评论帖子时，选择该接口")
+    @ApiOperation(value = "获得直接评论",notes = "当用户直接评论帖子时，选择该接口，一次20条")
     @GetMapping("/{postId}/{currentPage}")
     public Result getPostComment(@ApiParam(value = "帖子id") @PathVariable Integer postId,
                                  @ApiParam(value = "评论的页码，从1开始即可") @PathVariable Integer currentPage){
