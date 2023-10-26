@@ -75,5 +75,11 @@ public class PostController {
     public Result getHotPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage) {
         return postService.getHotPost(currentPage);
     }
+    @ApiOperation(value = "获取用户收藏的帖子", notes = "根据页数使用分页查询，用于个人主页展示，一次15条；只需展示一张图片即可" +
+            "图片地址前加上\"http://ip:端口号/images/post/\"")
+    @GetMapping("/collected/{currentPage}")
+    public Result getCollectedPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage){
+        return postService.getCollectedPost(currentPage);
+    }
 
 }

@@ -67,6 +67,12 @@ public class Post {
     private Integer collections;
 
     /**
+     * 判断用户是否收藏过该帖子
+     */
+    @TableField(exist = false)
+    private Boolean isCollection;
+
+    /**
      * 评论数量
      */
     private Integer comments;

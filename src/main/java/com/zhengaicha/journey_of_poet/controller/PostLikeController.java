@@ -19,9 +19,7 @@ public class PostLikeController {
 
     @ApiOperation(value = "点赞或取消点赞")
     @PostMapping()
-    public Result like(@ApiParam(value = "传入 postId status") @RequestBody PostLike postLike){
+    public Result like(@ApiParam(value = "传入 postId status") @RequestBody PostLike postLike) {
         return postLikeService.like(postLike);
     }
-
-
 }

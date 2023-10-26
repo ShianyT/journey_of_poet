@@ -54,7 +54,7 @@ public class PostLikeServiceImpl extends ServiceImpl<PostLikeMapper, PostLike> i
         String likeDetail = redisUtils.getLikeDetail(postLike);
         // 有--->查看点赞记录状态
         if (likeDetail != null) {
-            Integer status = RedisConstants.getLikeStatus(likeDetail);
+            Integer status = RedisConstants.getPostStatus(likeDetail);
             // 状态为0，则改状态为1，点赞量+1
             if (PostStatus.UNLIKE.getCode().equals(status)) {
                 if (redisUtils.saveLike(postLike)) {
@@ -95,7 +95,7 @@ public class PostLikeServiceImpl extends ServiceImpl<PostLikeMapper, PostLike> i
         String likeDetail = redisUtils.getLikeDetail(postLike);
         // 有--->查看点赞记录状态
         if (likeDetail != null) {
-            Integer status = RedisConstants.getLikeStatus(likeDetail);
+            Integer status = RedisConstants.getPostStatus(likeDetail);
             // 状态为1，则改状态为0，点赞量-1
             if (LIKE.getCode().equals(status)) {
                 if (redisUtils.saveLike(postLike)) {
@@ -156,6 +156,7 @@ public class PostLikeServiceImpl extends ServiceImpl<PostLikeMapper, PostLike> i
     }
 
     @Override
+    @Transactional
     public void saveLikeNumFromRedis() {
         // 将redis中的点赞数记录封装成集合
         ArrayList<Post> postList = redisUtils.getPostLikeList();

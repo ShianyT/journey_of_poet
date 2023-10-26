@@ -42,36 +42,49 @@ public class RedisConstants {
     public static final String POST_LIKE_NUM_KEY = "post:like:num";
 
     /**
-     * 在redis中存储like的HashKey
+     * 帖子点赞详情前缀
      */
-    public static String getLikeKey(Integer postId,Integer Uid){
+    public static final String POST_COLLECTION_DETAIL_KEY = "post:collection:detail";
+
+    /**
+     * 帖子点赞数量前缀
+     */
+    public static final String POST_COLLECTION_NUM_KEY = "post:collection:num";
+
+    /**
+     * 在redis中存储postLike或者postCollection的HashKey
+     */
+    public static String getPostKey(Integer postId, Integer Uid){
         return postId + "::" + Uid;
     }
 
     /**
-     * 在redis中存储like详情的HashValue
+     * 获得将在redis中PostKey的HashValue
      */
-    public static String getLikeDetailValue(Integer status, Timestamp createTime){
+    public static String getPostDetailValue(Integer status, Timestamp createTime){
         return status + "::" + createTime;
     }
 
     /**
-     * 获取likeDetailValue中的状态
+     * 获取PostKey的HashValue中的状态
      */
-    public static Integer getLikeStatus(String likeDetail){
+    public static Integer getPostStatus(String likeDetail){
         String statusStr = likeDetail.split("::")[0];
         return Integer.parseInt(statusStr);
     }
 
     /**
-     * 获取likeDetailValue中的点赞时间
+     * 获取PostKey的HashValue中的创建时间
      */
-    public static Timestamp getLikeCreateTime(String likeDetail){
+    public static Timestamp getPostCreateTime(String likeDetail){
         String CreateTimeStr = likeDetail.split("::")[1];
         return Timestamp.valueOf(CreateTimeStr);
     }
 
-    public static String getLikeNumKey(int postId){
+    /**
+     * 获取postLike或者postCollection数量的HashKey
+     */
+    public static String getPostNumKey(int postId){
         return String.valueOf(postId);
     }
 

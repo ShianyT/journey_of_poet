@@ -7,10 +7,12 @@ import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.Post;
 import com.zhengaicha.journey_of_poet.entity.PostComment;
 import com.zhengaicha.journey_of_poet.entity.PostSubComment;
+import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.mapper.PostCommentsMapper;
 import com.zhengaicha.journey_of_poet.service.PostCommentsService;
 import com.zhengaicha.journey_of_poet.service.PostService;
 import com.zhengaicha.journey_of_poet.service.PostSubCommentService;
+import com.zhengaicha.journey_of_poet.service.UserService;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PostSubCommentService postSubCommentService;
@@ -84,11 +89,17 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
         //获取直接评论在帖子的评论
         List<PostComment> postComments = lambdaQuery().eq(PostComment::getPostId, postId)
                 .page(new Page<>(currentPage,20)).getRecords();
-
+        //获取用户昵称、头像、子评论、子评论数
         for(PostComment postComment : postComments){
+            User user = userService.lambdaQuery().eq(User::getUid, postComment.getUid()).one();
+            postComment.setNickname(user.getNickname());
+            postComment.setIcon(user.getIcon());
             PostSubComment postSubComment = postSubCommentService.getOnePostSubComment(postComment.getId());
             if(!Objects.isNull(postSubComment)){
                 postComment.setPostSubComment(postSubComment);
+                User user1 = userService.lambdaQuery().eq(User::getUid, postSubComment.getUid()).one();
+                postSubComment.setNickname(user1.getNickname());
+                postSubComment.setIcon(user1.getIcon());
                 long postSubCommentNum = postSubCommentService.getPostSubCommentNum(postComment.getId());
                 postComment.setPostSubCommentNum(postSubCommentNum);
             }

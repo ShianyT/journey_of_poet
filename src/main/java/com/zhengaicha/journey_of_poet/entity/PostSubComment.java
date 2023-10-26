@@ -1,6 +1,7 @@
 package com.zhengaicha.journey_of_poet.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -41,5 +42,17 @@ public class PostSubComment {
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 用户昵称，方便展示
+     */
+    @TableField(exist = false)
+    private String nickname;
+
+    /**
+     * 用户头像，方便展示
+     */
+    @TableField(exist = false)
+    private String icon;
 
 }

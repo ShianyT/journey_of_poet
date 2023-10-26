@@ -6,6 +6,7 @@ import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.Post;
 import com.zhengaicha.journey_of_poet.entity.PostSubComment;
+import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.mapper.PostSubCommentMapper;
 import com.zhengaicha.journey_of_poet.service.PostCommentsService;
 import com.zhengaicha.journey_of_poet.service.PostService;
@@ -97,6 +98,11 @@ public class PostSubCommentServiceImpl extends ServiceImpl<PostSubCommentMapper,
                 .page(new Page<>(currentPage, 10)).getRecords();
         if(postSubComments.isEmpty()){
             return Result.error("评论已经到最尾");
+        }
+        for(PostSubComment postSubComment : postSubComments){
+            User user = userService.lambdaQuery().eq(User::getUid, postSubComment.getUid()).one();
+            postSubComment.setNickname(user.getNickname());
+            postSubComment.setIcon(user.getIcon());
         }
         return Result.success(postSubComments);
     }

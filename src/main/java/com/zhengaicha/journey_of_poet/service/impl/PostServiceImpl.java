@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.Post;
+import com.zhengaicha.journey_of_poet.entity.PostCollection;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.mapper.PostMapper;
+import com.zhengaicha.journey_of_poet.service.PostCollectionService;
 import com.zhengaicha.journey_of_poet.service.PostLikeService;
 import com.zhengaicha.journey_of_poet.service.PostService;
 import com.zhengaicha.journey_of_poet.service.UserService;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,6 +44,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
     @Autowired
     private PostLikeService postLikeService;
+
+    @Autowired
+    private PostCollectionService postCollectionService;
 
     @Autowired
     private UserService userservice;
@@ -65,6 +71,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             post.setIcon(user.getIcon());
             post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
             post.setIsLike(postLikeService.isLike(post.getId(),user.getUid()));
+            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
+            post.setIsCollection(postCollectionService.isCollection(post.getId(),user.getUid()));
         }
         return Result.success(posts);
     }
@@ -201,7 +209,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("页码错误");
 
         // 分页查询
-        List<Post> posts = lambdaQuery().page(new Page<>(currentPage, 20)).getRecords();
+        List<Post> posts = lambdaQuery().orderByDesc(Post::getLikes).page(new Page<>(currentPage, 20)).getRecords();
         if (posts.isEmpty())
             return Result.error("帖子不存在");
 
@@ -211,6 +219,39 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             post.setIcon((postUser.getIcon()));
             post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
             post.setIsLike(postLikeService.isLike(post.getId(),user.getUid()));
+            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
+            post.setIsCollection(postCollectionService.isCollection(post.getId(),user.getUid()));
+        }
+        return Result.success(posts);
+    }
+
+    @Override
+    public Result getCollectedPost(Integer currentPage) {
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user))
+            return Result.error("出错啦！请先登录");
+
+        if(currentPage < 1)
+            return Result.error("页码错误");
+
+        // 分页查询
+        List<PostCollection> records = postCollectionService.lambdaQuery().eq(PostCollection::getUid, user.getUid())
+                .page(new Page<>(currentPage, 15)).getRecords();
+        List<Post> posts = new ArrayList<>();
+        if(records.isEmpty()){
+            records = postCollectionService.getCollectedPostFromRedis(user);
+            if(records.isEmpty())
+                return Result.error("您还未收藏任何作品");
+        }
+        for(PostCollection postCollection : records){
+            Post post = lambdaQuery().eq(Post::getId, postCollection.getPostId()).one();
+            post.setNickname(user.getNickname());
+            post.setIcon((user.getIcon()));
+            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
+            post.setIsLike(postLikeService.isLike(post.getId(),user.getUid()));
+            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
+            post.setIsCollection(postCollectionService.isCollection(post.getId(),user.getUid()));
+            posts.add(post);
         }
         return Result.success(posts);
     }

@@ -5,10 +5,12 @@ import lombok.Getter;
 @Getter
 public enum PostStatus {
     LIKE(1,"点赞"),
-    UNLIKE(0,"用户取消点赞");
+    UNLIKE(0,"取消点赞"),
+    COLLECTION(1,"收藏"),
+    UNCOLLECTION(0,"取消收藏");
 
-    private Integer code;
-    private String msg;
+    private final Integer code;
+    private final String msg;
 
     PostStatus(Integer code, String msg){
         this.code = code;
