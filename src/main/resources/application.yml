@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: test
 
   servlet:
     multipart:
@@ -93,6 +93,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/journey_of_poet?useSSL=false&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://47.113.225.240:3306/journey_of_poet?useSSL=false&allowPublicKeyRetrieval=true
     username: journey_of_poet
     password: zhengaicha.123
 

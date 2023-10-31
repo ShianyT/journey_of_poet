@@ -50,7 +50,10 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
         // 保存评论
         postComment.setUid(user.getUid());
         if (save(postComment)) {
+            if(Objects.isNull(post.getComments()))
+                post.setComments(1);
             post.setComments(post.getComments() + 1);
+            postService.updateById(post);
             return Result.success();
         }
         log.error("评论保存失败");
@@ -87,8 +90,12 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
             return Result.error("页码错误");
 
         //获取直接评论在帖子的评论
-        List<PostComment> postComments = lambdaQuery().eq(PostComment::getPostId, postId)
+        List<PostComment> postComments = lambdaQuery().eq(PostComment::getPostId, postId).orderByDesc(PostComment::getId)
                 .page(new Page<>(currentPage,20)).getRecords();
+
+        if(postComments.isEmpty())
+            return Result.error("评论已经到最尾");
+
         //获取用户昵称、头像、子评论、子评论数
         for(PostComment postComment : postComments){
             User user = userService.lambdaQuery().eq(User::getUid, postComment.getUid()).one();
@@ -105,9 +112,6 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
             }
         }
 
-        if(postComments.isEmpty())
-            return Result.error("评论已经到最尾");
-
         return Result.success(postComments);
     }
 
@@ -119,6 +123,9 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
     public void addPostCommentNum(int id){
         PostComment postComment = lambdaQuery().eq(PostComment::getId, id).one();
         Post post = postService.getOnePost(postComment.getPostId());
+        if(Objects.isNull(post.getComments()))
+            post.setComments(0);
         post.setComments(post.getComments() + 1);
+        postService.updateById(post);
     }
 }

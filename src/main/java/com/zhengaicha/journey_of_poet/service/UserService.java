@@ -1,7 +1,6 @@
 package com.zhengaicha.journey_of_poet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zhengaicha.journey_of_poet.dto.LoginDTO;
 import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.User;
@@ -32,4 +31,6 @@ public interface UserService extends IService<User> {
     public Result modifyNickname(String newNickname, HttpServletRequest request);
 
     public boolean isUserNotExist(Integer commentedUid);
+
+    public User getOne(Integer uid);
 }

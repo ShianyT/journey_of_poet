@@ -23,6 +23,7 @@ public class PostSubComment {
      */
     private Integer commentId;
 
+
     /**
      * 用户id
      */
@@ -54,5 +55,11 @@ public class PostSubComment {
      */
     @TableField(exist = false)
     private String icon;
+
+    /**
+     * 被评论用户昵称，方便展示
+     */
+    @TableField(exist = false)
+    private String commentedNickname;
 
 }

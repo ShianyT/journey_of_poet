@@ -19,7 +19,8 @@ public class PostSubCommentController {
 
     @ApiOperation(value = "保存子评论",notes = "commentedUid为被评论的用户uid")
     @PostMapping("/save")
-    public Result savePostSubComment(@ApiParam(value = "传入commentId,commentedUid,content") @RequestBody PostSubComment postSubComment){
+    public Result savePostSubComment(@ApiParam(value = "传入commentId,commentedUid,content")
+                                         @RequestBody PostSubComment postSubComment){
         return postSubCommentService.savePostSubComment(postSubComment);
     }
 

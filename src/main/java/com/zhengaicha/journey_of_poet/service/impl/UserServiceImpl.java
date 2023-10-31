@@ -1,7 +1,6 @@
 package com.zhengaicha.journey_of_poet.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -273,5 +272,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean isUserNotExist(Integer commentedUid) {
         return !lambdaQuery().eq(User::getUid,commentedUid).exists();
+    }
+
+    @Override
+    public User getOne(Integer uid) {
+        return lambdaQuery().eq(User::getUid, uid).one();
     }
 }
