@@ -2,13 +2,13 @@ package com.zhengaicha.journey_of_poet.utils;
 
 import cn.hutool.core.util.StrUtil;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
-import com.zhengaicha.journey_of_poet.entity.Post;
-import com.zhengaicha.journey_of_poet.entity.PostCollection;
-import com.zhengaicha.journey_of_poet.entity.PostLike;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zhengaicha.journey_of_poet.entity.*;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -24,11 +24,12 @@ import static com.zhengaicha.journey_of_poet.utils.SystemConstants.USER_AUTHORIZ
 @Service("redisUtils")
 public class RedisUtils {
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private HashOperations<String, String, Object> HashOperations;
+
 
     /**
      * 存入单个hash类型缓存
@@ -331,10 +332,10 @@ public class RedisUtils {
     public List<PostCollection> getPostCollectionByUserId(UserDTO user) {
         List<PostCollection> postCollections = new ArrayList<>();
         Set<String> keys = HashOperations.keys(POST_COLLECTION_DETAIL_KEY);
-        for(String key : keys){
+        for (String key : keys) {
             String uidStr = key.split("::")[1];
             int uid = Integer.parseInt(uidStr);
-            if(user.getUid().equals(uid)){
+            if (user.getUid().equals(uid)) {
                 PostCollection postCollection = new PostCollection();
                 String postIdStr = key.split("::")[0];
                 postCollection.setPostId(Integer.parseInt(postIdStr));
@@ -342,5 +343,102 @@ public class RedisUtils {
             }
         }
         return postCollections;
+    }
+
+
+    /**
+     * 存储对战记录对象
+     */
+    public void savePoetryBattleRecords(PoetryBattleRecords poetryBattleRecords) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(poetryBattleRecords);
+            String battleRecordKey = getBattleRecordKey(poetryBattleRecords.getBeforeUid(), poetryBattleRecords.getAfterUid());
+            // 存储对象在redis中
+            stringRedisTemplate.opsForValue().set(battleRecordKey, json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * 获取对战记录
+     */
+    @Transactional
+    public synchronized PoetryBattleRecords getPoetryBattleRecords(Integer beforeUid, Integer afterUid) {
+        try {
+            String battleRecordKey = getBattleRecordKey(beforeUid, afterUid);
+            String json = stringRedisTemplate.opsForValue().get(battleRecordKey);
+            if (Objects.isNull(json))
+                return null;
+            ObjectMapper objectMapper = new ObjectMapper();
+            PoetryBattleRecords poetryBattleRecords = objectMapper.readValue(json, PoetryBattleRecords.class);
+            // 判断用户是否已经使用过一次该记录
+            if (poetryBattleRecords.isUse()) {
+                stringRedisTemplate.delete(battleRecordKey);
+            }
+            // 若未使用过则设置为使用过，但暂不删除其在redis中的记录
+            else {
+                poetryBattleRecords.setUse(true);
+                String value = objectMapper.writeValueAsString(poetryBattleRecords);
+                stringRedisTemplate.opsForValue().set(battleRecordKey,value);
+            }
+            return poetryBattleRecords;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 检查用户是否重复发送相同诗句，之后存储该对战详情对象
+     */
+    public boolean savePoetryBattleDetail(Integer poetryBattleRecordId, PoetryBattleDetail poetryBattleDetail) {
+        try {
+            // 获取kye
+            String battleDetailKey = getBattleDetailKey(poetryBattleRecordId);
+            // 获取value
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(poetryBattleDetail);
+            // 判断是否重复
+            if (Objects.isNull(stringRedisTemplate.opsForHash().get(battleDetailKey, poetryBattleDetail.getPoem()))) {
+                stringRedisTemplate.opsForHash().put(battleDetailKey, poetryBattleDetail.getPoem(), json);
+            } else return false;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
+
+    /**
+     * 获取用户的对战详情并清除缓存
+     */
+    @Transactional
+    public List<PoetryBattleDetail> getPoetryBattleDetail(Integer poetryBattleRecordId) {
+        try {
+            String battleDetailKey = getBattleDetailKey(poetryBattleRecordId);
+            long size = stringRedisTemplate.opsForHash().size(battleDetailKey);
+            // 创建对战记录链表
+            List<PoetryBattleDetail> poetryBattleDetails = new ArrayList<>();
+            // 判断对战详情是否为空
+            if (size < 1) {
+                return null;
+            }
+            // 取出对战详情
+            List<Object> values = stringRedisTemplate.opsForHash().values(battleDetailKey);
+            stringRedisTemplate.delete(battleDetailKey);
+            if (values.isEmpty()) {
+                return null;
+            }
+            // 将value转换成PoetryBattleDetail对象并存入链表
+            ObjectMapper objectMapper = new ObjectMapper();
+            for (Object json : values) {
+                PoetryBattleDetail poetryBattleDetail = objectMapper.readValue((String) json, PoetryBattleDetail.class);
+                poetryBattleDetails.add(poetryBattleDetail);
+            }
+            return poetryBattleDetails;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

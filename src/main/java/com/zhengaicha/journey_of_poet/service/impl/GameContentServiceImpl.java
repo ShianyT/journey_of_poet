@@ -33,6 +33,6 @@ public class GameContentServiceImpl
             }
             return Result.success(contentList);
         }
-        return Result.error("剧情已到结尾");
+        return Result.error("已没有更多剧情");
     }
 }

@@ -98,7 +98,7 @@ public class PostSubCommentServiceImpl extends ServiceImpl<PostSubCommentMapper,
                 .getRecords();
 
         if (postSubComments.isEmpty()) {
-            return Result.error("评论已经到最尾");
+            return Result.error("已没有更多评论");
         }
 
         for (PostSubComment postSubComment : postSubComments) {
@@ -115,8 +115,8 @@ public class PostSubCommentServiceImpl extends ServiceImpl<PostSubCommentMapper,
      * 获取一条子评论
      */
     public PostSubComment getOnePostSubComment(int commentId) {
-        PostSubComment postSubComment = lambdaQuery().eq(PostSubComment::getCommentId, commentId).orderByDesc(PostSubComment::getId)
-                .last("limit 1").one();
+        PostSubComment postSubComment = lambdaQuery().eq(PostSubComment::getCommentId, commentId)
+                .orderByDesc(PostSubComment::getId).last("limit 1").one();
         if (Objects.isNull(postSubComment)) {
             return null;
         }

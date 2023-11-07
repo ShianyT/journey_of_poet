@@ -49,7 +49,7 @@ public class GameMomentsServiceImpl extends ServiceImpl<GameMomentsMapper, GameM
         List<GameMoments> gameMomentsList = page.getRecords();
 
         if (gameMomentsList.isEmpty())
-            return Result.error("朋友圈记录已到结尾");
+            return Result.error("已没有更多记录");
 
         // 获取朋友圈评论
         for (int i = 0; i < gameMomentsList.size(); i++) {

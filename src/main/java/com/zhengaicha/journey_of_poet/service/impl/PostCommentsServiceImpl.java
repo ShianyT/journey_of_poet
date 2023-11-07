@@ -94,7 +94,7 @@ public class PostCommentsServiceImpl extends ServiceImpl<PostCommentsMapper, Pos
                 .page(new Page<>(currentPage,20)).getRecords();
 
         if(postComments.isEmpty())
-            return Result.error("评论已经到最尾");
+            return Result.error("已没有更多评论");
 
         //获取用户昵称、头像、子评论、子评论数
         for(PostComment postComment : postComments){

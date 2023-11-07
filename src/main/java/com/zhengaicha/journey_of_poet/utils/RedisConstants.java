@@ -1,5 +1,7 @@
 package com.zhengaicha.journey_of_poet.utils;
 
+import io.swagger.models.auth.In;
+
 import java.sql.Timestamp;
 
 /**
@@ -50,6 +52,30 @@ public class RedisConstants {
      * 帖子点赞数量前缀
      */
     public static final String POST_COLLECTION_NUM_KEY = "post:collection:num";
+
+    /**
+     * 对战详情记录key前缀
+     */
+    public static final String BATTLE_DETAIL_KEY = "battle:detail:";
+
+    /**
+     * 对战记录key前缀
+     */
+    public static final String BATTLE_RECORD_KEY = "battle:record:";
+
+    /**
+     * 获取完整对战详情的key
+     */
+    public static String getBattleDetailKey(Integer poetryBattleRecordId){
+        return BATTLE_DETAIL_KEY + poetryBattleRecordId;
+    }
+
+    /**
+     * 获取完整对战记录的key
+     */
+    public static String getBattleRecordKey(Integer uid1,Integer uid2){
+        return BATTLE_RECORD_KEY + uid1 + "::" + uid2;
+    }
 
     /**
      * 在redis中存储postLike或者postCollection的HashKey
