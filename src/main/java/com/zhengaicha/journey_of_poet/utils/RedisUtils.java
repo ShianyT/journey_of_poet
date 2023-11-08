@@ -74,12 +74,25 @@ public class RedisUtils {
      * 刷新redis中，token对应的用户信息
      */
     public boolean flushTokenData(String field, String newContent, HttpServletRequest request) {
-        String tokenKey = getTokenKey(request);
-        if (tokenKey != null) {
-            stringRedisTemplate.opsForHash().put(tokenKey, field, newContent);
-            return true;
+        try {
+            String tokenKey = getTokenKey(request);
+            if (tokenKey != null) {
+                UserDTO user = UserHolder.getUser();
+                if(field.equals("nickname")){
+                    user.setNickname(newContent);
+                }
+                if(field.equals("icon")){
+                    user.setIcon(newContent);
+                }
+                ObjectMapper objectMapper = new ObjectMapper();
+                String value = objectMapper.writeValueAsString(user);
+                stringRedisTemplate.opsForValue().set(tokenKey,value);
+                return true;
+            }
+            return false;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.zhengaicha.journey_of_poet.utils;
 
 import org.apache.catalina.core.ApplicationContext;
-import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.HandshakeResponse;

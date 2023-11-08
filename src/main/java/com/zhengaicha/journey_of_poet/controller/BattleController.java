@@ -46,7 +46,8 @@ public class BattleController {
     public void onOpen(Session session) {
         UserDTO user = UserHolder.getUser();
         if(Objects.isNull(user)){
-            session.getAsyncRemote().sendText("出错啦！请登录");
+            JSONObject accumulate = new JSONObject().accumulate("error", "出错啦！请登录");
+            sendToSelf(accumulate.toString());
             return;
         }
         try {
@@ -80,10 +81,17 @@ public class BattleController {
         log.info("收到报文：" + message);
         JSONObject json = new JSONObject(message);
         String poem = (String) json.get("message");
-        Integer uid = (Integer) json.get("uid");
-        if(Objects.isNull(poem) || Objects.isNull(uid)){
-            sendToSelf("输入错误");
+        if(poem.isEmpty() || json.get("uid") == null){
+            JSONObject accumulate = new JSONObject().accumulate("error", "输入错误");
+            sendToSelf(accumulate.toString());
             return;
+        }
+        Integer uid = null;
+        try {
+            uid = (Integer) json.get("uid");
+        } catch (NumberFormatException e) {
+            JSONObject accumulate = new JSONObject().accumulate("error", "对方uid传入错误");
+            sendToSelf(accumulate.toString());
         }
         PoetryBattleDetail poetryBattleDetail = poetryBattleDetailService.matchPoem(userUid,poem);
         try {
@@ -96,7 +104,8 @@ public class BattleController {
             sendToSelf(message1);
             sendToMassage(uid,message1);
         } catch (NumberFormatException e) {
-            sendToSelf("传入对方uid有误");
+            JSONObject accumulate = new JSONObject().accumulate("error", "对方uid传入错误");
+            sendToSelf(accumulate.toString());
             throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -149,7 +158,8 @@ public class BattleController {
         if (session != null && session.isOpen()) {
             try {
                 if(Objects.isNull(message)){
-                    session.getAsyncRemote().sendText("传入信息错误");
+                    JSONObject accumulate = new JSONObject().accumulate("error", "出错啦！请登录");
+                    session.getAsyncRemote().sendText(accumulate.toString());
                 }
                 session.getAsyncRemote().sendText(message);
             } catch (Exception e) {
