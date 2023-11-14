@@ -4,15 +4,20 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- * 用户详细信息
+ * 用户关于剧情，游戏，排名等详细信息
  */
 @Data
 @TableName("tb_user_info")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInfo {
     /**
      * 主键，自增
@@ -26,29 +31,29 @@ public class UserInfo {
     private Integer uid;
 
     /**
-     * 性别，-1为未知，0为女，1为男，默认为-1
+     * 用户账号拥有的金钱数（交子数）
      */
-    private Integer gender;
+    private Integer money;
 
     /**
-     * 个性签名
+     * 用户是否处于对局状态(1为对战中)
      */
-    private String signature;
+    private Integer battleStatue;
 
     /**
-     * 关注数
+     * 剧情进度，只保存剧情事件id
      */
-    private Integer followers;
+    private Integer plotProgression;
 
     /**
-     * 粉丝数
+     * 已解锁的剧情章节id进度
      */
-    private Integer fans;
+    private Integer unlockChapterId;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     public UserInfo(Integer uid) {
         this.uid = uid;

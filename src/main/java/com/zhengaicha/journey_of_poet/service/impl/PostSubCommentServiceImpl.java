@@ -1,17 +1,13 @@
 package com.zhengaicha.journey_of_poet.service.impl;
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
-import com.zhengaicha.journey_of_poet.entity.Post;
-import com.zhengaicha.journey_of_poet.entity.PostComment;
 import com.zhengaicha.journey_of_poet.entity.PostSubComment;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.mapper.PostSubCommentMapper;
 import com.zhengaicha.journey_of_poet.service.PostCommentsService;
-import com.zhengaicha.journey_of_poet.service.PostService;
 import com.zhengaicha.journey_of_poet.service.PostSubCommentService;
 import com.zhengaicha.journey_of_poet.service.UserService;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
@@ -45,9 +41,10 @@ public class PostSubCommentServiceImpl extends ServiceImpl<PostSubCommentMapper,
             return Result.error("传入参数不足");
         }
 
-        if (userService.isUserNotExist(postSubComment.getCommentedUid())) {
+        if (Objects.isNull(userService.getOne(postSubComment.getCommentedUid()))) {
             return Result.error("被评论用户不存在");
         }
+
         if (postCommentsService.isPostCommentNotExist(postSubComment.getCommentId())) {
             return Result.error("主表评论不存在");
         }

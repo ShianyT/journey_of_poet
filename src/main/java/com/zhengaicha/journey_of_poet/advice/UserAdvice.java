@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_CODE_KEY;
+import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_CODE_KEY_PREFIX;
 
 
 @Component
@@ -34,7 +34,7 @@ public class UserAdvice {
     @Around(value = "signUpPoint() || verifyCodePoint() || modifyPasswordByEmailPoint() || modifyMailPoint() ")
     public Result sendCodeAdvice(ProceedingJoinPoint pjp) throws Throwable {
         LoginDTO user = (LoginDTO) pjp.getArgs()[0];
-        String mailCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + user.getMail());
+        String mailCode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY_PREFIX + user.getMail());
         // 1、检查键值对是否存在
         if (mailCode != null) {
             // 2、比对验证码

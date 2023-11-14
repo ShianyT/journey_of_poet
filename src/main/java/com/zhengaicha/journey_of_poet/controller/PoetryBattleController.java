@@ -83,7 +83,7 @@ public class PoetryBattleController {
     @ApiOperation(value = "通过关键字搜索诗词",notes = "直接传数据，不用转成json")
     @PostMapping("/search")
     public Result search(@ApiParam(value = "关键字") @RequestParam String keywords
-            ,@ApiParam(value = "当前页数，一次20条") @RequestParam int currentPage) {
+            ,@ApiParam(value = "当前页数，一次15条") @RequestParam int currentPage) {
         return poemService.search(keywords,currentPage);
     }
 }

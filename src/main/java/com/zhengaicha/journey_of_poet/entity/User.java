@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -45,9 +46,19 @@ public class User {
     private String icon;
 
     /**
+     * 性别，-1为未知，0为女，1为男，默认为-1
+     */
+    private Integer gender;
+
+    /**
+     * 个性签名
+     */
+    private String signature;
+
+    /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     public User(Integer uid, String mail, String password, String nickname, String icon) {
         this.uid = uid;

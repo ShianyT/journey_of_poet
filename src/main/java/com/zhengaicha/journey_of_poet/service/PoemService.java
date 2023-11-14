@@ -10,4 +10,6 @@ public interface PoemService extends IService<Poem> {
     public Result search(String keywords, int currentPage);
 
     public Poem getPoemByPoetry(String poetry);
+
+    public Result getRecitation(String poemId);
 }

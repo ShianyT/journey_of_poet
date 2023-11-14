@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.elasticsearch.common.text.Text;
 
 import java.time.LocalDateTime;
 
@@ -81,5 +82,11 @@ public class Post {
      * 发布时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 高亮信息
+     */
+    @TableField(exist = false)
+    private Text[] fragments;
 
 }

@@ -5,8 +5,6 @@ import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.Post;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-
 public interface PostService extends IService<Post> {
 
     public Result getPost(Integer currentPage);
@@ -26,4 +24,6 @@ public interface PostService extends IService<Post> {
     public Result getHotPost(Integer currentPage);
 
     public Result getCollectedPost(Integer currentPage);
+
+    public Result searchPost(String keywords, Integer currentPage);
 }

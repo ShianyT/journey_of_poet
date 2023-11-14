@@ -8,7 +8,7 @@ import com.zhengaicha.journey_of_poet.entity.PostCollection;
 import com.zhengaicha.journey_of_poet.mapper.PostCollectionMapper;
 import com.zhengaicha.journey_of_poet.service.PostCollectionService;
 import com.zhengaicha.journey_of_poet.service.PostService;
-import com.zhengaicha.journey_of_poet.utils.PostStatus;
+import com.zhengaicha.journey_of_poet.constants.PostStatus;
 import com.zhengaicha.journey_of_poet.utils.RedisConstants;
 import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.zhengaicha.journey_of_poet.utils.PostStatus.COLLECTION;
-import static com.zhengaicha.journey_of_poet.utils.PostStatus.LIKE;
+import static com.zhengaicha.journey_of_poet.constants.PostStatus.COLLECTION;
+import static com.zhengaicha.journey_of_poet.constants.PostStatus.LIKE;
 
 @Service
 public class PostCollectionServiceImpl extends ServiceImpl<PostCollectionMapper, PostCollection>

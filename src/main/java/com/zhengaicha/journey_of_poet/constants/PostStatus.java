@@ -1,4 +1,4 @@
-package com.zhengaicha.journey_of_poet.utils;
+package com.zhengaicha.journey_of_poet.constants;
 
 import lombok.Getter;
 

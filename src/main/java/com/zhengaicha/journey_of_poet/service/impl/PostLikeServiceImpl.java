@@ -8,7 +8,7 @@ import com.zhengaicha.journey_of_poet.entity.PostLike;
 import com.zhengaicha.journey_of_poet.mapper.PostLikeMapper;
 import com.zhengaicha.journey_of_poet.service.PostLikeService;
 import com.zhengaicha.journey_of_poet.service.PostService;
-import com.zhengaicha.journey_of_poet.utils.PostStatus;
+import com.zhengaicha.journey_of_poet.constants.PostStatus;
 import com.zhengaicha.journey_of_poet.utils.RedisConstants;
 import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.zhengaicha.journey_of_poet.utils.PostStatus.LIKE;
+import static com.zhengaicha.journey_of_poet.constants.PostStatus.LIKE;
 
 @Service
 public class PostLikeServiceImpl extends ServiceImpl<PostLikeMapper, PostLike> implements PostLikeService {

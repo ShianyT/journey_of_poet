@@ -6,12 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.PoetryBattleDetail;
 import com.zhengaicha.journey_of_poet.service.PoetryBattleDetailService;
-import com.zhengaicha.journey_of_poet.utils.GetHttpSessionConfigurator;
+import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -20,7 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
-// @ServerEndpoint(value = "/battles/send",configurator = GetHttpSessionConfigurator.class)
 @ServerEndpoint(value = "/battles/send")
 @Slf4j
 public class BattleController {
@@ -28,8 +26,20 @@ public class BattleController {
     private static PoetryBattleDetailService poetryBattleDetailService;
 
 
+    private static RedisUtils redisUtils;
+
     @Autowired
-    public void setISysUserService(PoetryBattleDetailService poetryBattleDetailService){
+    public void setRedisUtils(RedisUtils redisUtils) {
+        BattleController.redisUtils = redisUtils;
+    }
+
+    // public BattleController(RedisUtils redisUtils){
+    //     this.redisUtils = redisUtils;
+    // }
+
+
+    @Autowired
+    public void setPoetryBattleDetailService(PoetryBattleDetailService poetryBattleDetailService){
         BattleController.poetryBattleDetailService = poetryBattleDetailService;
     }
 
@@ -79,6 +89,13 @@ public class BattleController {
     @OnMessage
     public void onMessage(String message) {
         log.info("收到报文：" + message);
+
+        if(!redisUtils.isBattling(userUid)){
+            JSONObject accumulate = new JSONObject().accumulate("error", "您未处于游戏状态");
+            sendToSelf(accumulate.toString());
+            return;
+        }
+
         JSONObject json = new JSONObject(message);
         String poem = (String) json.get("message");
         if(poem.isEmpty() || json.get("uid") == null){
@@ -95,10 +112,6 @@ public class BattleController {
         }
         PoetryBattleDetail poetryBattleDetail = poetryBattleDetailService.matchPoem(userUid,poem);
         try {
-            // if("heartCheck".equals(message)){// 心跳检测的消息
-            //     sendToSelf(message);
-            //     return;
-            // }
             ObjectMapper objectMapper = new ObjectMapper();
             String message1 = objectMapper.writeValueAsString(poetryBattleDetail);
             sendToSelf(message1);

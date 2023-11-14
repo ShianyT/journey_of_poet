@@ -14,6 +14,7 @@ import com.zhengaicha.journey_of_poet.mapper.UserMapper;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.service.UserInfoService;
 import com.zhengaicha.journey_of_poet.service.UserService;
+import com.zhengaicha.journey_of_poet.utils.ImageUtil;
 import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.RegexUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
@@ -84,11 +85,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 message.setSubject("[诗旅]邮箱验证码");
                 String code = UUID.randomUUID().toString(true).substring(0, 6); // 保持在六位数
                 // 3.将验证码存储在redis中
-                stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + mail, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
+                stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY_PREFIX + mail, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
                 message.setText("尊敬的用户您好！\n您的验证码是：" + code + "，请在3分钟内进行验证。如果该验证码不为您本人申请，请无视。");
-                javaMailSender.send(message);
+                // javaMailSender.send(message);
                 // log.warn(code);
-                return Result.success();
+                return Result.success(code);
             } else return Result.error("该邮箱无效");
         } catch (MailException e) {
             log.error("邮件发送失败");
@@ -112,11 +113,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 uid = UUID.randomUUID().toString(true).hashCode();
                 uid = uid < 0 ? -uid : uid;
                 uid = Integer.parseInt(String.format("%010d", uid).substring(0, 10));
-            } while (lambdaQuery().eq(User::getUid, uid).exists());
+            } while (uid <= 999999999 || lambdaQuery().eq(User::getUid, uid).exists());
             String nickName = USER_NICKNAME_PREFIX + RandomUtil.randomNumbers(12);
             // 4.创建新用户
             User newUser = new User(uid, login.getMail(), login.getPassword(), nickName, USER_DEFAULT_ICON_NAME);
-            this.save(newUser);
+            save(newUser);
             // 5、创建用户详细信息实例并保存
             userInfoService.init(newUser);
             return Result.success();
@@ -166,23 +167,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 更换新邮箱
-     */
-    public Result modifyMail(LoginDTO newMailUser, HttpServletRequest request) {
-        UserDTO oldMailUser = UserHolder.getUser();
-        if (lambdaQuery().eq(User::getMail, newMailUser.getMail()).exists())
-            return Result.error("该邮箱账号已存在");
-
-        boolean update = lambdaUpdate().eq(User::getUid, oldMailUser.getUid())
-                .set(User::getMail, newMailUser.getMail()).update();
-        if (update) {
-            if (redisUtils.deleteToken(request))
-                return Result.success();
-            return Result.error("数据刷新失败");
-        } else return Result.error("修改失败");
-    }
-
-    /**
      * 当用户忘记密码时修改密码，通过邮箱发送验证码来修改
      */
     public Result modifyPasswordByEmail(LoginDTO user, HttpServletRequest request) {
@@ -225,30 +209,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserDTO user = UserHolder.getUser();
         if (Objects.isNull(user))
             return Result.error("出错啦！请登录");
-
         if (Objects.isNull(multipartFile))
             return Result.error("请先上传图片");
 
-        // 获取文件名
+        // 判断图片格式以及大小
         String OriginalFilename = multipartFile.getOriginalFilename();
-        String format = OriginalFilename.substring(OriginalFilename.lastIndexOf("."));
-        // 判断文件后缀是否为图片类型
-        if (!(format.equals(".jpg") || format.equals(".jpeg") || format.equals(".png")))
-            return Result.error("请上传jpg/jpeg/png格式的图片文件");
-
-        if (multipartFile.getSize() > (1024 * 1024 * 5))
-            return Result.error("图片不可超过5M");
-
-        String fileName = UUID.randomUUID().toString().replace("-", "")
-                + RandomUtil.randomNumbers(5) + format;
-        File file = new File(ICON_PATH + "/" + fileName);
-        try {
-            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
-            file.deleteOnExit();
-        } catch (IOException e) {
-            log.error("服务器存储文件失败" + e.getMessage());
-            throw new RuntimeException("图片文件存储失败，服务器异常", e);
+        if(!ImageUtil.isValidImage(OriginalFilename)){
+            return Result.error("请上传正确的图片格式");
         }
+        if (multipartFile.getSize() > (1024 * 1024 * 5))
+            return Result.error("图片大小不可超过5M");
+
+        // 保存原图片并生成压缩图
+        String fileName = ImageUtil.saveImage(multipartFile,"icon");
+
         this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getIcon, fileName).update();
         boolean isFlush = redisUtils.flushTokenData("icon", fileName, request);
         if (isFlush) return Result.success();
@@ -269,11 +243,62 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         else return Result.error("数据刷新失败");
     }
 
-    @Override
-    public boolean isUserNotExist(Integer commentedUid) {
-        return !lambdaQuery().eq(User::getUid,commentedUid).exists();
+    /**
+     * 修改性别
+     */
+    public Result modifyGender(Integer gender) {
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user)) {
+            return Result.error("出错啦！请登录");
+        }
+
+        if (Objects.isNull(gender)) {
+            return Result.error("请先选择选项");
+        }
+
+        boolean update = this.lambdaUpdate().eq(User::getUid, user.getUid())
+                .set(User::getGender, gender).update();
+        if (update) {
+            return Result.success();
+        }
+        return Result.error("修改失败");
     }
 
+
+    /**
+     * 修改个性签名
+     */
+    public Result modifySignature(String signature) {
+
+        UserDTO user = UserHolder.getUser();
+        if (Objects.isNull(user)) {
+            return Result.error("出错啦！请登录");
+        }
+
+        boolean update = this.lambdaUpdate().eq(User::getUid, user.getUid())
+                .set(User::getSignature, signature).update();
+        if (update) {
+            return Result.success();
+        }
+        return Result.error("修改失败");
+
+    }
+
+    /**
+     * 用于主页用户信息展示
+     */
+    @Override
+    public Result showUser() {
+        UserDTO user = UserHolder.getUser();
+        User userInfo = lambdaQuery().eq(User::getUid, user.getUid()).one();
+        userInfo.setMail(null);
+        userInfo.setPassword(null);
+        return Result.success(userInfo);
+    }
+
+    /**
+     * 通过uid获得用户
+     */
     @Override
     public User getOne(Integer uid) {
         return lambdaQuery().eq(User::getUid, uid).one();

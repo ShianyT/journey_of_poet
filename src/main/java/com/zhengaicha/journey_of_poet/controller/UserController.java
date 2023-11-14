@@ -89,4 +89,23 @@ public class UserController {
         return userService.modifyNickname(newNickname.get("newNickname"), request);
     }
 
+    @ApiOperation(value = "修改性别")
+    @PostMapping("/modify/gender")
+    public Result modifyGender(@ApiParam(name = "gender", value = "-1为未知（默认），0为女，1为男；不用传入json，数据即可")
+                               @RequestParam Integer gender) {
+        return userService.modifyGender(gender);
+    }
+
+    @ApiOperation(value = "修改个性签名")
+    @PostMapping("/modify/signature")
+    public Result modifySignature(@ApiParam(name = "signature", value = "个性签名；不用传入json，数据即可")
+                                  @RequestParam String signature) {
+        return userService.modifySignature(signature);
+    }
+
+    @ApiOperation(value = "展示用户信息" ,notes = "在个人主页，展示用户详细信息; 头像请在地址前加上\"http://ip:端口号/images/icon/\"")
+    @GetMapping("/show")
+    public Result showUser(){
+        return userService.showUser();
+    }
 }

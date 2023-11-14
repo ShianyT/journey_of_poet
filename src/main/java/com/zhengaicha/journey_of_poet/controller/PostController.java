@@ -59,7 +59,7 @@ public class PostController {
      * 用户获取个人的帖子，根据页数使用分页查询，用于主页展示
      */
     @ApiOperation(value = "获取个人帖子", notes = "根据页数使用分页查询，用于个人主页展示，每次10条；每张图片用\",\"分开，" +
-            "得麻烦前端自行切割，并在图片地址前加上\"http://ip:端口号/images/post/\"")
+            "得麻烦前端自行切割，并在图片地址前加上\"http://ip:端口号/imgs/thumbnail/post/\"")
     @GetMapping("/{currentPage}")
     public Result getPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage) {
         return postService.getPost(currentPage);
@@ -70,16 +70,22 @@ public class PostController {
      * TODO 改成获取每日热门帖子
      */
     @ApiOperation(value = "获取所有帖子", notes = "根据页数使用分页查询，用于社区主页展示，一次20条；只需展示一张图片即可" +
-            "图片地址前加上\"http://ip:端口号/images/post/\"")
+            "图片地址前加上\"http://ip:端口号/imgs/thumbnail/post/\"")
     @GetMapping("/hot/{currentPage}")
     public Result getHotPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage) {
         return postService.getHotPost(currentPage);
     }
     @ApiOperation(value = "获取用户收藏的帖子", notes = "根据页数使用分页查询，用于个人主页展示，一次15条；只需展示一张图片即可" +
-            "图片地址前加上\"http://ip:端口号/images/post/\"")
+            "图片地址前加上\"http://ip:端口号/imgs/thumbnail/post/\"")
     @GetMapping("/collected/{currentPage}")
     public Result getCollectedPost(@ApiParam(name = "currentPage", value = "当前帖子页数") @PathVariable Integer currentPage){
         return postService.getCollectedPost(currentPage);
     }
 
+    @ApiOperation(value = "根据关键字搜索帖子", notes = "根据页数使用分页查询，一次15条")
+    @GetMapping("/search/{keywords}/{currentPage}")
+    public Result searchPost(@ApiParam(value = "搜索关键字") @PathVariable String keywords
+            ,@ApiParam(value = "当前帖子页数") @PathVariable Integer currentPage){
+        return postService.searchPost(keywords,currentPage);
+    }
 }

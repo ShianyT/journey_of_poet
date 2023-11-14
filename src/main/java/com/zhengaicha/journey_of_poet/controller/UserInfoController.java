@@ -19,23 +19,11 @@ public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
 
-    @ApiOperation(value = "修改性别")
-    @PostMapping("/modify/gender")
-    public Result modifyGender(@ApiParam(name = "gender", value = "-1为未知（默认），0为女，1为男；不用传入json，数据即可")
-                                   @RequestParam Integer gender) {
-        return userInfoService.modifyGender(gender);
+    @ApiOperation(value = "奖励接口",notes = "奖励的类型有：背诵recite；厨房kitchen")
+    @GetMapping("/reward/{type}")
+    public Result getReward(@ApiParam("奖励的类型") @PathVariable String type){
+        return userInfoService.getReward(type);
     }
 
-    @ApiOperation(value = "修改个性签名")
-    @PostMapping("/modify/signature")
-    public Result modifySignature(@ApiParam(name = "signature", value = "个性签名；不用传入json，数据即可")
-                                      @RequestParam String signature) {
-        return userInfoService.modifySignature(signature);
-    }
 
-    @ApiOperation(value = "展示用户信息" ,notes = "在个人主页，展示用户详细信息; 头像请在地址前加上\"http://ip:端口号/images/icon/\"")
-    @GetMapping("/show")
-    public Result showUser(){
-        return userInfoService.showUser();
-    }
 }
