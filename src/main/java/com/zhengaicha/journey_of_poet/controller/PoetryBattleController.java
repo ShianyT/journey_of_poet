@@ -86,4 +86,11 @@ public class PoetryBattleController {
             ,@ApiParam(value = "当前页数，一次15条") @RequestParam int currentPage) {
         return poemService.search(keywords,currentPage);
     }
+
+    @GetMapping("/keywords")
+    public Result getKeywords(){
+        return poetryBattleRecordsService.getKeywords();
+    }
+
+
 }

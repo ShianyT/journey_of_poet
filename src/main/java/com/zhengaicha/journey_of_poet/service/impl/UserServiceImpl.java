@@ -14,10 +14,7 @@ import com.zhengaicha.journey_of_poet.mapper.UserMapper;
 import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.service.UserInfoService;
 import com.zhengaicha.journey_of_poet.service.UserService;
-import com.zhengaicha.journey_of_poet.utils.ImageUtil;
-import com.zhengaicha.journey_of_poet.utils.RedisUtils;
-import com.zhengaicha.journey_of_poet.utils.RegexUtils;
-import com.zhengaicha.journey_of_poet.utils.UserHolder;
+import com.zhengaicha.journey_of_poet.utils.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,8 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -59,6 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -128,42 +127,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 登录
      */
     @Override
-    public Result login(LoginDTO loginUser) {
-        // 校验邮箱是否有效
-        String mail = loginUser.getMail();
-        if (!RegexUtils.isEmailValid(mail))
-            return Result.error("邮箱格式错误");
-
-        // 判断用户是否存在
-        User user = this.lambdaQuery().eq(User::getMail, mail).one();
-        if (Objects.isNull(user))
-            return Result.error("用户不存在");
-
-        if (Objects.isNull(user.getPassword()))
-            return Result.error("请输入密码");
-
-        if (!user.getPassword().equals(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes())))
-            return Result.error("密码错误");
-
-        // TODO 改用jwt存储用户信息生成token，redis保存token
-        // 随机生成token，作为登录令牌
-        String token = UUID.randomUUID().toString(true);
-
-        // 将User对象转为json
-        ObjectMapper objectMapper = new ObjectMapper();
-        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
-        String userDTOJson = null;
+    public Result login(LoginDTO loginUser, HttpServletResponse response) {
         try {
-            userDTOJson = objectMapper.writeValueAsString(userDTO);
+            // 校验邮箱是否有效
+            String mail = loginUser.getMail();
+            if (!RegexUtils.isEmailValid(mail))
+                return Result.error("邮箱格式错误");
+
+            // 判断用户是否存在
+            User user = this.lambdaQuery().eq(User::getMail, mail).one();
+            if (Objects.isNull(user))
+                return Result.error("用户不存在");
+
+            if (Objects.isNull(user.getPassword()))
+                return Result.error("请输入密码");
+
+            if (!user.getPassword().equals(DigestUtils.md5DigestAsHex(loginUser.getPassword().getBytes())))
+                return Result.error("密码错误");
+
+            // 生成并存储jwt令牌
+            UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+            String token = jwtUtil.createToken(userDTO);
+            redisUtils.saveToken(user.getUid(), token);
+
+            // 将token放在响应头
+            response.setHeader(USER_AUTHORIZATION,token);
+            response.addHeader("Access-Control-Expose-Headers",USER_AUTHORIZATION);
+            return Result.success();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        // 存储并设置过期时间
-        stringRedisTemplate.opsForValue().set(redisUtils.getTokenKey(token),userDTOJson,USER_TOKEN_TTL,TimeUnit.DAYS);
-        HashMap<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-        // 返回token
-        return Result.success(tokenMap);
     }
 
     /**
@@ -214,14 +207,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 判断图片格式以及大小
         String OriginalFilename = multipartFile.getOriginalFilename();
-        if(!ImageUtil.isValidImage(OriginalFilename)){
+        if (!ImageUtil.isValidImage(OriginalFilename)) {
             return Result.error("请上传正确的图片格式");
         }
         if (multipartFile.getSize() > (1024 * 1024 * 5))
             return Result.error("图片大小不可超过5M");
 
         // 保存原图片并生成压缩图
-        String fileName = ImageUtil.saveImage(multipartFile,"icon");
+        String fileName = ImageUtil.saveImage(multipartFile, "icon");
 
         this.lambdaUpdate().eq(User::getUid, user.getUid()).set(User::getIcon, fileName).update();
         boolean isFlush = redisUtils.flushTokenData("icon", fileName, request);

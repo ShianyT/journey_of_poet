@@ -33,9 +33,6 @@ public class BattleController {
         BattleController.redisUtils = redisUtils;
     }
 
-    // public BattleController(RedisUtils redisUtils){
-    //     this.redisUtils = redisUtils;
-    // }
 
 
     @Autowired

@@ -7,6 +7,7 @@ import com.zhengaicha.journey_of_poet.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public interface UserService extends IService<User> {
@@ -18,7 +19,7 @@ public interface UserService extends IService<User> {
 
     public Result createUser(LoginDTO loginUser);
 
-    public Result login(LoginDTO loginUser);
+    public Result login(LoginDTO loginUser, HttpServletResponse response);
 
     public Result modifyPasswordByEmail(LoginDTO user, HttpServletRequest request);
 

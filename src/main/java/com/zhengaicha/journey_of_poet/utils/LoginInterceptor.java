@@ -24,7 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (UserHolder.getUser() == null) {
             // 没有，需要拦截，设置状态码
             response.setStatus(401);
-            log.warn("拦截未知用户");
+            log.warn("拦截用户");
             // 拦截
             return false;
         }

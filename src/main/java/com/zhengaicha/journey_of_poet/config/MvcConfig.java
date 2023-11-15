@@ -1,9 +1,11 @@
 package com.zhengaicha.journey_of_poet.config;
 
 
+import com.zhengaicha.journey_of_poet.utils.JwtUtil;
 import com.zhengaicha.journey_of_poet.utils.LoginInterceptor;
 import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.RefreshTokenInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.*;
@@ -15,6 +17,12 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 资源静态映射
@@ -58,7 +66,7 @@ public class MvcConfig implements WebMvcConfigurer {
                         "/imgs/**"
                 ).order(1);
         // token刷新的拦截器
-        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate))
+        registry.addInterceptor(new RefreshTokenInterceptor(stringRedisTemplate,jwtUtil,redisUtils))
                 .excludePathPatterns(
                         "/",
                         "/static/**",

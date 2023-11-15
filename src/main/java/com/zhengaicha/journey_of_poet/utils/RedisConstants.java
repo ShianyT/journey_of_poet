@@ -20,10 +20,8 @@ public class RedisConstants {
     /**
      * tokenKey前缀
      */
-    public static final String LOGIN_TOKEN_KEY_PREFIX = "login:token:";
-    /**
-     * token过期时间
-     */
+    public static final String LOGIN_TOKEN_KEY = "login:token";
+
     public static final Long USER_TOKEN_TTL = 10L;
 
     // --------------------------------------社区帖子相关---------------------------------------- //

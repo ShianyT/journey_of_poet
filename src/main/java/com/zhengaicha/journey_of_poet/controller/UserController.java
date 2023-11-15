@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 
@@ -43,8 +44,9 @@ public class UserController {
      */
     @ApiOperation(value = "登录", notes = "请将token放入名为\"authorization\"的请求头中")
     @PostMapping("/login")
-    public Result login(@ApiParam(name = "用户对象", value = "传入mail,password") @RequestBody LoginDTO loginUser) {
-        return userService.login(loginUser);
+    public Result login(@ApiParam(name = "用户对象", value = "传入mail,password") @RequestBody LoginDTO loginUser
+            , HttpServletResponse response) {
+        return userService.login(loginUser,response);
     }
 
     /**

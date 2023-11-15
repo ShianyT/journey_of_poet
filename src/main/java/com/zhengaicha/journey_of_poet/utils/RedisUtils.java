@@ -8,17 +8,20 @@ import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import com.zhengaicha.journey_of_poet.entity.*;
 import com.zhengaicha.journey_of_poet.constants.BattleStatus;
 import com.zhengaicha.journey_of_poet.service.UserInfoService;
+import io.lettuce.core.RedisCommandExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.NestedServletException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.zhengaicha.journey_of_poet.constants.PostStatus.*;
 import static com.zhengaicha.journey_of_poet.utils.RedisConstants.*;
@@ -51,7 +54,7 @@ public class RedisUtils {
      */
     public String getTokenKey(String token) {
         if (StringUtils.hasText(token))
-            return LOGIN_TOKEN_KEY_PREFIX + token;
+            return LOGIN_TOKEN_KEY + token;
         return null;
     }
 
@@ -63,7 +66,7 @@ public class RedisUtils {
         if (StrUtil.isBlank(token)) {
             return null;
         }
-        return LOGIN_TOKEN_KEY_PREFIX + token;
+        return LOGIN_TOKEN_KEY + token;
     }
 
     /**
@@ -498,7 +501,7 @@ public class RedisUtils {
             // 取出userInfo对象
             String battleUserKey = getBattleUserKey(uid);
             String json = stringRedisTemplate.opsForValue().get(battleUserKey);
-             UserInfo userInfo = objectMapper.readValue(json, UserInfo.class);
+            UserInfo userInfo = objectMapper.readValue(json, UserInfo.class);
             // 将其对战状态转换
             if (Objects.equals(userInfo.getBattleStatue(), BattleStatus.IN_BATTLE)) {
                 userInfo.setBattleStatue(BattleStatus.NOT_IN_BATTLE);
@@ -509,5 +512,22 @@ public class RedisUtils {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 存储token
+     */
+    public void saveToken(Integer uid, String token) {
+        stringRedisTemplate.opsForHash().put(LOGIN_TOKEN_KEY, uid.toString(), token);
+        stringRedisTemplate.expire(LOGIN_TOKEN_KEY,USER_TOKEN_TTL, TimeUnit.DAYS);
+    }
+
+    /**
+     * 判断令牌是否有效
+     * 有效返回true
+     */
+    public boolean isTokenValid(Integer uid, String token) {
+        String jwt = (String) stringRedisTemplate.opsForHash().get(LOGIN_TOKEN_KEY, uid.toString());
+        return jwt.equals(token);
     }
 }

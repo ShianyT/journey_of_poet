@@ -22,6 +22,8 @@ import com.zhengaicha.journey_of_poet.utils.RedisUtils;
 import com.zhengaicha.journey_of_poet.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ import java.util.*;
 
 @Service
 @Slf4j
+// @ConfigurationProperties(prefix = "keywords")
 public class PoetryBattleRecordsServiceImpl
         extends ServiceImpl<PoetryBattleRecordsMapper, PoetryBattleRecords>
         implements PoetryBattleRecordsService {
@@ -49,19 +52,10 @@ public class PoetryBattleRecordsServiceImpl
     private static boolean isStartMatch = false;
     private static final Queue<UserDTO> matchQueue = new LinkedList<>();
 
-    private static final ArrayList<String> keywords = new ArrayList<>();
+    @Value("${keywords}")
+    private String[] keywords;
 
 
-    static {
-        keywords.add("本");
-        keywords.add("致");
-        keywords.add("其");
-        keywords.add("蕴");
-        keywords.add("水");
-        keywords.add("间");
-        keywords.add("日");
-        keywords.add("观");
-    }
 
     @Override
     public Result add() {
@@ -128,7 +122,8 @@ public class PoetryBattleRecordsServiceImpl
                 redisUtils.changeBattleUserStatue(user2.getUid());
 
                 // 存储对战对象
-                String keyword = keywords.get((int) (Math.random() * keywords.size()));
+                // String keyword = keywords.get((int) (Math.random() * (keywords.size() - 1)));
+                String keyword = null;
                 savePoetryBattleRecords(keyword, user1, user2);
 
                 log.info("匹配出两个玩家: " + uid1 + "," + uid2);
@@ -306,5 +301,10 @@ public class PoetryBattleRecordsServiceImpl
         one.setMoney(one.getMoney() + reward);
         userInfoService.updateById(one);
         return Result.success("交子：+" + reward);
+    }
+
+    @Override
+    public Result getKeywords() {
+        return Result.success(keywords);
     }
 }

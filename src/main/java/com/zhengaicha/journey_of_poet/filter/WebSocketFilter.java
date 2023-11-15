@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_TOKEN_KEY_PREFIX;
+import static com.zhengaicha.journey_of_poet.utils.RedisConstants.LOGIN_TOKEN_KEY;
 import static com.zhengaicha.journey_of_poet.utils.RedisConstants.USER_TOKEN_TTL;
 import static com.zhengaicha.journey_of_poet.utils.SystemConstants.USER_AUTHORIZATION;
 
@@ -47,7 +47,7 @@ public class WebSocketFilter implements Filter {
                 token = request.getParameter(USER_AUTHORIZATION);
             if (!StrUtil.isBlank(token)) {
                 // 获取UserDTO
-                String UserJson = stringRedisTemplate.opsForValue().get(LOGIN_TOKEN_KEY_PREFIX + token);
+                String UserJson = stringRedisTemplate.opsForValue().get(LOGIN_TOKEN_KEY + token);
                 if(UserJson == null){
                     response.setStatus(401);
                     return;
@@ -58,7 +58,7 @@ public class WebSocketFilter implements Filter {
                     // 存在，保存用户信息到 ThreadLocal
                     UserHolder.saveUser(userDTO);
                     // 刷新token有效期
-                    stringRedisTemplate.expire(LOGIN_TOKEN_KEY_PREFIX + token, USER_TOKEN_TTL, TimeUnit.DAYS);
+                    stringRedisTemplate.expire(LOGIN_TOKEN_KEY + token, USER_TOKEN_TTL, TimeUnit.DAYS);
                     filterChain.doFilter(request,servletResponse);
                 }
             }

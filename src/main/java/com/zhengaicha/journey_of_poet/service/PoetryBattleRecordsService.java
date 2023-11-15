@@ -18,4 +18,6 @@ public interface PoetryBattleRecordsService extends IService<PoetryBattleRecords
     public Result learn(String keyword);
 
     public Result outcome(PoetryBattleRecords poetryBattleRecords);
+
+    public Result getKeywords();
 }

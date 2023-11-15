@@ -23,9 +23,6 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             port: 465
 
-
-
-
   jackson:
     default-property-inclusion: non_null # json处理时忽略非空字段
     time-zone: GMT+8
@@ -61,6 +58,11 @@ mybatis-plus:
     #打印sql日志
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+jwt:
+  # 密钥
+  secret: zhengaicha
+  # 过期时间 单位：天
+  expireTime: 5
 
 ---
 server:
