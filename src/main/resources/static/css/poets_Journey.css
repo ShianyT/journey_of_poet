@@ -1,0 +1,254 @@
+/* @font-face {
+    font-family: '华文行楷';
+    src: url(../font/STXINGKA.TTF);
+} */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    /* overflow: hidden; */
+}
+/* 第一个场景的背景图 */
+.scene_1 {
+    transition: all .5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: url(../images/scene_1Background.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.scene_1 .left {
+    width: 50%;
+    height: 100%;
+    background-color: black;
+    z-index: 3;
+}
+.scene_1 .right {
+    width: 50%;
+    height: 100%;
+    background-color: black;
+    z-index: 3;
+}
+/* 开场中 文字的样式 */
+.scene_1 .startTextBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;   
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+.scene_1 .prompt {
+    transition: all 2s ;
+    opacity: 0;
+    margin-bottom: 5%;
+    font-family: '华文行楷';
+    font-size: 80px;
+    color:#856913;
+}
+.scene_1 .text {
+    transition: all 2s;
+    opacity: 0;
+    font-family: '华文行楷';
+    font-size: 40px;
+    color:#b40c0cde;
+}
+/* 开场中 文本出现动画 */
+@keyframes textMove {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+/* 开场中 文本出现类 */
+.textMove {
+    animation: textMove linear 2s forwards;
+}
+/* 开场（第一个画面）到第二个画面之间的动画切换的样式 */
+.change1_2 {
+    position: absolute;
+    top: -90%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80%;
+    background-color: white;
+    box-shadow: 0px 0px 10px 3px white;
+    z-index: 3;
+}
+@keyframes change1_2 {
+    100% {
+        top:100%;
+        display: none;
+    }
+}
+/* 开场中的白线分割类 */
+.change1_2Move {
+    animation: change1_2 linear 1s;
+}
+/* 黑色背景的移动动画 */
+@keyframes scene_1LeftBack_move {
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes scene_1RightBack_move {
+    100% {
+        transform: translateX(100%);
+    }
+}
+/* 开场中的黑色背景移动类 */
+.scene_1LeftBack_move {
+    animation: scene_1LeftBack_move linear 1s forwards;
+}
+.scene_1RightBack_move {
+    animation: scene_1RightBack_move linear 1s forwards;
+}
+/* 第一个场景的文字的样式 */
+.scene_1TextBox {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+}
+.scene_1TextBox .text {
+    position: relative;
+    margin-top: 10px;
+    font-size: 29px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.scene_1TextBox .text .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #fcf9ef;
+}
+.scene_1Textchange {
+    animation: scene_1Textchange linear 1s forwards;
+}
+@keyframes scene_1Textchange {
+    100% {
+        left: 100%;
+    }
+}
+/* 第四个画面(第二个场景)的样式 */
+.scene_2 {
+    transition: all .5s;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: url(../images/scene_2Background.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.scene_2 .sayBox {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+}
+.scene_2 .sayBox .say {
+    position: relative;
+    width: 800px;
+}
+.scene_2 .yoursay{
+    transition: all 1s;
+    opacity: 0;
+    position: absolute;
+    top: -6vh;
+    left: 0;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    font-size: 25px;
+    font-family: '宋体';
+    font-weight: 700;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px 1px rgba(0, 0, 0,.3);
+}
+.scene_2 .mysay{
+    transition: all 1s;
+    opacity: 0;
+    position: absolute;
+    top: 8vh;
+    left: 40%;
+    max-width: 400px;
+    padding: 30px;
+    /* border-radius: 20px;
+    font-size: 25px;
+    font-family: '宋体';
+    font-weight: 700; */
+    /* background-color: #ffffff; */
+    /* box-shadow: 0px 0px 30px 1px rgba(0, 0, 0,.3); */
+}
+.scene_2 .mysay .select {
+    transition: all .5s;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    max-width: 400px;
+    font-size: 25px;
+    font-family: '宋体';
+    font-weight: 700;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px 1px rgba(0, 0, 0,.3);
+    cursor: pointer;
+}
+.scene_2 .mysay .select:hover {
+    box-shadow: 0px 0px 30px 1px rgba(255, 255, 255,1.3);
+}
+.yoursayMove {
+    animation: yoursayMove linear 1s;
+}
+.mysayMove {
+    animation: mysayMove linear 1s;
+}
+.mysaydisappear {
+    animation: mysaydisappear linear 1s forwards;
+}
+.yoursaydisappear {
+    animation: yoursaydisappear linear 1s forwards;
+}
+@keyframes yoursayMove {
+    100% {
+        opacity: 1;
+        top: -8vh;
+    }
+}
+@keyframes mysayMove {
+    100% {
+        opacity: 1;
+        top: 10vh;
+    }
+}
+@keyframes yoursaydisappear {
+    100% {
+        opacity: 0;
+        top: -10vh;
+    }
+}
+@keyframes mysaydisappear {
+    100% {
+        opacity: 0;
+        top: 12vh;
+    }
+}

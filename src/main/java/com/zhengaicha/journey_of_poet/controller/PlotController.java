@@ -51,4 +51,10 @@ public class PlotController {
     public Result unlockChapter(@ApiParam("解锁的章节id") @PathVariable Integer chapterId){
         return plotService.unlockChapter(chapterId);
     }
+
+    @GetMapping("/event")
+    @ApiOperation(value = "获取剧情事件")
+    public Result getEvent(){
+        return plotService.getEvent();
+    }
 }

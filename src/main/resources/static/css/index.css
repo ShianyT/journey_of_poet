@@ -1,0 +1,800 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.nav {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1700px;
+    height: 75px;
+    /* line-height: 8%; */
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px black;
+    z-index: 4;
+}
+
+.nav::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.nav .logoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    float: left;
+    width: 10%;
+    height: 100%;
+    margin-left: 8%;
+    font-size: 42px;
+    font-family: '华文行楷';
+    color: #11241a;
+    text-decoration: none;
+}
+
+.nav .logoBox .logo {
+    width: 50%;
+    height: 90%;
+    background: url(../images/logo-background.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.nav .nav-part {
+    float: left;
+    display: flex;
+    margin-left: 90px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.nav .nav-part .nav-item {
+    display: block;
+    text-decoration: none;
+    transition: all .2s;
+    position: relative;
+    width: 120px;
+    height: 50px;
+    margin: 0 30px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.nav .nav-part .nav-item::before {
+    content: '';
+    transition: all .2s;
+    position: absolute;
+    top: 105%;
+    left: 55%;
+    transform: translateX(-50%);
+    display: block;
+    width: 85%;
+    height: 20%;
+    background-color: white;
+    z-index: 3;
+}
+
+.nav .nav-part .nav-item::after {
+    content: '';
+    position: absolute;
+    top: 105%;
+    left: 50%;
+    transform: translateX(-35%);
+    display: block;
+    width: 120%;
+    height: 20%;
+    background: url(../images/nav-bottom.png) no-repeat;
+    background-size: cover;
+}
+
+.nav .nav-part .nav-item div {
+    transition: all .5s;
+    font-size: 24px;
+    font-family: '宋体';
+    color: #11241a;
+}
+
+.nav .nav-part .nav-item:hover div {
+    text-shadow: 0px 0px 10px black;
+}
+
+.nav .nav-part .nav-item:hover::before {
+    transform: translateX(50%);
+}
+
+/* 导航栏中云的样式 */
+.nav [class^=nav_cloud] {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 20%;
+    height: 90%;
+    background: url(../images/index_nav_cloud1.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.nav .nav_cloud {
+    z-index: 4;
+}
+
+/* 导航栏中云的添加类 */
+.index_cloud {
+    animation: index_cloud linear 4s infinite;
+}
+
+/* 导航栏中云的动画类型 */
+@keyframes index_cloud {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 导航栏中云后面背景云的添加类 */
+.index_cloud_back {
+    animation: index_cloud linear 4s infinite;
+}
+
+/* 导航栏中背景云的动画样式 */
+@keyframes index_cloud_back {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(2.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.nav [class^=rightBird] {
+    position: absolute;
+    width: 10%;
+    height: 80%;
+    margin-left: 5%;
+    background: url(../images/index_nav_right.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 5;
+}
+
+.nav .rightBird_1 {
+    top: 10%;
+    right: 30%;
+    opacity: .7;
+}
+
+.nav .rightBird_2 {
+    top: -24%;
+    right: 23%;
+    opacity: .6;
+}
+
+/* 两只鹤的添加类 */
+.navBird_1 {
+    animation: navBird_1 linear 4s forwards;
+}
+
+.navBird_2 {
+    animation: navBird_2 linear 4s forwards;
+}
+
+/* 导航栏两只鹤的动画 */
+@keyframes navBird_1 {
+    0% {
+        right: -10%;
+        opacity: 0;
+    }
+
+    100% {
+        right: 20%;
+        opacity: .7;
+    }
+}
+
+@keyframes navBird_2 {
+    0% {
+        right: -10%;
+        opacity: 0;
+    }
+
+    100% {
+        right: 13%;
+        opacity: .6;
+    }
+}
+
+.nav .user {
+    transition: all .3s;
+    position: relative;
+    float: right;
+    width: 40px;
+    height: 40px;
+    margin-right: 5%;
+    margin-top: 1.3%;
+    border: 1px solid;
+    border-radius: 20px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.nav .user div img {
+    width: 100%;
+    height: 100%;
+}
+.nav .user:hover {
+    color: #000000;
+}
+
+.nav .user div {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    transform: translate(20%, 10%);
+    width: 20px;
+    height: 20px;
+}
+
+.nav .user .usericon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+.nav .user svg {
+    width: 100%;
+    height: 100%;
+}
+
+.poets_Journey_introduce {
+    position: relative;
+    width: 1700px;
+    height: 1000px;
+    margin: 0 auto;
+}
+
+/* 第一个板块中的动画组件 */
+.poets_Journey_introduce .left {
+    position: absolute;
+    top: 10%;
+    left: -3%;
+    transform: translateX(-100%);
+    opacity: 0;
+    width: 50%;
+    height: 90%;
+    background: url(../images/background_left.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.poets_Journey_introduce .boat {
+    position: absolute;
+    top: 60%;
+    left: 45%;
+    width: 20%;
+    height: 20%;
+    background: url(../images/background_boat.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: 3;
+}
+
+.poets_Journey_introduce .birdAfter {
+    position: absolute;
+    top: 15%;
+    left: 12%;
+    opacity: 0;
+    width: 10%;
+    height: 10%;
+    background: url(../images/background_bird_after.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.poets_Journey_introduce .birdBefore {
+    position: absolute;
+    top: 20%;
+    left: 19%;
+    opacity: 0;
+    width: 7%;
+    height: 7%;
+    background: url(../images/background_bird_before.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.poets_Journey_introduce .right {
+    position: absolute;
+    top: 0;
+    right: -14%;
+    transform: translateX(100%);
+    opacity: 0;
+    width: 50%;
+    height: 90%;
+    background: url(../images/background_right.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.poets_Journey_introduce .logon_entry {
+    opacity: 0;
+    transition: all .2s;
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    width: 200px;
+    height: 80px;
+    border: 2px solid #969494;
+    text-align: center;
+    line-height: 80px;
+    font-size: 32px;
+    font-family: serif;
+    border-radius: 25px;
+    text-decoration: none;
+    color: black;
+    animation: bt_display 3s linear forwards;
+    animation-delay: 3s;
+}
+
+@keyframes bt_display {
+    100% {
+        opacity: 1;
+    }
+}
+
+.poets_Journey_introduce .logon_entry:hover {
+    background-color: #c6cfd8;
+    color: #fff;
+}
+
+/* 山的动画添加类 */
+.index_mountain_left {
+    animation: index_mountain_left linear 2s forwards;
+}
+
+.index_mountain_right {
+    animation: index_mountain_right linear 2s forwards;
+}
+
+/* 第一个板块中 山的动画 */
+@keyframes index_mountain_left {
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes index_mountain_right {
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+/* 船的动画添加类 (船的动画添加类和燕子的一致)*/
+.index_boat {
+    animation: index_boat linear 3s forwards;
+}
+
+/* 第一个板块中 船的动画 */
+@keyframes index_boat {
+    0% {
+        opacity: 0;
+        transform: translate(-100%, -100%) scale(0.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(50%, 50%) scale(1.5);
+    }
+}
+
+.index_bird {
+    animation: index_bird linear 2s forwards;
+}
+
+/* 第一个板块中 鸟的动画 */
+@keyframes index_bird {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) scale(0.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0%) scale(1);
+    }
+}
+
+/* 第一个板块中 文字的样式 */
+.poets_Journey_introduce .textBox {
+    position: absolute;
+    top: 25%;
+    left: 36%;
+    font-family: '宋体';
+    font-weight: 700;
+    font-size: 26px;
+}
+
+.poets_Journey_introduce .textBox .text {
+    transition: all 1s;
+    opacity: 0;
+}
+
+/* 第三个板块的样式 */
+.poets_Journey_entry {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: url(../images/poets_Journey_entry-background.png) no-repeat;
+    background-size: cover;
+}
+
+.poets_Journey_entry .entry_bt {
+    position: absolute;
+    top: 25%;
+    right: 10%;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    width: 280px;
+    height: 100px;
+    padding: 20px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);
+    font-family: '宋体';
+    line-height: 60px;
+    font-weight: 700;
+    font-size: 40px;
+    text-align: center;
+}
+
+/* 第二页 */
+.poetryFun_bt {
+    width: 65%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-decoration: none;
+}
+
+.poetryFun_bt .text {
+    font-size: 25px;
+    color: #000;
+}
+
+.poetryFun_bt [class^=icon] {
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(-45deg);
+    animation: bt_move 1s linear infinite;
+}
+
+.poetryFun_bt .icon1 {
+    animation-delay: .9s;
+}
+
+/* 对两个小三角形添加一个动画类 */
+@keyframes bt_move {
+    50% {
+        opacity: .5;
+        transform: translateX(10px) rotate(-45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(20px) rotate(-45deg);
+    }
+}
+
+.com_intro {
+    padding-top: 100px;
+    padding-left: 48px;
+    padding-right: 48px;
+    padding-bottom: 40px;
+    width: 1700px;
+    height: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e6efff;
+    font-family: serif;
+    background: url(../images/comIntroBg.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.com_intro h1 {
+    display: block;
+    width: 280px;
+    height: 70px;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 70px;
+    text-align: center;
+    background-image: url(../0emoji/borderbg.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.com_intro .see {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 24px;
+    color: #000;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: none;
+}
+
+.see span {
+    position: relative;
+    margin-right: -4px;
+}
+
+.see>.icon1,
+.see>.icon2 {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: -12px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(-45deg);
+    animation: bt_move 1s linear infinite;
+}
+
+.see>.icon1 {
+    animation-delay: .9s;
+}
+
+.example_container {
+    max-width: 100%;
+    margin-top: 64px;
+}
+
+.wrapper {
+    position: relative;
+    width: 1640px;
+    height: 580px;
+    /* overflow: hidden;
+    margin: 0 auto; */
+}
+
+.example_wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    margin: -26px 0;
+    height: fit-content;
+    padding: 26px 0;
+    overflow-x: visible;
+    transform-origin: top center;
+    transition: all .5s linear;
+}
+
+
+.post_card {
+    width: 376px;
+    height: 551px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 14px #bbb7b7;
+    overflow: hidden;
+    margin: 0 18px;
+    transition: all .2s linear;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.post_card:hover {
+    box-shadow: 6px 6px 10px #bbb7b7;
+    transform: translateY(-20px);
+}
+
+.post_info {
+    width: 100%;
+    padding: 30px;
+    padding-bottom: 10px;
+}
+
+.post_person {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.post_person_avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.post_person_avatar>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post_person_name {
+    margin-left: 10px;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.post_txt {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.post_bgimg {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+}
+
+.post_bgimg>img {
+    width: 100%;
+    height: 100%;
+}
+
+.post_data {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #bbb7b7;
+}
+
+.post_icon {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+    line-height: 40px;
+}
+
+.post_icon:first-child {
+    border-right: 1px solid #bbb7b7;
+}
+
+.post_icon>.iconfont {
+    font-size: 30px;
+}
+
+.post_icon>span {
+    margin-left: 10px;
+    font-size: 25px;
+}
+
+.transform {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.left_one,
+.right_one {
+    display: flex;
+    align-items: center;
+    background-color: #bcc6cf;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 24px;
+    height: 60px;
+    justify-content: center;
+    position: relative;
+    width: 60px;
+
+}
+
+.left_one {
+    margin-right: 24px;
+
+}
+
+.left_one>i,
+.right_one>i {
+    color: #000;
+    font-size: 25px;
+    text-align: center;
+    transition: scale .2s ease;
+}
+
+.left_one>i:hover,
+.right_one>i:hover {
+    scale: 1.2;
+}
+
+/* 最后进入社区的按钮 */
+.poetryFun_bt {
+    width: 65%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-decoration: none;
+}
+
+.poetryFun_bt .text {
+    font-size: 25px;
+    color: #000;
+}
+
+.poetryFun_bt [class^=icon] {
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(-45deg);
+    animation: bt_move 1s linear infinite;
+}
+
+.poetryFun_bt .icon1 {
+    animation-delay: .9s;
+}
+
+/* 对两个小三角形添加一个动画类 */
+@keyframes bt_move {
+    50% {
+        opacity: .5;
+        transform: translateX(10px) rotate(-45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(20px) rotate(-45deg);
+    }
+}

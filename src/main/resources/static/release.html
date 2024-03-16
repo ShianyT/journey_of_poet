@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/release.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4277701_6clq7mj8n7e.css">
+</head>
+<body>
+    <div class="releasePage">
+        <div class="release_nav">
+            <a href="community.html" class="return">
+                <div class="icon"></div>
+                <div class="text">返回</div>
+            </a>
+        </div>
+        <div class="release_part">
+            <div class="release_wrap">
+                <div class="upload_nav">
+                    <div class="upload_select">发布图文</div>
+                </div>
+                <div class="upload_body">
+                    <div class="pictureBox">
+                        <div class="pictureBox_title">
+                            <div class="text">图片编辑</div>
+                        </div>
+                        <div class="picture_content">
+                            <div class="picture inputBox">
+                                <div class="iconfont icon-jiahao"></div>
+                                <input type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class='title_inputBox'>
+                        <input type="text" placeholder="填写标题，可以获得更多关注。">
+                    </div>
+                    <textarea class="content" placeholder="填写内容，让更多人知道。"></textarea>
+                    <div class="bt">
+                        <div class="confirm">发布</div>
+                        <div class="cancell">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="release_bgimg">
+            <img src="./images/releaseimg3.png" alt="">
+        </div>
+        <div class="release_bgimg2">
+            <img src="./images/releaseimg2.png" alt="">
+        </div>
+        <div class="popup_mask"></div>
+        <div class="popup">
+            <div class="textBox">
+                <div class="text">发布成功！</div>
+                <div class="text">可以前往个人主页查看帖子</div>
+            </div>
+            <a href="personal_center.html" class="confirm">确认</a>
+        </div>
+    </div>
+</body>
+<script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/axios_request.js"></script>
+<script src="js/axios_response.js"></script>
+<script src="js/release.js"></script>
+</html>

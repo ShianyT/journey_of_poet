@@ -1,0 +1,992 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+/* 导航栏的样式 */
+.nav {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1700px;
+    height: 75px;
+    /* line-height: 8%; */
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px black;
+    z-index: 4;
+}
+.nav::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.nav .logoBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    float: left;
+    width: 10%;
+    height: 100%;
+    margin-left: 8%;
+    font-size: 42px;
+    font-family: '华文行楷';
+    color:#11241a;
+}
+.nav .logoBox .logo {
+    width: 50%;
+    height: 90%;
+    background: url(../images/logo-background.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.nav .nav-part {
+    float: left;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    margin-left: 10%;
+}
+.nav .nav-part .nav-item {
+    display: block;
+    text-decoration: none;
+    transition: all .2s;
+    position: relative;
+    width:120px;
+    height: 50px;
+    margin: 0 15px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+}
+.nav .nav-part .nav-item::before {
+    content: '';
+    transition: all .2s;
+    position: absolute;
+    top: 105%;
+    left: 55%;
+    transform: translateX(-50%);
+    display: block;
+    width: 85%;
+    height: 20%;
+    background-color: white;
+    z-index: 3;
+}
+.nav .nav-part .nav-item::after {
+    content: '';
+    position: absolute;
+    top: 105%;
+    left: 50%;
+    transform: translateX(-35%);
+    display: block;
+    width: 120%;
+    height: 20%;
+    background: url(../images/nav-bottom.png) no-repeat;
+    background-size: cover;
+}
+.nav .nav-part .nav-item div {
+    transition: all .5s;
+    font-size: 24px;
+    font-family: '宋体';
+    color:#11241a;
+}
+.nav .nav-part .nav-item:hover div {
+    text-shadow: 0px 0px 10px black;
+}
+.nav .nav-part .nav-item:hover::before {
+    transform: translateX(50%);
+}
+/* 导航栏中云的样式 */
+.nav [class^=nav_cloud] {
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    width: 20%;
+    height: 90%;
+    background: url(../images/index_nav_cloud1.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.nav .nav_cloud {
+    z-index: 4;
+}
+/* 导航栏中云的添加类 */
+.index_cloud {
+    animation: index_cloud linear 4s infinite;
+}
+/* 导航栏中云的动画类型 */
+@keyframes index_cloud {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* 导航栏中云后面背景云的添加类 */
+.index_cloud_back {
+    animation: index_cloud linear 4s infinite;
+}
+/* 导航栏中背景云的动画样式 */
+@keyframes index_cloud_back {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(2.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.nav [class^=rightBird] {
+    position: absolute;
+    width: 10%;
+    height: 80%;
+    margin-left: 5%;
+    background: url(../images/index_nav_right.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 5;
+}
+.nav .rightBird_1 {
+    top: 10%;
+    right: 30%;
+    opacity: .7;
+}
+.nav .rightBird_2 {
+    top: -24%;
+    right: 23%;
+    opacity: .6;
+}
+/* 两只鹤的添加类 */
+.navBird_1 {
+    animation: navBird_1 linear 4s forwards;
+}
+.navBird_2 {
+    animation: navBird_2 linear 4s forwards;
+}
+/* 导航栏两只鹤的动画 */
+@keyframes navBird_1 {
+    0% {
+        right: -10%;
+        opacity: 0;
+    }
+    100% {
+        right: 30%;
+        opacity: .7;
+    }
+}
+@keyframes navBird_2 {
+    0% {
+        right: -10%;
+        opacity: 0;
+    }
+    100% {
+        right: 23%;
+        opacity: .6;
+    }
+}
+/* 个人中心页面中让主体盒子保持在页面的中间位置 */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+/* 定义主体盒子的宽高，让盒子可以在页面的中间位置呈现 */
+.box {
+    width: 1300px;
+    height: 1000px;
+}
+/* 主体盒子中包含用户头像的一个小导航栏 */
+.box .head{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+    margin-top: 10%;
+}
+/* 用户头像的样式 */
+.box .head .user_profile {
+    position: relative;
+    width: 16%;
+    height: 100%;
+    border-radius: 75%;
+    background-position: center;
+    background-size: cover;
+    /* border: 1px solid;
+    border-radius: 115px; */
+}
+.box .head .user_profile div {   
+    position: absolute;
+    top: 10%;
+    left: 14%;
+    width: 75%;
+    height: 75%;
+}   
+.box .head .user_profile div svg {
+    width: 90%;
+    height: 90%;
+}
+/* 用户头像旁边的名字和介绍 */
+.box .head .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+.box .head .text .name {
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+.box .head .text .introduce {
+    max-width: 500px;
+}
+.box .head .system {
+    position: absolute;
+    top: 50%;
+    right: 100px;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+.box .head .system .iconfont {
+    font-size: 50px;
+}
+.box .head .money {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translateY(-50%);
+    display: flex;
+    min-width: 100px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 15px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+    padding-left: 20px;
+}
+.box .head .money .icon-gemini {
+    color: #d08350bd;
+    font-size: 30px;
+}
+.box .head .money .money_numberBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.box .head .money .money_numberBox .money_number {
+    margin-right: 5px;
+}
+.box .head .money .money_numberBox .icon-jiahao{
+    color:white;
+    cursor: pointer;
+}
+/* 下方选择“点赞”、“收藏”的盒子 */
+.box .select {
+    display: flex;
+    justify-content: space-between;
+    width: 18%;
+    height: 5%;
+    margin: 0 auto;
+}
+.box .select div {
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+   font-size: 30px; 
+}
+/* 选择栏的点击类 */
+.box .select .click {
+    background: url(../images/personal_center_user.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+/* 最下方盒子中的瀑布流父盒子 */
+.box [class^=my]{
+    display: none;
+    justify-content: center;
+    width: 100%;
+    margin-top: 25px;
+    border-top: 1px solid black;
+}
+.post_card {
+    position: relative;
+    width: 480px;
+    height: 480px;
+    margin-top: 30px;
+    border: 1px solid #00000099;
+    border-radius: 10px;
+    box-shadow: 10px 0px 10px 3px #bbb7b7;
+    /* overflow: hidden; */
+    cursor: pointer;
+}
+
+.post_info {
+    width: 100%;
+    padding: 30px;
+    padding-bottom: 10px;
+}
+
+.post_person {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.post_person_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.post_person_avatar>img {
+    width: 100%;
+    height: 100%;
+}
+
+.post_person_name {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.post_txt {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.post_bgimg {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.post_bgimg>img {
+    width: 100%;
+    height: 100%;
+}
+
+.post_data {
+    width: 100%;
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #bbb7b7;
+}
+
+.post_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.post_icon:first-child {
+    border-right: 1px solid #bbb7b7;
+}
+
+.post_icon>.iconfont {
+    font-size: 30px;
+}
+
+.post_icon>span {
+    margin-left: 10px;
+    font-size: 20px;
+}
+/* 下方盒子的出现类 */
+.box .display {
+    display: flex !important;
+}
+.box .myLike {
+    display: none;
+}
+.box .myNeed {
+    display: none;
+}
+.box [class^=my] .content {
+    width: 79%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.box [class^=my] .content .item {
+    width: 300px;
+    height: 400px;
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: rebeccapurple;
+}
+/* 点击系统按钮出现的遮罩层的样式 */
+.box .system_mask {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(100px);
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 5;
+}
+/* 点击系统按钮出现的个人信息弹窗 */
+.box .system_popup {
+    display: none;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 800px;
+    height: 800px;
+    border-radius: 100px;
+    background-color: white;
+    z-index: 6;
+}
+.box .system_popup .popup_content {
+    transition: all .5s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 800px;
+    height: 650px;
+}
+.box .system_popup .close {
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+.box .system_popup .close .iconfont {
+    font-size: 50px;
+}
+.box .system_popup .popup_content>div {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 800px;
+    height: 100px;
+    padding-left: 50px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.box .system_popup .popup_content>div:last-child {
+    border-bottom: 2px solid black;
+}
+.box .system_popup .popup_content>div:first-child {
+    border-top: 2px solid black;
+}
+.box .system_popup .popup_content .picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+} 
+/* 对头像的盒子做一个单独的样式 */
+.box .system_popup .popup_content .headPicture {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} 
+.box .system_popup .popup_content .picture .iconfont {
+    font-size: 50px;
+}
+.box .system_popup .popup_content .text {
+    font-size: 20px;
+    margin-left: 25px;
+}
+.box .system_popup .popup_content .text .weight {
+    font-weight: 700;
+}
+.box .system_popup .popup_content input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    height: 100px;
+    cursor: pointer;
+}
+.box .system_popup .popup_content .bt {
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 100px;
+    padding-right: 40px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.box .system_popup .popup_content .bt .text {
+    font-size: 20px;
+    margin-right: 25px;
+}
+.box .system_popup .popup_content .head_picture .bt {
+    pointer-events: none;
+}
+/* 小三角的样式 */
+.box .system_popup .popup_content .bt .icon {
+    pointer-events: none;
+    width: 15px;
+    height: 15px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(-45deg);
+}
+/* 出现的弹窗 */
+.box .system_popup .popup_box {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+}
+.box .system_popup [class$=_popup] {
+    transition: all .5s;
+    position: relative;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    width: 800px;
+    height: 600px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    background-color: white;
+}
+/* 性别弹窗的样式 */
+
+.box .system_popup .gender_popup .boy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+}
+.box .system_popup .gender_popup .girl {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+}
+.box .system_popup .gender_popup [class$=icon] {
+    width: 300px;
+    height: 300px;
+    border-radius: 150px;
+}
+.box .system_popup .gender_popup [class$=icon] .iconfont {
+    text-align: center;
+    font-size: 250px;
+}
+.box .system_popup .gender_popup [class$=icon] .icon-xingbie-nv1 {
+    font-size: 230px;
+}
+.box .system_popup .gender_popup [class$=text] {
+    transition: all .8s;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.box .system_popup .gender_popup .boy:hover [class$=text]{
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, .6);
+}
+.box .system_popup .gender_popup .girl:hover [class$=text]{
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, .6);
+}
+/* 昵称弹窗的样式 */
+.box .system_popup .nickname_popup {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box .system_popup .nickname_popup .nickname_tip {
+    opacity: 0;
+    position: absolute;
+    top: 24%;
+    left: 24%;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 25px;
+    color:red;
+}
+.box .system_popup .nickname_popup input {
+    width: 450px;
+    height: 80px;
+    padding-left: 40px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    font-size: 30px;
+}
+.box .system_popup .nickname_popup .confirm {
+    width: 250px;
+    height: 60px;
+    margin-top: 80px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+/* 成功之后的样式 */
+.box .system_popup .nickname_popup .success {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+}
+.box .system_popup .nickname_popup .success .text {
+    font-size: 50px;
+    font-family: '宋体';
+}
+.box .system_popup .nickname_popup .success a {
+    width: 140px;
+    height: 70px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    outline: none;
+    border-radius: 30px;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+    text-align: center;
+    line-height: 70px;
+    text-decoration: none;
+    color: black;
+}
+/* 简介弹窗的样式 */
+.box .system_popup .signature_popup {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box .system_popup .signature_popup input {
+    width: 550px;
+    height: 100px;
+    padding-left: 40px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    font-size: 30px;
+}
+.box .system_popup .signature_popup .confirm {
+    width: 250px;
+    height: 60px;
+    margin-top: 80px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+/* 修改成功之后的弹窗 */
+.box .system_popup .signature_popup .success {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+}
+.box .system_popup .signature_popup .success .text {
+    font-size: 50px;
+    font-family: '宋体';
+}
+.box .system_popup .signature_popup .success a {
+    display: block;
+    width: 140px;
+    height: 70px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    outline: none;
+    border-radius: 30px;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    line-height: 70px;
+    color: black;
+    cursor: pointer;
+}
+/* 邮箱弹窗的样式 */
+.box .system_popup .mailbox_popup {
+    flex-direction: column;
+    justify-content: center;
+}
+.box .system_popup .mailbox_popup .inputBox {
+    display: flex;
+    flex-direction: column;
+}
+.box .system_popup .mailbox_popup .inputBox .text {
+    opacity: 0;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 25px;
+    color:red;
+}
+.box .system_popup .mailbox_popup .new_mailbox {
+    width: 450px;
+    height: 80px;
+    padding-left: 20px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    font-size: 30px;
+}
+.box .system_popup .mailbox_popup .confirm {
+    width: 250px;
+    height: 60px;
+    margin-top: 40px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+.box .system_popup .mailbox_popup .code {
+    display: flex;
+    align-items: center;
+}
+.box .system_popup .mailbox_popup .code input {
+    width: 200px;
+    height: 80px;
+    padding-left: 20px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    font-size: 30px;
+}
+.box .system_popup .mailbox_popup .code button {
+    width: 150px;
+    height: 80px;
+    margin-left: 80px;
+    border-radius: 45px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    font-size: 18px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+/* 修改成功之后的弹窗 */
+.box .system_popup .mailbox_popup .success {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+}
+.box .system_popup .mailbox_popup .success .text {
+    font-size: 50px;
+    font-family: '宋体';
+}
+.box .system_popup .mailbox_popup .success button {
+    width: 140px;
+    height: 85px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    outline: none;
+    border-radius: 30px;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+}
+/* 密码弹窗的样式 */
+.box .system_popup .password_popup {
+    flex-direction: column;
+    justify-content: center;
+}
+.box .system_popup .password_popup .inputBox {
+    display: flex;
+    flex-direction: column;
+}
+.box .system_popup .password_popup .inputBox .text {
+    opacity: 0;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 25px;
+    color:red;
+}
+.box .system_popup .password_popup input {
+    width: 450px;
+    height: 60px;
+    padding-left: 40px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    font-size: 25px;
+}
+.box .system_popup .password_popup .confirm {
+    width: 250px;
+    height: 60px;
+    margin-top: 40px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 50px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+/* 密码修改成功后的弹窗 */
+.box .system_popup .password_popup .success {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 350px;
+    height: 250px;
+}
+.box .system_popup .password_popup .success .text {
+    font-size: 50px;
+    font-family: '宋体';
+}
+.box .system_popup .password_popup .success a {
+    display: block;
+    width: 140px;
+    height: 70px;
+    border: 1px solid rgba(0, 0, 0, .6);
+    border-radius: 30px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+    text-decoration: none;
+    color:black;
+}
+/* 弹窗中的返回按钮 */
+.box .system_popup [class$=_popup] .return {
+    position: absolute;
+    top: 5%;
+    left:5%;
+    width: 65px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.box .system_popup [class$=_popup] .return .icon_return {
+    width: 10px;
+    height: 10px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(135deg);
+}
+.box .system_popup [class$=_popup] .return .text {
+    font-size: 20px;
+}
+/* 删除用户帖子的按钮 */
+.post_card .delete {
+    transition: all .8s;
+    opacity: 0;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+.post_card .delete .close>.iconfont {
+    font-size: 35px;
+}
+.post_card:hover .delete {
+    opacity: 1;
+}
+/* 点击删除帖子时出现的弹窗 */
+.Wrote_popup {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    height: 200px;
+    border-radius: 40px;
+    background-color: skyblue;
+    font-family: '宋体';
+}
+.Wrote_popup .content {
+    font-size: 25px;
+    margin-bottom: 40px;
+}
+.Wrote_popup .btBox {
+    width: 250px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.Wrote_popup .btBox .confirm,
+.Wrote_popup .btBox .cancel {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    background-color: aqua;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* 点赞之后 */
+.icon-dianzan_kuai {
+    color: #f82107;
+}
+.icon-xingxing {
+    font-size: 35px;
+    color: #f8bd07;
+}

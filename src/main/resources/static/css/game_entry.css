@@ -1,0 +1,172 @@
+body {
+    overflow: hidden;
+    perspective: 800px;
+    background: url(../images/poets_Journey_entry-background.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.contentBox {
+    width: 1000px;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+}
+.contentBox .dynastyBox {
+    position: relative;
+    width: 125px;
+    height: 100%;
+}
+.contentBox .dynastyBox [class^=dynasty]{
+    transition: all .5s;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 120px;
+    height: 300px;
+    border-radius: 120px;
+    background: url(../images/game_entry.png) no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+.contentBox .dynastyBox [class^=dynasty]:hover {
+    transform: scale(1.1);
+    box-shadow: 10px 0px 20px 0px rgba(0, 0, 0, .3);
+}
+.contentBox .dynastyBox [class^=dynasty] .text {
+    writing-mode: vertical-lr;
+    letter-spacing: 10px;
+    font-size: 40px;
+    font-family: '宋体';
+    font-weight: 700;
+    color: black;
+}
+.contentBox .dynastyBox .dynasty1 {
+    top: -300px;
+}
+.contentBox .dynastyBox .dynasty2 {
+    top: 1000px;
+}
+.contentBox .dynastyBox .dynasty3 {
+    top: -300px;
+}
+.contentBox .dynastyBox .dynasty4 {
+    top: 1000px;
+}
+.contentBox .dynastyBox .dynasty5 {
+    top: -300px;
+}
+
+.card_oddMove {
+    animation: card_oddMove linear 1s forwards;
+}
+.card_evenMove {
+    animation: card_evenMove linear 1s forwards;
+}
+@keyframes linemove {
+    100% {
+        opacity: 1;
+        stroke-dashoffset: 0;
+    }
+}
+@keyframes card_oddMove {
+    75% {
+        opacity: 0.8;
+        top: 120px;
+    }
+    100%{
+        opacity: 1;
+        top: 200px;
+    }
+}
+@keyframes card_evenMove {
+    75% {
+        opacity: 0.8;
+        top: 460px;
+    }
+    100%{
+        opacity: 1;
+        top: 480px;
+    }
+}
+.return {
+    transition: all .2;
+    width: 110px;
+    height: 50px;
+    border-radius: 20px;
+    padding: 10px;
+    position: absolute;
+    top: 100px;
+    left: -200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: linear-gradient(40deg,#ffffff 10%,#b5c0cb);
+}
+.return .icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(45deg);
+}
+.return .text {
+    font-size: 25px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.return:hover>.icon {
+    border-left: 1px solid rgb(166, 12, 12);
+    border-bottom: 1px solid rgb(166, 12, 12);
+}
+.return:hover {
+    color:rgb(166, 12, 12);
+}
+.contentBox .money {
+    position: absolute;
+    top: 8%;
+    right: -20%;
+    display: flex;
+    min-width: 100px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 15px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+    padding-left: 20px;
+}
+.contentBox .money .icon-gemini {
+    color: #d08350bd;
+    font-size: 30px;
+}
+.contentBox .money .money_numberBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.contentBox .money .money_numberBox .money_number {
+    margin-right: 5px;
+}
+.contentBox .money .money_numberBox .icon-jiahao{
+    color:white;
+    cursor: pointer;
+}

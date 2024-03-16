@@ -1,0 +1,439 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(../images/logon_background.jpg) no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    font-family: '宋体';
+}
+/* return返回按钮 */
+.return {
+    position: absolute;
+    top: 8%;
+    left: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8%;
+    height: 5%;
+    border-radius: 5px;
+    background-color: #c6d4da;
+    text-decoration: none;
+}
+.return div {
+    position: absolute;
+    top: 12%;
+    left: -12%;
+    width: 25%;
+    height: 75%;
+    background: linear-gradient(45deg,#c6d4da,#c6d4da 50%,transparent 50%, transparent 100%);
+    transform: rotateZ(45deg);
+}
+.return  span {
+    transition: all .3s;
+    font-size: 20px;
+    color: #3e574a;
+}
+.return span:hover {
+    color: white;
+}
+.box {
+    position: relative;
+    display: flex;
+    align-items: center;      
+    width: 80vw;
+    height: 70vh;
+    border-radius: 5vh;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+    overflow: hidden;
+    color:white;
+}
+/* 通过定位属性让这个元素在盒子的正中间显示 */
+/* 登录表单左侧盒子样式 */
+.introduceLogon {
+    transition: all .5s;
+    opacity: 1;
+    position: absolute;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+    z-index: 5;  
+    background: linear-gradient(to bottom right, #fefefe, #577c93);
+    /* background: url(images/logon-background.jpg);    */
+}
+/* 登录表单左侧的文字 */
+.introduceLogon .title {
+    font-size: 25px;
+    margin-bottom: 10%;
+}
+.introduceLogon .text {
+    font-size: 18px;
+    margin-bottom: 5%;
+    margin-left: 5%;
+}
+/* 登录表单样式 */
+.logon {
+    top: 0;
+    left: 0;
+    transition: opacity .5s;
+    opacity: 1;
+    left: 50%;
+    z-index: 4;
+}
+/* 注册表单样式 */
+.register {
+    top: 0;
+    left: 0;
+    transition: opacity .5s;
+    opacity: 0;
+}
+/* 注册表单左侧盒子样式 */
+.introduceRegister {
+    transition: opacity .5s;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, .3);
+    background: linear-gradient(to bottom right, #fefefe, #577c93);
+    /* background: url(images/logon-background.jpg); */
+}
+/* 注册表单右侧的文字 */
+.introduceRegister .title {
+    font-size: 25px;
+    margin-bottom: 10%;
+}
+.introduceRegister .text {
+    font-size: 18px;
+    margin-bottom: 5%;
+    margin-left: 5%;
+}
+/* 表单盒子的样式 */
+.box .intBox {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;     
+    width: 50%;
+    height: 100%;  
+    padding: 40px;
+    background: rgba(255,255,255,0.2);
+    /* pointer-events: none; */
+}
+/* 表单盒子上面标题的样式 */
+.box .intBox .title {
+    width: 90%;
+    font-size: 25px;
+    font-weight: 700;
+    padding-bottom: 40px;
+    border-bottom: 2px solid ;
+    color: #3a6582;
+}
+/* 表单的样式 */
+.box .intBox form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    height: 70%;
+}
+.box .intBox form [class$=Box] {
+    width: 80%;
+}
+.box .intBox form [class$=Box] input{
+    width: 124%;
+    height: 50px;
+    margin: 5px;
+    padding: 0 20px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    border-radius: 25px;
+    outline: none;
+    font-size: 18px;
+}
+/* 注册表单上的提示文字的样式 */
+.box .register [class$=tip] {
+    opacity: 0;
+    text-align: left;
+    color:red;
+}
+.box .logon [class$=tip] {
+    opacity: 0;
+    text-align: left;
+    color:red;
+}
+/* 输入验证码的表单的样式 */
+.box .register form .codeBox .code {
+    width: 60%;
+}
+/* 获取验证码按钮的样式 */
+.box .register form .received_code {
+    position: absolute;
+    top: 79%;
+    right: 15%;
+    width: 30%;
+    height: 12%;
+    border: none;
+    border-radius: 24px;
+    background-color: #7e9db0;
+    cursor: pointer;
+}
+/* 对点击按钮的样式单独调整 */
+.box .buttonBox {
+    max-width: 40%;
+    width: 100%;
+    height: 70%;
+    max-height: 10%;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    background-color: #3a6582;
+    font-size: 18px;
+    color:white;
+    cursor: pointer;
+}
+/* 点击切换时登录表单左侧文字盒子的动画样式 */
+@keyframes logonMove {
+    50% {
+        left: 25%;
+        transform: scale(1.2);
+    }
+    75% {
+        left: 37.5%;
+        transform: scale(1.1);
+    }
+    100% {
+        left: 50%;
+        transform: scale(1);
+    }
+}
+/* 登录表单的动画样式 */
+@keyframes lgformMove {
+    50% {
+        left: 25%;
+        transform: scale(.9);
+    }
+    75% {
+        left: 12.5%;
+        transform: scale(.8);
+    }
+    100% {
+        left: 0%;
+        transform: scale(1);
+    }
+}
+/* 点击切换时注册表单右侧文字盒子的动画样式 */
+@keyframes registerMove {
+    50% {
+        left: 25%;
+        transform: scale(1.2);
+    }
+    75% {
+        left: 12.5%;
+        transform: scale(1.1);
+    }
+    100% {
+        left: 0%;
+        transform: scale(1);
+    }
+}
+/* 注册表单的动画样式 */
+@keyframes rgformMove {
+    50% {
+        left: 25%;
+        transform: scale(.9);
+    }
+    75% {
+        left: 37.5%;
+        transform: scale(.8);
+    }
+    100% {
+        left: 50%;
+        transform: scale(1);
+    }
+}
+.logonMove {
+    animation: logonMove linear .8s forwards;
+}
+.registerMove {
+    animation: registerMove linear .8s forwards;
+}
+.lgformMove {
+    animation: lgformMove linear .8s forwards;
+}
+.rgformMove {
+    animation: rgformMove linear .8s forwards;
+}
+[class$=pupop] {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 30%;
+    height: 30%;
+    padding: 3%;
+    border-radius: 40px;
+    background: linear-gradient(to bottom right, #e8edf0, #7493a6);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, .2);
+    text-align: center;
+    z-index: 6;
+}
+[class$=pupop] .content {
+    font-size: 24px;
+    color:white;
+    line-height: 1.5em;
+}
+[class$=pupop] button {
+    width: 50%;
+    height: 30%;
+    border-radius: 20px;
+    margin-top: 10%;
+    background: linear-gradient(to bottom right, #94a9b5, #37607b);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 5px;
+}
+/* 忘记密码的样式 */
+.logon .forgot {
+    text-decoration: underline;
+    margin-bottom: 20px;
+    color:#646464;
+    cursor: pointer;
+}
+/* 忘记密码弹窗的遮罩层 */
+.mask {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(50px);
+    background-color: rgba(0, 0, 0, .5);
+    z-index: -1;
+}
+/* 忘记密码弹窗表单的样式 */
+.forgot_pp {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    border-radius: 100px;
+    padding: 40px;
+    transform: translate(-50%,-50%);
+    background-color: rgb(247, 194, 121);
+    z-index: -2;
+}
+.forgot_pp .title {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid black;
+    font-size: 40px;
+    font-family: '宋体';
+    font-weight: 700;
+}
+.forgot_pp .title .close {
+    position: absolute;
+    top: -15px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+.forgot_pp .title .close>.iconfont {
+    font-size: 50px;
+}
+.forgot_pp .formBox {
+    display: flex;
+    justify-content: center;
+}
+.forgot_pp form {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+.forgot_pp form [class$=Box] input {
+    width: 400px;
+    height: 50px;
+    outline: none;
+    border-radius: 25px;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 18px;
+    font-family: '宋体';
+    border: 1px solid rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 10px 10px rgba(255,255,255,.3);
+}
+.forgot_pp form .codeBox input {
+    width: 200px;
+}
+.forgot_pp .formBox form [class$=tip] {
+    opacity: 0;
+    width: 400px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+    padding-left: 15px;
+    font-size: 16px;
+    color: red;
+}
+.forgot_pp .forgot_bt {
+    width: 250px;
+    height: 50px;
+    border-radius: 25px;
+    outline: none;
+    border: 1px solid rgba(255,255,255.3);
+    margin-top: 25px;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+    cursor: pointer;
+}
+.forgot_pp .formBox form .received_code {
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    outline: none;
+    border: 1px;
+    margin-left: 20px;
+    font-size: 18px;
+    font-family: '宋体';
+    font-weight: 700;
+    cursor: pointer;
+}

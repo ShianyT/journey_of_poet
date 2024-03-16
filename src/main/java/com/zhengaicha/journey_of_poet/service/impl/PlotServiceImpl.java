@@ -122,4 +122,10 @@ public class PlotServiceImpl extends ServiceImpl<PlotMapper, Plot> implements Pl
             return Result.error("该章节不存在");
         }
     }
+
+    @Override
+    public Result getEvent() {
+        List<PlotEvent> events = plotEventService.lambdaQuery().list();
+        return Result.success(events);
+    }
 }

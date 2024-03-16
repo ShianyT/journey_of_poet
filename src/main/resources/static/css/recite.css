@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.recite {
+    width: 100vw;
+    height: 100vh;
+    font-family: serif;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.recite_mark {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    z-index: 20;
+}
+
+.recite_inner {
+    width: 1050px;
+    min-height: 560px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 20px;
+    background-image: url(../images/reciteBg.png);
+    background-size: cover;
+    background-position: center;
+    /* background-color: #f5f1e5; */
+    text-align: center;
+    z-index: 100;
+    font-family: serif;
+}
+
+.recite_tips {
+    margin: 20px;
+    font-size: 30px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.recite_part {
+    margin: 0 30px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+
+.recite_poetry {
+    line-height: 39px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.recite_poetry>span {
+    display: inline-block;
+    font-size: 26px;
+    color: #000;
+
+}
+
+.recite_poetry>.recite_h {
+    margin: auto;
+    font-weight: 800;
+    font-size: 32px;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.recite_fill {
+    height: 26px;
+    border-bottom: 1px solid #000;
+    text-align: left;
+    min-width: 120px;
+    cursor: pointer;
+    /* background-color: #cbc8c8; */
+}
+
+.fill_part {
+    font-size: 26px;
+    color: #000;
+}
+
+.fill_part>.filltxt {
+    display: inline-block;
+}
+
+.fill_select,
+.fillOk {
+    width: 320px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    transition: all .2s linear;
+}
+
+.fill_selection {
+    display: inline-block;
+    line-height: 28px;
+    padding: 5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 7px #000;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 25px;
+    transition: all .4s linear;
+    background-color: #e6dbd0;
+    position: relative;
+}
+
+.fillOk {
+    position: absolute;
+    right: 16px;
+}
+
+.fillOk>.fill_selection {
+    color: #cbc8c8;
+    background-color: #cbc8c8;
+    box-shadow: none;
+}
+
+@keyframes Worse {
+    100% {
+        border: 2px solid red;
+    }
+}
+
+.recite_result_btn {
+    margin: auto;
+    margin-top: 14px;
+
+}
+
+.reciteConfirm,
+.reciteRefill {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    color: #000;
+    font-size: 25px;
+    font-family: serif;
+    border: 1px solid #000;
+    cursor: pointer;
+    box-shadow: 2px 3px 5px #000;
+    transition: all .2s linear;
+    background-color: #e6dbd0;
+}
+
+.reciteConfirm:hover,
+.reciteRefill:hover {
+    scale: 1.1;
+}
+
+.reciteRefill {
+    margin-left: 20px;
+}
+
+/* 
+.reciteConfirm:active .reciteRefill:active {
+    scale: .95;
+} */
+
+.recite_result,
+.resetConfirm {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    width: 300px;
+    height: 160px;
+    padding: 30px;
+    text-align: center;
+    background-image: url(../images/reciteResultBg.png);
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    z-index: 100;
+    display: none;
+}
+
+.recite_result {
+    height: 230px;
+}
+
+.resetBtn {
+    display: flex;
+}
+
+.recite_result_box {
+    display: none;
+}
+
+.recite_result_box>span,
+.resetConfirm>span {
+    font-size: 30px;
+    display: block;
+    margin-top: 10px;
+}
+
+.recite_result_box>button,
+.resetBtn>button {
+    width: 130px;
+    height: 50px;
+    font-size: 25px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    margin-top: 20px;
+    font-family: serif;
+    cursor: pointer;
+    box-shadow: 2px 3px 5px #000;
+    transition: all .2s linear;
+    background-color: #e5dcce;
+}
+
+.recite_result_succeed>.iconfont {
+    font-size: 40px;
+    color: #9f7e1f;
+}
+
+.recite_result_box>button:hover,
+.resetBtn>button:hover {
+    scale: 1.1;
+}
+
+/* 
+.recite_result_box>button:active {
+    scale: 0.95;
+} */
+
+.recite_result_mark {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 100;
+}
+
+.resetConfirm {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    padding: 20px;
+}
+
+.resetCancelBtn {
+    margin-left: 20px;
+}

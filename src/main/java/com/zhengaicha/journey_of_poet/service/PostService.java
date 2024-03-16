@@ -26,4 +26,6 @@ public interface PostService extends IService<Post> {
     public Result getCollectedPost(Integer currentPage);
 
     public Result searchPost(String keywords, Integer currentPage);
+
+    public Result getOnePostById(Integer id);
 }

@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    overflow: hidden;
+    user-select: none;
+}
+.box {
+    position: relative;
+    width: 1700px;
+    height: 1000px;
+    margin: 0 auto;
+    /* background-color: seagreen; */
+    background: url(../images/flower_entry_background.jpg) no-repeat center;
+    background-size: cover;
+}
+.box .game_title {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    font-weight: 700;
+    font-size: 80px;
+    font-family: '宋体';
+    color: #827558;
+}
+.box .game_rule {
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    width: 1000px;
+    height: 410px;
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: '宋体';
+    line-height: 40px;
+    color: black;
+    background: url(../images/flower_entry_text_background.png) no-repeat center;
+    background-size: cover;
+}
+.box .select {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 47%;
+    right: 15%;
+    width: 200px;
+    height: 380px;
+}
+.box .select a {
+    transition: all .5s;
+    width: 200px;
+    height: 80px;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 24px;
+    font-family: '宋体';
+    text-align: center;
+    text-decoration: none;
+    line-height: 80px;
+    color:black;
+}
+.box .select a:hover {
+    transform: scale(1.15);
+    box-shadow: 10px 5px 20px 5px #c6b9aa;
+    background-color: #c6b9aa;
+    text-shadow: 10px 5px 5px rgba(0, 0, 0, .3);
+}
+.box .money {
+    position: absolute;
+    top: 5%;
+    right: 8%;
+    display: flex;
+    min-width: 100px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 15px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+    padding-left: 20px;
+}
+.box .money .icon-gemini {
+    color: #d08350bd;
+    font-size: 30px;
+}
+.box .money .money_numberBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.box .money .money_numberBox .money_number {
+    margin-right: 5px;
+}
+.box .money .money_numberBox .icon-jiahao{
+    color:white;
+    cursor: pointer;
+}

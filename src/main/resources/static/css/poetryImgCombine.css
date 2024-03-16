@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    user-select: none;
+}
+
+.poetryImgbox {
+    position: relative;
+    width: 1700px;
+    height: 1000px;
+    margin: 0 auto;
+    /* background-color: seagreen; */
+    background: url(../0emoji/poetryImgCombine.png) no-repeat center;
+    background-size: cover;
+}
+
+.poetryImgbox .game_title {
+    position: absolute;
+    top: 30%;
+    left: 15%;
+    font-weight: 700;
+    font-size: 80px;
+    font-family: '宋体';
+    color: #827558;
+}
+
+.poetryImgbox .game_rule {
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    width: 1000px;
+    height: 410px;
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: '宋体';
+    line-height: 40px;
+    color: black;
+    background: url(../images/flower_entry_text_background.png) no-repeat center;
+    background-size: cover;
+}
+
+.poetryImgbox .select {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 47%;
+    right: 15%;
+    width: 200px;
+    height: 380px;
+}
+
+.poetryImgbox .select a {
+    transition: all .5s;
+    width: 200px;
+    height: 80px;
+    border-radius: 50px;
+    background-color: white;
+    font-size: 24px;
+    font-family: '宋体';
+    text-align: center;
+    text-decoration: none;
+    line-height: 80px;
+    color: black;
+}
+
+.poetryImgbox .select a:hover {
+    transform: scale(1.15);
+    box-shadow: 10px 5px 20px 5px #c6b9aa;
+    background-color: #c6b9aa;
+    text-shadow: 10px 5px 5px rgba(0, 0, 0, .3);
+}

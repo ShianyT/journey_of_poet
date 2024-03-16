@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/game_poetry.css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4277701_h7ibv2cztn.css">
+</head>
+
+<body>
+    <div class="game_poetry">
+        <div class="game_inner guideLight">
+            <div class="main">
+            </div>
+            <div class="gametips">从上方挑选两个合适的「食材」烹饪为「菜肴」进行消除吧！</div>
+            <div class="move-list"></div>
+        </div>
+        <div class="tips_inner guideLight">
+            <div class="poetry_tips">
+                <div class="tips_left">
+                    <div class="tips_img">
+                        <div class="tips_img_part"></div>
+                        <span>+</span>
+                        <div class="tips_img_part"></div>
+                        <span>=</span>
+                        <div class="tips_img_part"></div>
+                    </div>
+                    <div class="tips_txt">
+                        <span class="tips_poetry">与子书</span>
+                    </div>
+                    <div class="game_res">
+                        <span>剩下意象：</span>
+                        <div class="img_res">
+                            <span class="res_num" id="num1">2</span>
+                            <span>个</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips_right">
+                    <div class="tips_poetries">
+                        <span class="tips_poetries_txt poe1">己卯冬至前二日，海蛮献蚝。剖之，得数升。肉与浆入水与酒并煮，食之甚美，炙熟，正尔啖嚼。</span>
+                    </div>
+                    <div class="tips_tit">诗句</div>
+                </div>
+            </div>
+            <div class="poetry_tips">
+                <div class="tips_left">
+                    <div class="tips_img">
+                        <div class="tips_img_part"></div>
+                        <span>+</span>
+                        <div class="tips_img_part"></div>
+                        <span>=</span>
+                        <div class="tips_img_part"></div>
+                    </div>
+                    <div class="tips_txt">
+                        <span class="tips_poetry">猪肉颂</span>
+                    </div>
+                    <div class="game_res">
+                        <span>剩下意象：</span>
+                        <div class="img_res">
+                            <span class="res_num" id="num2">2</span>
+                            <span>个</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips_right">
+                    <div class="tips_poetries">
+                        <span class="tips_poetries_txt">净洗铛，少著水，柴头罨烟焰不起。黄州好猪肉，价贱如泥土。早晨起来打两碗，饱得自家君莫管。</span>
+                    </div>
+                    <div class="tips_tit">诗句</div>
+                </div>
+            </div>
+        </div>
+        <div class="prompt guideLight"><i class="iconfont icon-tishi"></i></div>
+        <div class="game_mark"></div>
+        <div class="game_guide">
+            <div class="guide_start">
+                <p class="guide_tit">欢迎来到厨了个房！</p>
+                <p class="guide_txt">接下来是新手引导，你准备好了吗？</p>
+                <div class="guide_start_btn">
+                    <button class="guideskip">跳过</button>
+                    <button class="guideOk">准备好了</button>
+                </div>
+            </div>
+            <div class="guide1">
+                <div class="guideinner_txt g1_txt guideNext">点击左侧堆叠的食材图像，该图像会移到下方虚线框中。
+                </div>
+                <div class="guideinner_txt g2_txt guideNext">当选中两个不同食材且烹饪成功时，两者会合并为右侧其中一首诗的菜肴并消除。</div>
+                <div class="guideinner_txt g3_txt guideNext">消除后，这一首诗的等式处会显示正确答案，剩余图像的个数也会递减。</div>
+                <div class="guideinner_txt g4_txt guideNext">图像消除过程还可以使用体验时获得的提示机会。</div>
+                <div class="guide_end guideNext">
+                    <p>全部图像消除完毕后即可通关，快开始大展身手吧！</p>
+                    <button>开始游戏</button>
+                </div>
+            </div>
+        </div>
+        <div class="CombinedResult">
+            <!--    <span class="SucTxt">通关成功！</span>
+            <span>交子货币&nbsp;+10</span>
+            <i class="iconfont icon-gemini"></i>
+            <button class="SucConfirm"><a href="gameSelect.html">确定</a></button> -->
+        </div>
+        <div class="return">
+
+            <a href="gameSelect.html"><i class="iconfont icon-xiangzuojiantou"></i></a>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/axios_request.js"></script>
+<script src="js/axios_response.js"></script>
+<script src="./js/gameLevel1.js"></script>
+
+</html>

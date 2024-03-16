@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.elasticsearch.common.text.Text;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -81,7 +82,7 @@ public class Post {
     /**
      * 发布时间
      */
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     /**
      * 高亮信息

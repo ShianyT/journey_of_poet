@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    background: url(../images/poets_Journey_entried-background1.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.box {
+    perspective: 1000px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    position: relative;
+    width: 1300px;
+    height: 945px;
+}
+.box [class^=poet_box] {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: rotateY(90deg);
+    position: relative;
+    width: 120px;
+    height: 100%;
+}
+.box [class^=poet_box] .poet {
+    transition: all .5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 345px;
+    border-radius: 150px;
+    text-decoration: none;
+    background-color: transparent;
+    background: url(../images/poet_entry.png) no-repeat;
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+}
+.box [class^=poet_box] .poet:hover {
+    transform: translateZ(100px) scale(1.1);
+    box-shadow: 20px -10px 25px 2px rgba(0, 0, 0, .3);
+    text-shadow: 10px -10px 5px rgba(0, 0, 0, .3);
+}
+.box [class^=poet_box] .poet .text {
+    writing-mode: vertical-lr;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: '宋体';
+    color:black;
+}
+.boxMove {
+    animation: boxMove linear .5s forwards;
+}
+@keyframes boxMove {
+    100%{
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+}
+.return {
+    transition: all .2s;
+    width: 110px;
+    height: 50px;
+    border-radius: 20px;
+    padding: 10px;
+    position: absolute;
+    top: 140px;
+    left: -95px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: linear-gradient(40deg,#ffffff 10%,#b5c0cb);
+    color:rgb(173 144 122);
+}
+.return .icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border-left: 1px solid rgb(173 144 122);
+    border-bottom: 1px solid rgb(173 144 122);
+    transform: rotate(45deg);
+}
+.return .text {
+    font-size: 25px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.return:hover>.icon {
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.return:hover {
+    color:black;
+}
+.box .money {
+    position: absolute;
+    top: 8%;
+    right: 0%;
+    display: flex;
+    min-width: 100px;
+    height: 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 15px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+    padding-left: 20px;
+}
+.box .money .icon-gemini {
+    color: #d08350bd;
+    font-size: 30px;
+}
+.box .money .money_numberBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.box .money .money_numberBox .money_number {
+    margin-right: 5px;
+}
+.box .money .money_numberBox .icon-jiahao{
+    color:white;
+    cursor: pointer;
+}

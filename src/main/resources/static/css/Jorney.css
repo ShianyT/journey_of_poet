@@ -1,0 +1,464 @@
+* {
+    user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+.Journey {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.scene1 {
+    width: 100vw;
+    height: 570px;
+}
+
+.sce_part {
+    position: absolute;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+    perspective: 5000px;
+    transition: all .2s linear;
+}
+
+.sce_part>img {
+    position: inherit;
+    top: -80px;
+    left: -60px;
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+    object-position: center;
+    transition: all .3s linear;
+}
+
+.sce_part>.sce_four {
+    top: -10px;
+    height: 160%;
+}
+
+.sce_part>.sce_tree {
+    top: 15px;
+}
+
+.sce_bg {
+    pointer-events: none;
+}
+
+.poet {
+    width: 100%;
+    height: 100%;
+    position: inherit;
+    top: -10px;
+    left: -50px;
+    transition: all .2s linear;
+}
+
+.poet>img {
+    position: inherit;
+    left: -50px;
+    width: 120%;
+    height: 110%;
+    object-fit: cover;
+    object-position: center;
+    transition: all .2s linear;
+    animation-duration: .5s;
+    animation-delay: .3s;
+    animation-fill-mode: forwards;
+}
+
+.poet>.narration {
+    width: 300px;
+    left: 70%;
+    line-height: 1.4em;
+    font-size: 25px;
+    text-shadow: none;
+    height: fit-content;
+    cursor: pointer;
+}
+
+.say_part {
+    transition: all 1s;
+    /* opacity: 0; */
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 250px;
+    /* border-radius: 20px; */
+    font-size: 25px;
+    font-family: '宋体';
+    font-weight: 400;
+    background-image: url(../images/say.png);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, .3);
+    z-index: 10;
+}
+
+/* .say_part:after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(...);
+    opacity: 0.5;
+} */
+.narration_txt {
+    line-height: 1.5em;
+}
+
+.say_inner {
+    position: relative;
+    display: flex;
+    width: 1200px;
+    height: 100%;
+    margin: 0px 120px;
+    padding-top: 30px;
+}
+
+.say_inner>div {
+    margin: 0 120px;
+    width: 1080px;
+}
+
+.say_inner .keep_tips {
+    width: auto;
+    position: absolute;
+    right: 100px;
+    bottom: 90px;
+    text-shadow: #FC0 1px 0 10px;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.say_inner .select_tips_txt {
+    max-width: 290px;
+    margin-left: 100px;
+    margin-right: 0px;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+
+.select_btn {
+    display: flex;
+    flex-flow: column;
+    width: fit-content;
+    margin: 0px 20px;
+}
+
+.select_btn>button {
+    width: fit-content;
+    height: 50px;
+    font-size: 24px;
+    padding: 10px;
+    font-family: serif;
+    border: none;
+    border-radius: 10px;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    background-color: #b9d5e8;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+.select_btn>button:hover{
+    box-shadow: 2px 2px 10px #000;
+}
+
+.select_btn>button::before {
+    content: '';
+    display: inline-block;
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #000;
+}
+
+.narration_txt,
+.keep_tips,
+.select_btn {
+    transition: all .2s linear;
+}
+
+.mysay {
+    transition: all 1s;
+    position: inherit;
+    top: 35%;
+    left: 22%;
+    max-width: 400px;
+    padding: 30px;
+}
+
+.bubble::before {
+    left: -7px;
+    bottom: 0;
+    border: 10px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.5);
+    z-index: -2;
+}
+
+.bubble::after {
+    left: -20px;
+    bottom: 4px;
+    border: 20px solid transparent;
+    border-bottom-color: #fff;
+}
+
+.bubble::before,
+.bubble::after {
+    content: '';
+    border-radius: 20px/5px;
+    position: absolute;
+    display: block;
+}
+
+.select_part {
+    left: 70%;
+    font-weight: 800;
+}
+
+.select_part>.keep_tips {
+    text-shadow: none;
+}
+
+.selection_inner {
+    position: inherit;
+    top: 140%;
+    left: 0;
+}
+
+.select {
+    width: 300px;
+    height: fit-content;
+    transition: all .5s;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    font-size: 25px;
+    font-weight: 400;
+    font-family: '宋体';
+    color: #1b579b;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, .3);
+    cursor: pointer;
+}
+
+.select:hover {
+    box-shadow: 2px 2px 10px #fff;
+}
+
+.select::after {
+    content: '>>';
+    position: absolute;
+    color: #1b579b;
+}
+
+.sayMove {
+    animation: sayMove linear .5s;
+    animation-fill-mode: forwards;
+}
+
+.saydisappear {
+    animation: saydisappear linear .5s forwards;
+}
+
+
+.sce_bg {
+    animation-duration: .5s;
+    animation-fill-mode: forwards;
+    animation-delay: .2s;
+}
+
+.sce_tree {
+    pointer-events: none;
+    animation-fill-mode: forwards;
+    animation-duration: .5s;
+}
+
+.return {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 2px 2px 10px #afafaf;
+    z-index: 800;
+}
+
+.return>.text>.icon_return {
+    width: 16px;
+    height: 16px;
+    margin: 15px 19px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(135deg);
+    transition: all .2s linear;
+    z-index: 200;
+}
+
+.return>.text:hover>.icon_return {
+    scale: 1.2;
+}
+
+.return .text {
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+}
+
+@keyframes sayMove {
+    100% {
+        opacity: 1;
+        top: 30%;
+    }
+}
+
+@keyframes saydisappear {
+    100% {
+        opacity: 0;
+        top: 30%;
+    }
+}
+
+
+@keyframes picdisappear {
+    100% {
+        opacity: 0;
+        top: 620px;
+    }
+}
+
+.switch {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #000;
+}
+
+.eye {
+    position: absolute;
+    width: 100%;
+    height: 600px;
+    top: 10%;
+    background-color: #f1eeee;
+    box-shadow: 0 0 10px 100px #f1eeee;
+    border-radius: 50%;
+    transform: scale(1, 2);
+    /* animation-name: open; */
+    animation-duration: 2s;
+    animation-timing-function: linear;
+}
+
+@keyframes open {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    50% {
+        transform: scale(1, 0.2);
+        opacity: .5;
+    }
+
+    90% {
+        transform: scale(1, 2);
+        opacity: .8;
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+.transitionTips {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    line-height: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    background-image: url(../images/transitionBg.jpg);
+    background-position: center;
+    background-size: cover;
+    font-family: serif;
+    z-index: 500;
+    display: none;
+}
+
+.transitionTips>span {
+    font-size: 24px;
+    color: #4d4a4a;
+}
+
+.transitionTips>h5 {
+    margin-bottom: 50px;
+}
+
+.keepExperience {
+    border: 1px solid #afafaf;
+    border-radius: 10px;
+    margin-top: 100px;
+    font-size: 30px;
+    font-family: serif;
+    font-weight: 800;
+    line-height: 1.5em;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.keepExperience:hover {
+    text-shadow: 2px 2px 10px #000;
+    scale: 1.1;
+}
+
+.sayPerson {
+    position: inherit;
+    top: -110%;
+    left: 12px;
+    width: 270px;
+    height: 340px;
+    transition: all .2s linear;
+    display: none;
+}
+
+.sayPerson>img {
+    width: 100%;
+    height: 100%;
+
+}
+
+.sayPerson>.A {
+    width: 250px;
+}
+
+.sayPerson>.B {
+    width: 230px;
+}

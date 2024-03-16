@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.selectPage {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url(../0emoji/gameSelect.png);
+    background-size: cover;
+}
+
+.selectInner {
+    width: 1200px;
+    height: 600px;
+    margin: 140px auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.selectInner>a {
+    text-decoration: none;
+}
+
+.levelSelection {
+    width: 200px;
+    height: 200px;
+    margin-left: 70px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 2px 2px 10px #979591;
+    text-align: center;
+    font-size: 100px;
+    line-height: 200px;
+    color: #79a28b;
+    font-family: serif;
+    opacity: .7;
+    cursor: not-allowed;
+    background-image: url(../0emoji/gamePoetryBg.png);
+    background-size: cover;
+    background-position: center;
+    transition: all .2s linear;
+}
+
+.playable {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.playable:hover {
+    box-shadow: 10px 10px 15px #979591;
+}
+
+.selectPage>.return {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100;
+    position: absolute;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #040404;
+    opacity: .6;
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    transition: all .2s linear;
+}
+
+.selectPage>.return:hover {
+    opacity: 1;
+}
+
+.selectPage>.return>a {
+    text-decoration: none;
+    display: block;
+    margin: 5px 4px;
+}
+
+.selectPage>.return>a>i {
+    font-size: 30px;
+    line-height: 40px;
+    margin-left: 3px;
+}

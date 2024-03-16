@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,12 +67,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("帖子不存在");
 
         for (Post post : posts) {
-            post.setNickname(user.getNickname());
-            post.setIcon(user.getIcon());
-            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
-            post.setIsLike(postLikeService.isLike(post.getId(), user.getUid()));
-            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
-            post.setIsCollection(postCollectionService.isCollection(post.getId(), user.getUid()));
+            getPostDetail(post);
         }
         return Result.success(posts);
     }
@@ -94,8 +90,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             post.setUid(user.getUid());
             post.setLikes(0);
             post.setCollections(0);
+            post.setCreateTime(new Timestamp(System.currentTimeMillis()));
             this.save(post);
-            esUtil.savePost(post);
+            // esUtil.savePost(post);
             return Result.success();
         }
         return Result.error("出错啦！请先登录");
@@ -129,7 +126,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("图片大小不可超过5M");
 
         // 保存原图片并生成压缩图
-        String fileName = ImageUtil.saveImage(multipartFile,"post");
+        String fileName = ImageUtil.saveImage(multipartFile, "post");
 
         stringRedisTemplate.opsForHash().put(imageKey, size + "", fileName);
         // 图片回显
@@ -180,7 +177,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("该帖子为其他用户所发布");
         }
 
-        if (removeById(id)){
+        if (removeById(id)) {
             esUtil.deletePost(id);
             return Result.success();
         }
@@ -206,13 +203,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             return Result.error("帖子不存在");
 
         for (Post post : posts) {
-            User postUser = userservice.lambdaQuery().eq(User::getUid, post.getUid()).one();
-            post.setNickname(postUser.getNickname());
-            post.setIcon((postUser.getIcon()));
-            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
-            post.setIsLike(postLikeService.isLike(post.getId(), user.getUid()));
-            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
-            post.setIsCollection(postCollectionService.isCollection(post.getId(), user.getUid()));
+            getPostDetail(post);
         }
         return Result.success(posts);
     }
@@ -240,13 +231,9 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         for (PostCollection postCollection : records) {
             Post post = lambdaQuery().eq(Post::getId, postCollection.getPostId()).one();
-            post.setNickname(user.getNickname());
-            post.setIcon((user.getIcon()));
-            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
-            post.setIsLike(postLikeService.isLike(post.getId(), user.getUid()));
-            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
-            post.setIsCollection(postCollectionService.isCollection(post.getId(), user.getUid()));
-            posts.add(post);
+            if (post != null) {
+                posts.add(getPostDetail(post));
+            }
         }
         return Result.success(posts);
     }
@@ -257,23 +244,41 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (Objects.isNull(user))
             return Result.error("出错啦！请先登录");
 
-        if(currentPage < 1){
+        if (currentPage < 1) {
             return Result.error("页码错误");
         }
 
         ArrayList<Post> posts = esUtil.searchPost(keywords, currentPage);
-        if(posts == null){
+        if (posts == null) {
             return Result.error("已无更多记录");
         }
         for (Post post : posts) {
-            User postUser = userservice.lambdaQuery().eq(User::getUid, post.getUid()).one();
-            post.setNickname(postUser.getNickname());
-            post.setIcon((postUser.getIcon()));
-            post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
-            post.setIsLike(postLikeService.isLike(post.getId(), user.getUid()));
-            post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
-            post.setIsCollection(postCollectionService.isCollection(post.getId(), user.getUid()));
+            getPostDetail(post);
         }
         return Result.success(posts);
+    }
+
+    @Override
+    public Result getOnePostById(Integer id) {
+        Post post = getOnePost(id);
+        if(post == null){
+            return Result.error("该帖子不存在");
+        }
+        return Result.success(getPostDetail(post));
+    }
+
+
+    public Post getPostDetail(Post post){
+        UserDTO user = UserHolder.getUser();
+        User postUser = userservice.getOne(post.getUid());
+        if (postUser != null) {
+            post.setNickname(postUser.getNickname());
+            post.setIcon((postUser.getIcon()));
+        }
+        post.setLikes(post.getLikes() + redisUtils.getLikeNum(post));
+        post.setIsLike(postLikeService.isLike(post.getId(), user.getUid()));
+        post.setCollections(post.getCollections() + redisUtils.getCollectionNum(post));
+        post.setIsCollection(postCollectionService.isCollection(post.getId(), user.getUid()));
+        return post;
     }
 }

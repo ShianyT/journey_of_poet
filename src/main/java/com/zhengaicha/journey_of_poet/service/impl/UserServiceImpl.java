@@ -87,7 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY_PREFIX + mail, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
                 message.setText("尊敬的用户您好！\n您的验证码是：" + code + "，请在3分钟内进行验证。如果该验证码不为您本人申请，请无视。");
                 // javaMailSender.send(message);
-                // log.warn(code);
+                log.warn(code);
                 return Result.success(code);
             } else return Result.error("该邮箱无效");
         } catch (MailException e) {

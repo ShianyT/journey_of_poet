@@ -2,19 +2,14 @@ package com.zhengaicha.journey_of_poet.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhengaicha.journey_of_poet.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 
 @Service
 public class JwtUtil {
@@ -34,9 +29,10 @@ public class JwtUtil {
      * @return token
      */
     public String createToken(UserDTO payload) throws JsonProcessingException {
+        long l = System.currentTimeMillis() + (expireTime * 3600 * 24 * 2400);
         return JWT.create()
                 .withSubject(objectMapper.writeValueAsString(payload))
-                .withClaim("expireTime",(System.currentTimeMillis() + expireTime * 3600 * 24))
+                .withClaim("expireTime",l)
                 .sign(Algorithm.HMAC256(secret));
     }
 
@@ -47,7 +43,8 @@ public class JwtUtil {
     public boolean isJwtExpire(String jwt){
         DecodedJWT verify = JWT.require(Algorithm.HMAC256(secret)).build().verify(jwt);
         Long expireTime1 = verify.getClaim("expireTime").asLong();
-        return (expireTime1 - new Date().getTime() < 0);
+        long time = System.currentTimeMillis();
+        return (expireTime1 - time < 0);
 
     }
 

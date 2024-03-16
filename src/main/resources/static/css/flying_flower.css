@@ -1,0 +1,450 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    overflow: hidden;
+    user-select: none;
+}
+.outBox {
+    position: relative;
+    perspective: 100px;
+    margin: 0 auto;
+}
+.mate{
+    position: relative;
+    width: 1700px;
+    height: 1000px;
+    margin: 0 auto;
+    background: url(../images/flying_flower_background.jpg) no-repeat center;
+    background-size: cover;
+}
+/* 红蓝色块 */
+.mate .leftBox {
+    transition: all 1s;
+    position: absolute;
+    top: 18%;
+    left: -42%;
+    width: 700px;
+    height: 550px;
+    background-color: rgba(173, 155, 145, 1);
+}
+.mate .leftBox .left {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.mate .hand {
+    opacity: 0;
+    transition: all .8s;
+    position: absolute;
+    top: 10%;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.mate .leftBox .hand{
+    left: 80%;
+    transform: rotateZ(20deg);
+}
+.mate .rightBox .hand {
+    right: 80%;
+    transform: rotateZ(-20deg);
+}
+.handDisplay {
+    animation: handDisplay 1s linear forwards;
+}
+@keyframes handDisplay {
+    100% {
+        opacity: 1;
+    }
+}
+.mate .rightBox {
+    transition: all 1s;
+    position: absolute;
+    top: 18%;
+    right: -42%;
+    width: 700px;
+    height: 550px;
+    background-color: rgba(131, 157, 187, 1);
+}
+.mate .rightBox .right {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.mate .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    height: 600px;
+    transform: translate(-50%,-50%);
+}
+.leftremove {
+    animation: leftremove 3s linear forwards;
+}
+.rightremove {
+    animation: rightremove 3s linear forwards;
+}
+@keyframes rightremove {
+    20% {
+        transform:translateX(-80%) scale(1.8); 
+    }
+    40%{
+        transform: translateX(-160%) scale(1.8);
+    }
+    100% {
+        transform: translateX(-160%) scale(1.8);
+        opacity: 0;
+    }
+}
+@keyframes leftremove {
+    20% {
+        transform:translateX(80%) scale(1.8);  
+    }
+    40%{
+        transform: translateX(160%) scale(1.8);
+    }
+    100% {
+        transform: translateX(160%) scale(1.8);
+        opacity: 0;
+    }
+}
+.playerbox {
+    position: relative;
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.cancell {
+    transition: all .3s;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 100px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: '宋体';
+    font-weight: 700;
+    border-radius: 25px;
+    color: white;
+    background-color: #bda57f;
+    cursor: pointer;
+}
+.cancell:hover {
+    box-shadow: 5px 5px 30px -15px black;
+    text-shadow: 5px 5px 15px white;
+}
+
+.playerbox .right,
+.playerbox .left,
+.playerbox .middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.playerbox .right,
+.playerbox .left,
+.playerbox .middle {
+    font-size: 40px;
+    font-weight: 700;
+    font-family: '宋体';
+    letter-spacing: 1px;
+}
+
+.playerbox .right .userBox,
+.playerbox .left .userBox {
+    width: 250px;
+    height: 250px;
+    border-radius: 125px;
+    overflow: hidden;
+    background-color: white;
+}
+.playerbox .right .username,
+.playerbox .left .username {
+    max-width: 250px;
+    font-size: 30px;
+    font-family: '宋体';
+    margin-top: 30px;
+}
+.playerbox .right .userBox img,
+.playerbox .left .userBox img {
+    width: 100%;
+    height: 100%;
+}
+.mate .textBox {
+    display: flex;
+    flex-direction: column;
+} 
+
+.mate .textBox .title {
+    font-size: 36px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.mate .textBox .tip {
+    width: 1200px;
+    height: 150px;
+    padding: 40px;
+    background-color: rgba(255, 255, 255, .4);
+}
+.mate  .textBox .tip .body {
+    font-size: 24px;
+    font-family: '宋体';
+    letter-spacing: 1px;
+}
+.mate .topBox {
+    opacity: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1700px;
+    height: 100px;
+    font-size: 30px;
+    font-family: '宋体';
+    font-weight: 700;
+}
+.mate .topBox .timeBox {
+    width: 200px;
+    height: 60px;
+    padding: 15px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    background-color: #c39a67;
+    color:white
+}
+.mate .bodyBox {
+    opacity: 0;
+    display: none;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-left: 240px;
+    padding-right: 240px;
+    height: 600px;
+    overflow-y: scroll;
+}
+.mate .bodyBox .poemname .iconfont {
+    font-size: 30px;
+    font-weight: 700;
+    color: #8c1010;
+}
+
+.mate .bodyBox::-webkit-scrollbar {
+    display: none;
+}
+.mate .bodyBox .otheruserBox {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.mate .bodyBox .userBox {
+    opacity: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.mate .bodyBox .otheruser {
+    float: left;
+    display: flex;
+}
+.mate .bodyBox .otheruser::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.mate .bodyBox .otheruserBox .poemBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.mate .bodyBox .userBox .poemBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.mate .bodyBox .user {
+    float: right;
+    display: flex;
+}
+.mate .bodyBox .user::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.mate .bodyBox .poemname {
+    min-width: 100px;
+    max-width: 100%;
+    height: 50px;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 25px;
+    font-size: 24px;
+    font-family: '宋体';
+    text-align: center;
+    letter-spacing: 1px;
+    background-color: white;
+}
+.mate .bodyBox .picture {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: aqua;
+}
+.mate .bodyBox .otheruser .picture {
+    margin-right: 20px;
+}
+.mate .bodyBox .user .picture {
+    margin-left: 20px;
+}
+.mate .bodyBox .picture img {
+    width: 100%;
+    height: 100%;
+}
+.mate .bodyBox .poem {
+    width: 400px;
+    height: 80px;
+    border-radius: 20px;
+    background-color: rgba(145, 90, 67, .4);
+    font-family: '宋体';
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 30px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.mate .bottomInputBox {
+    opacity: 0;
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.mate .bottomInputBox .buttomInput {
+    position: relative;
+}
+.mate .bottomInputBox .bottomInput input {
+    width: 1000px;
+    height: 90px;
+    padding-left: 40px;
+    border-radius: 55px;
+    border: 1px solid;
+    font-size: 30px;
+    font-family: '宋体';
+    letter-spacing: 1px;
+    outline: none;
+    background-color: #e3dcd6;
+}
+.mate .bottomInputBox .botton {
+    position: absolute;
+    top: 50%;
+    right:3%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 60px;
+    border-radius: 20px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-family: '宋体';
+    background-color: #b0725a;
+    cursor: pointer;
+} 
+.display {
+    animation: display 1s linear forwards;
+}
+@keyframes display {
+    100%{
+        opacity: 1;
+    }
+}
+/* 游戏中出现的提示弹窗 */
+.outBox .tip_popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0;
+    width: 420px;
+    height: 250px;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: '宋体';
+    background: url(../images/flower_entry_text_background.png) no-repeat center;
+    background-size: cover;
+}
+/* 游戏结束之后的弹窗 */
+.outBox .popup {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 950px;
+    height: 480px;
+    padding: 50px;
+    background-image: url(../images/flower_background.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.outBox .popup .title {
+    font-size: 60px;
+    font-weight: 700;
+    font-family: '宋体';
+    letter-spacing: 1px;
+}
+.outBox .popup .get {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    font-size: 30px;
+    font-family: '宋体';
+    letter-spacing: 1px;
+}
+.outBox .popup .buttonBox {
+    margin-top: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    width: 450px;
+    height: 130px;
+}
+.outBox .popup .buttonBox a {
+    width: 200px;
+    height: 60px;
+    border-radius: 20px;
+    line-height: 60px;
+    text-align: center;
+    background-color: #c6b9aa;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: '宋体';
+    font-weight: 700;
+    color: black;
+}

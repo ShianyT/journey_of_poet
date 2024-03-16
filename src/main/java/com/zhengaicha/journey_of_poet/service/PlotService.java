@@ -12,4 +12,6 @@ public interface PlotService extends IService<Plot>{
     public Result savePlotProgress(Integer eventId);
 
     public Result unlockChapter(Integer chapterId);
+
+    public Result getEvent();
 }

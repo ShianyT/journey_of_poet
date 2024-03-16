@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+</head>
+<link rel="stylesheet" href="css/logon_register.css">
+<link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4277701_ltbzjlz8rer.css">
+<body>
+    <a href="index.html" class="return">
+        <div></div>
+        <span>返回</span>
+    </a>
+    <div class="box">
+        <div class="introduceLogon">
+            <div class="title">诗旅</div>
+            <p class="text">欢迎来到诗旅，在这里，遇见诗歌的浪漫，遇见诗歌的奇趣。</p>
+            <p class="text">还没有用户账号吗？赶快去注册一个吧！</p>
+            <button class="buttonBox jumpright">注册账号</button>
+        </div>
+        <div class="logon intBox">
+            <div class="title">登录</div>
+            <form>
+                <div class="first_tip">用户名或密码错误！</div>
+                <div class="EmailBox">
+                    <input type="text" class="E-mail" placeholder="邮箱">
+                </div>
+                <div class="passwordBox">
+                    <input type="password" class="password" placeholder="密码">
+                </div>
+            </form>
+            <div class="forgot">忘记密码？点击此处修改密码</div>
+            <button class="buttonBox">登录</button>
+        </div>
+        <div class="register intBox">
+            <div class="title">创建用户</div>
+            <form>
+                <div class="first_tip">邮箱不能为空！</div>
+                <div class="EmailBox">
+                    <input type="text" class="E-mail" placeholder="请输入你的邮箱">
+                </div>
+                <div class="second_tip">设置的密码不能为空！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_first" placeholder="输入你的用户密码">
+                </div>
+                <div class="third_tip">第二次输入的密码与第一次不一致！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_second" placeholder="再次确认你的用户密码">
+                </div>
+                <div class="fourth_tip">验证码不能为空！</div>
+                <div class="codeBox">
+                    <input type="text" class="code" placeholder="输入验证码">
+                </div>
+                <button class="received_code">获取验证码</button>
+            </form>
+            <button class="buttonBox">注册</button>
+        </div>
+        <div class="introduceRegister">
+            <div class="title">诗旅</div>
+            <p class="text">欢迎来到诗旅，在这里，遇见诗歌的浪漫，遇见诗歌的奇趣。</p>
+            <p class="text">注册好用户了吗？那么开始登录进入网站吧！</p>
+            <button class="buttonBox jumpleft">开始登录</button>
+        </div>   
+    </div>
+    <div class="register_pupop">
+        <div class="content">注册成功！<br>前往登录吧！</div>
+        <button>确定</button>
+    </div>
+    <div class="logon_pupop">
+        <div class="content">登录成功！<br>点击前往主页！</div>
+        <button>确定</button>
+    </div>
+    <div class="mask"></div>
+    <div class="forgot_pp">
+        <div class="title">忘记密码
+            <div class="close">
+                <div class="iconfont icon-close"></div>
+            </div>
+        </div>
+        <div class="formBox">
+            <form>
+                <div class="first_tip">邮箱不能为空！</div>
+                <div class="EmailBox">
+                    <input type="text" class="E-mail" placeholder="请输入你的邮箱">
+                </div>
+                <div class="second_tip">设置的密码不能为空！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_first" placeholder="输入新的密码">
+                </div>
+                <div class="third_tip">第二次输入的密码与第一次不一致！</div>
+                <div class="passwordBox">
+                    <input type="password" class="password_second" placeholder="再次确认你的密码">
+                </div>
+                <div class="fourth_tip">验证码错误！</div>
+                <div class="codeBox">
+                    <input type="text" class="code" placeholder="输入验证码">
+                <button class="received_code">获取验证码</button>
+                </div>
+            </form>
+        </div>
+        <button class="forgot_bt">修改密码</button>
+    </div>
+    <div class="forgot_pupop">
+        <div class="content">修改成功！<br>前往登录吧！</div>
+        <button>确定</button>
+    </div>
+</body>
+<script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/axios_response.js"></script>
+<script src="js/logon_register.js"></script>
+</html>

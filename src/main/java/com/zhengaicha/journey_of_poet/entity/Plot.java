@@ -40,6 +40,11 @@ public class Plot {
     private Integer sceneId;
 
     /**
+     * 场景id，前端判断该文本在哪个场景
+     */
+    private String paintingId;
+
+    /**
      * 音乐id，前端判断该文本使用哪段音乐
      */
     private Integer musicId;
@@ -48,6 +53,4 @@ public class Plot {
      * 视频id，当文本为结局时，前端判断调用哪条视频
      */
     private Integer videoId;
-
-
 }

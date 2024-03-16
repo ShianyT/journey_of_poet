@@ -1,0 +1,535 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.game_poetry {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../0emoji/poetrygameBg.jpg);
+    background-size: cover;
+    padding: 40px;
+    font-family: serif;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.tips_inner {
+    position: relative;
+}
+
+.main {
+    position: relative;
+}
+
+.gametips {
+    color: #000;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: -60px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.item {
+    position: absolute;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left .5s, top .5s, transform .5s;
+    background-position: center;
+    background-size: cover;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px #6c6c6c;
+    cursor: pointer;
+}
+
+.item:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: background-color .2s;
+}
+
+.item.disabled:after {
+    background-color: rgba(0, 0, 0, 0.7)
+}
+
+.move-list {
+    border: 3px dashed #000;
+    margin: 0 auto;
+}
+
+.poetry_tips {
+    padding: 20px;
+    height: 240px;
+    margin-bottom: 30px;
+    background-color: #fdf8f5;
+}
+
+.tips_inner {
+    margin-right: 10px;
+    float: right;
+    display: flex;
+    flex-flow: column;
+    height: 810px;
+    justify-content: space-around;
+}
+
+.game_inner {
+    position: relative;
+    float: left;
+    margin-left: 140px;
+}
+
+.tips_left {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    height: 200px;
+}
+
+.tips_right {
+    position: relative;
+    float: right;
+}
+
+.tips_img {
+    background-color: #fff;
+    padding: 5px;
+    height: 60px;
+    width: 220px;
+    text-align: center;
+    font-size: 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tips_txt {
+    width: 220px;
+    margin-top: 10px;
+}
+
+.tips_poetry {
+    font-size: 27px;
+    line-height: 1.3em;
+    font-weight: 600;
+}
+
+.tips_img_part {
+    width: 50px;
+    height: 50px;
+    background-image: url(../0emoji/0question.png);
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #000;
+    border: 2px solid #dedede;
+    border-radius: 5px;
+    transition: all .2s linear;
+}
+
+.game_res {
+    text-align: right;
+    font-size: 20px;
+    line-height: 1.4em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.img_res {
+    float: right;
+    border-radius: 5px;
+    border: 1px solid #b0acac;
+    padding: 0 4px;
+}
+
+.tips_poetries {
+    width: 280px;
+    height: 200px;
+    border: 1px dashed #000;
+    text-align: center;
+    line-height: 1.5em;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tips_poetries_txt {
+    display: block;
+}
+
+.tips_tit {
+    position: absolute;
+    top: -16px;
+    left: 24px;
+    padding: 5px;
+    font-size: 20px;
+    background-color: #fdf8f5;
+}
+
+.guide_start,
+.guide_end {
+    position: absolute;
+    top: 34%;
+    left: 34%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 540px;
+    height: 300px;
+    background-image: url(../0emoji/gameGuideBg.png);
+    background-size: cover;
+    background-position: center;
+    line-height: 40px;
+    border-radius: 10px;
+    display: none;
+}
+
+.guide_end {
+    top: 36%;
+    left: 36%;
+    width: 440px;
+    height: 250px;
+    font-size: 35px;
+    padding: 23px;
+    line-height: 50px;
+}
+
+.guide_tit {
+    color: #c5b5a3;
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.guide_txt {
+    font-size: 28px;
+    margin: 20px;
+}
+
+.guide_start_btn {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.guide_start_btn>button {
+    width: 120px;
+    height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 23px;
+    padding: 10px;
+    transition: all .2s linear;
+}
+
+.guide_start_btn>.guideskip {
+    color: #c5b5a3;
+    background-color: #fff;
+    border: 2px solid #c5b5a3;
+}
+
+.guide_start_btn>.guideOk {
+    color: #fff;
+    background-color: #c5b5a3;
+    margin-left: 60px;
+    border: none;
+}
+
+.guideOk:hover,
+.guideskip:hover {
+    box-shadow: 1px 1px 5px #ababab;
+}
+
+.game_mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.guideinner_txt {
+    position: absolute;
+    width: 400px;
+    font-size: 28px;
+    line-height: 40px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    display: none;
+    background-image: url(../0emoji/gameGuideBg.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.g1_txt {
+    top: 230px;
+    left: 790px;
+    height: 220px;
+    line-height: 50px;
+}
+
+.g1_txt::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: -58px;
+    border: transparent;
+    border-bottom: 45px solid #fff;
+    transform: rotate(270deg);
+    border-top: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+}
+
+.g2_txt {
+    bottom: 50px;
+    left: 850px;
+    width: 460px;
+    line-height: 50px;
+}
+
+.g2_txt::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: -58px;
+    border: transparent;
+    border-bottom: 45px solid #fff;
+    transform: rotate(270deg);
+    border-top: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+}
+
+.g3_txt {
+    left: 450px;
+    bottom: 140px;
+    line-height: 50px;
+    height: 210px;
+}
+
+.g3_txt::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    right: -58px;
+    border: transparent;
+    border-bottom: 45px solid #fff;
+    transform: rotate(90deg);
+    border-top: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+}
+
+.g4_txt {
+    left: 160px;
+    top: 20px;
+    line-height: 50px;
+    height: 210px;
+}
+
+.g4_txt::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: -58px;
+    border: transparent;
+    border-bottom: 45px solid #fff;
+    transform: rotate(270deg);
+    border-top: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-left: 25px solid transparent;
+}
+
+.prompt {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 130px;
+    left: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    opacity: .6;
+}
+
+.prompt>.iconfont {
+    font-size: 30px;
+}
+
+.prompt:hover {
+    opacity: 1;
+    transition: all .2s linear;
+}
+
+.guideNext::after {
+    content: '继续>>';
+    position: absolute;
+    bottom: 10px;
+    font-size: 20px;
+    right: 20px;
+    text-shadow: 2px 2px 10px #f9b900;
+    cursor: pointer;
+}
+
+.guideNext:last-child::after {
+    content: '';
+}
+
+.guide_end>button {
+    width: 120px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #f2c897;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #000;
+    cursor: pointer;
+    margin: 0 140px;
+}
+
+.guide_end>button:hover {
+    box-shadow: 1px 1px 10px #cbcb41;
+}
+
+.game_poetry>.return {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100;
+    position: absolute;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #040404;
+    opacity: .6;
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    transition: all .2s linear;
+}
+
+.game_poetry>.return:hover {
+    opacity: 1;
+}
+
+.game_poetry>.return>a {
+    text-decoration: none;
+    display: block;
+}
+
+.game_poetry>.return>a>i {
+    font-size: 30px;
+    line-height: 40px;
+    margin-left: 3px;
+}
+
+#m2-1-2>.iconfont,
+#m2-2-3>.iconfont {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 5px;
+    font-size: 80px;
+    color: #f9b900;
+    animation-name: pointerGuide;
+    animation-duration: .5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    z-index: 10;
+}
+
+@keyframes pointerGuide {
+    0% {
+        bottom: -65px;
+    }
+
+    100% {
+        bottom: -50px;
+    }
+}
+
+.CombinedResult {
+    position: absolute;
+    padding: 20px;
+    width: 400px;
+    height: 220px;
+    border-radius: 10px;
+    background-image: url(../0emoji/gameGuideBg.png);
+    background-position: center;
+    background-size: cover;
+    font-size: 35px;
+    font-family: serif;
+    display: none;
+    text-align: center;
+}
+
+.SucTxt {
+    display: block;
+    margin: 10px;
+    text-align: center;
+}
+
+.CombinedResult>.iconfont {
+    font-size: 40px;
+    color: #9f7e1f;
+}
+
+.SucConfirm,
+.FailConfirm {
+    width: 120px;
+    display: block;
+    height: 50px;
+    border: 1px solid #afafaf;
+    border-radius: 10px;
+    font-size: 32px;
+    font-family: serif;
+    /* padding: 20px; */
+    line-height: 0px;
+    margin: 20px auto;
+    transition: all .2s linear;
+}
+
+.FailConfirm {
+    margin: 40px auto;
+}
+
+.SucConfirm:hover,
+.FailConfirm:hover {
+    scale: 1.1;
+}
+
+.SucConfirm>a {
+    color: #000;
+    text-decoration: none;
+}

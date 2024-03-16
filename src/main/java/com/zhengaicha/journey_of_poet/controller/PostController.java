@@ -2,7 +2,9 @@ package com.zhengaicha.journey_of_poet.controller;
 
 import com.zhengaicha.journey_of_poet.dto.Result;
 import com.zhengaicha.journey_of_poet.entity.Post;
+import com.zhengaicha.journey_of_poet.entity.User;
 import com.zhengaicha.journey_of_poet.service.PostService;
+import com.zhengaicha.journey_of_poet.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class PostController {
     @Autowired
     private PostService postService;
+
 
     @ApiOperation(value = "用户删除帖子", notes = "这里需要判断，只能删除用户自己发布的帖子")
     @DeleteMapping("/{id}")
@@ -87,5 +90,12 @@ public class PostController {
     public Result searchPost(@ApiParam(value = "搜索关键字") @PathVariable String keywords
             ,@ApiParam(value = "当前帖子页数") @PathVariable Integer currentPage){
         return postService.searchPost(keywords,currentPage);
+    }
+
+    @ApiOperation(value = "根据id获取一条帖子详情")
+    @GetMapping("/detail/{id}")
+    public Result getOnePostById(@ApiParam(value = "帖子id") @PathVariable Integer id){
+
+        return postService.getOnePostById(id);
     }
 }

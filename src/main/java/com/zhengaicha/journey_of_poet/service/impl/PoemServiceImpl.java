@@ -139,64 +139,73 @@ public class PoemServiceImpl extends ServiceImpl<PoemMapper, Poem> implements Po
         }
 
         // 将挖空的数组进行更进一步细分
-        List<String> positiveOrderList = new ArrayList<>();
+        List<List<String>> positiveOrderList = new ArrayList<>();
+        int OptionSize = 0;
         for (String s : positiveOrder) {
+            List<String> poetryOptions = new ArrayList<>();
             int length = s.length();
             if (length < 4) {
-                positiveOrderList.add(s);
+                poetryOptions.add(s);
+                positiveOrderList.add(poetryOptions);
+                OptionSize++;
             } else if (length % 2 == 0) {
                 for (int i = 0; i < s.length() - 1; i = i + 2) {
-                    positiveOrderList.add(s.substring(i, i + 2));
+                    poetryOptions.add(s.substring(i, i + 2));
+                    OptionSize++;
                 }
+                positiveOrderList.add(poetryOptions);
             } else {
                 int i = 0;
                 for (; i < s.length() - 3; i = i + 2) {
-                    positiveOrderList.add(s.substring(i, i + 2));
+                    poetryOptions.add(s.substring(i, i + 2));
+                    OptionSize++;
                 }
-                positiveOrderList.add(s.substring(i));
+                poetryOptions.add(s.substring(i));
+                positiveOrderList.add(poetryOptions);
+                OptionSize++;
             }
         }
-        int length = positiveOrderList.size();
 
         // 转成字符串数组
-        String[] positiveOrder1 = new String[length];
-        for (int i = 0; i < length; i++) {
-            positiveOrder1[i] = positiveOrderList.get(i);
+        String[] positiveOrder1 = new String[OptionSize];
+        int i = 0;
+        for (List<String> options : positiveOrderList) {
+            for(String s : options){
+                positiveOrder1[i] = s;
+                i++;
+            }
         }
 
         // 生成乱序随机数
         List<Integer> randomNum = new ArrayList<>();
-        while (randomNum.size() < length / 2) {
-            int random = (int) (Math.random() * (length - 1));
+        while (randomNum.size() < OptionSize / 2) {
+            int random = (int) (Math.random() * (OptionSize - 1));
             if (!randomNum.contains(random)) {
                 randomNum.add(random);
             }
         }
-
-        String[] outOfOrder = new String[length];
-        int i = 0;
+        // 获取乱序数组
+        String[] outOfOrder = new String[OptionSize];
+        int j = 0;
         for (int random : randomNum) {
-            outOfOrder[i] = positiveOrderList.get(random);
-            positiveOrderList.set(random, null);
-            i++;
+            outOfOrder[j] = positiveOrder1[random];
+            positiveOrder1[random] = null;
+            j++;
         }
-        i = length - 1;
-        for (String s : positiveOrderList) {
+        j = OptionSize - 1;
+        for (String s : positiveOrder1) {
             if (s != null) {
-                outOfOrder[i] = s;
-                i--;
+                outOfOrder[j] = s;
+                j--;
             }
         }
 
         // 打包数据返回给前端
-        HashMap<String, String[]> stringHashMap = new HashMap<>();
+        HashMap<String, Object> stringHashMap = new HashMap<>();
         stringHashMap.put("hollowedPoem", poemContentArray);
-        stringHashMap.put("positiveOrder", positiveOrder1);
+        stringHashMap.put("positiveOrder", positiveOrderList);
         stringHashMap.put("outOfOrder", outOfOrder);
         return Result.success(stringHashMap);
     }
-
-
-
 
 }

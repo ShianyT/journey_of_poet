@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    overflow: hidden;
+}
+.releasePage {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.release_nav {
+    position: relative;
+    width: 100%;
+    height: 6%;
+    padding: 10px;
+    border-bottom: 1px solid #e8e5e5;
+}
+.return {
+    position: absolute;
+    top: 50%;
+    left: 6%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+.return .icon {
+    width: 15px;
+    height: 15px;
+    border-left: 1px solid #8ea79e;
+    border-bottom: 1px solid #8ea79e;
+    transform: rotate(45deg);
+}
+.return .text {
+    font-size: 25px;
+    font-weight: 700;
+    font-family: '宋体';
+    color: #8ea79e;
+}
+.return:hover>.text {
+    text-shadow: 1px 0 10px #8ea79e;
+    border-bottom: 1px solid #8ea79e;
+}
+.release_part {
+    width: 100%;
+    height: 94%;
+}
+
+.release_wrap {
+    width: 1200px;
+    height: 800px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px #b3b0b0;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 25px 45px rgba(0,0,0,.1);
+    border: 1px solid rgba(255,255,255,.5);
+    border-right: 1px solid rgba(255,255,255,.2);
+    border-bottom: 1px solid rgba(255,255,255,.2);
+}
+
+.upload_nav {
+    width: 100%;
+    height: 45px;
+    border-bottom: 1px solid #e8e5e5;
+}
+.upload_select {
+    display: inline-block;
+    font-size: 18px;
+    font-family: serif;
+    font-weight: 800;
+    width: 80px;
+    height: 100%;
+    text-align: center;
+    line-height: 46px;
+    margin-left: 20px;
+    transition: all .2s linear;
+    color: #8ea79e;
+    border-bottom: 3px solid #8ea79e;
+}
+
+.upload_body {
+    width: 100%;
+    height: 775px;
+    padding-left: 25px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+.upload_body .pictureBox {
+    width: 100%;
+}
+.upload_body .pictureBox .pictureBox_title {
+    width: 350px;
+    height: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.upload_body .pictureBox .pictureBox_title .text {
+    font-size: 20px;
+    color:black;
+}
+.upload_body .pictureBox .picture_content {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 200px;
+}
+.upload_body .pictureBox .picture_content .picture {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 200px;
+    margin-right: 10px;
+    border: 1px dashed black;
+    cursor: pointer;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.iconBox {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.upload_body .pictureBox .picture_content .picture .iconBox>.icon-jianhao {
+    font-size: 30px;
+    color:white;
+}
+/* 让最后一个picture盒子出现 */
+.upload_body .pictureBox .picture_content .picture:last-child {
+    display: flex;
+}
+.upload_body .pictureBox .picture_content .picture:hover .iconfont {
+    color: white;
+}
+.upload_body .pictureBox .picture_content .picture:hover .icon-jianhao {
+    color: black;
+}
+.upload_body .pictureBox .picture_content .picture .iconfont {
+    transition: all .5s;
+    font-size: 100px;
+}
+.upload_body .pictureBox .picture_content .picture input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.upload_body .title_inputBox {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+.upload_body .title_inputBox input {
+    width: 100%;
+    height: 60px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+}
+.upload_body .content {
+    width: 100%;
+    height: 200px;
+    padding-left: 20px;
+    padding-top: 20px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}
+.upload_body .bt {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: '宋体';
+    color: white;
+}
+.upload_body .bt .confirm {
+    transition: all .5s;
+    width: 200px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+    margin-right: 20px;
+    background-color:#8ea79e;
+    cursor: pointer;
+}
+.upload_body .bt .confirm:hover {
+    box-shadow: 0px 0px 5px 3px #8ea79e;
+}
+.upload_body .bt .cancell {
+    transition: all .5s;
+    width: 200px;
+    height: 80px;
+    text-align: center;
+    line-height: 80px;
+    border: 1px solid grey;
+    color: #8ea79e;
+    cursor: pointer;
+}
+.upload_body .bt .cancell:hover {
+    box-shadow: 0px 0px 5px 3px #8ea79e;
+}
+.popup_mask {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(255, 255, 255,.95);
+}
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 300px; 
+    border-radius: 20px;
+    border: 1px solid black;
+    z-index: 5;
+}
+.popup .textBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.popup .text {
+    font-family: '宋体';
+    font-size: 25px;
+}
+.popup a {
+    width: 150px;
+    height: 60px;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 35px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 25px;
+    font-weight: 700;
+    font-family: '宋体';
+    text-decoration: none;
+    color: black;
+}
+.release_bgimg2 {
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: 820px;
+    height: 800px;
+}
+.release_bgimg {
+    pointer-events: none;
+    position: absolute;
+    top: -40px;
+    right: -110px;
+    width: 410px;
+    height: 420px;
+}

@@ -1,0 +1,411 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.box {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border: 1px solid black;
+}
+.titleBox {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 20px;
+}
+.return {
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+.userBox {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.userBox .user_picture{
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 20px;
+    overflow: hidden;
+    background-color: cadetblue;
+}
+.userBox .user {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: '宋体';
+}
+.userBox .user_picture img {
+    width: 100%;
+    height: 100%;
+}
+.playBox {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+    margin-bottom: 30px;
+}
+.playBox .left, 
+.playBox .right {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.playBox .left .iconbox, 
+.playBox .right .iconbox {
+    width: 50px;
+    height: 50px;
+}
+.playBox .left .iconbox .iconfont, 
+.playBox .right .iconbox .iconfont {
+    font-size: 40px;
+    font-weight: 400;
+}
+.playBox .pictureBox {
+    position: relative;
+    width: 800px;
+    height: 600px;     
+}
+.pictureBox .picture {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 600px;
+    border: 1px dashed black;
+}
+.pictureBox .picture img {
+    width: 100%;
+    height: 100%;
+}
+.pictureBox .display{
+    opacity: 1;
+}
+.contentBox {
+    width: 100%;
+    padding-left: 20px;
+    font-family: '宋体';
+}
+.contentBox .title {
+    margin-bottom: 30px;
+    font-size: 25px;
+    font-weight: 700;  
+    color: rgb(0, 0, 0);
+}
+.contentBox .content {
+    font-size: 20px;
+    color: black;
+}
+.timeBox {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.timeBox .text {
+    font-size: 16px;
+    margin-right: 15px;
+}
+.timeBox .time {
+    font-size: 18px;
+    margin-right: 20px;
+}
+.btBox {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.btBox [class$=Box] {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.btBox [class$=Box] .iconbox {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.btBox [class$=Box] .iconbox .iconfont {
+    font-size: 30px;
+}
+.btBox [class$=Box] .iconbox .icon-dianzan_kuai {
+    color:#f82107;
+}
+.btBox [class$=Box] .iconbox .icon-xingxing {
+    font-size: 35px;
+    color: #f8bd07;
+}
+.btBox [class$=Box] .number {
+    font-size: 18px;
+}
+.comment_title {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+.comment_inputBox {
+    display: flex;
+    width: 1200px;
+    height: 70px;
+    margin: 0 auto;
+}
+.comment_inputBox .user_picture {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    margin-right: 25px;
+    margin-left: 30px;
+    overflow: hidden;
+}
+.comment_inputBox .user_picture img {
+    width: 100%;
+    height: 100%;
+}
+.comment_inputBox .text {
+    transition: all .8s;
+    width: 900px;
+    height: 70px;
+    margin-right: 20px;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    font-size: 20px;
+    font-family: '宋体';
+}
+.comment_inputBox .text:focus {
+    height: 100px;
+}
+.comment_inputBox .text:focus+ button{
+    height: 100px;
+}
+.comment_inputBox button {
+    transition: all .8s;
+    width: 130px;
+    height: 70px;
+    border-radius: 15px;
+    outline: none;
+    border: 1px solid;
+    background-color: seagreen;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    cursor: pointer;
+}
+.comment_content {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 60px;
+}
+.comment {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px dashed black;
+    font-family: '宋体';
+}
+
+.comment .sonBodyBox .sonComment{
+    padding-left: 60px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.comment .head, 
+.comment .sonBodyBox .sonHead {
+    display: flex;
+    align-items: center;
+}
+.comment .head .user_picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 10px;   
+    overflow: hidden;
+}
+/* 子评论头像 */
+.comment .sonBodyBox .sonHead .user_picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: seagreen; 
+    margin-right: 10px;   
+    overflow: hidden;
+}
+
+.comment .sonBodyBox .sonHead .text {
+    margin: 0 20px;
+}
+
+.comment .head .user_picture img, 
+.comment .sonBodyBox .sonHead .user_picture img {
+    width: 100%;
+    height: 100%;
+}
+.comment .head .username , 
+.comment .sonBodyBox .sonHead .user_picture .username {
+    font-size:20px;
+    font-weight: 700;
+}
+.comment .body .content,
+.comment .sonBodyBox .sonBody .content {
+    margin-top: 5px;
+    margin-left: 50px;
+    font-size: 18px;
+}
+.comment .body .more,
+.comment .sonBodyBox .sonBody .more {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-top: 20px;
+    margin-left: 50px;
+    font-size: 18px;
+}
+.comment .body .more .message,
+.comment .sonBodyBox .sonBody .more .sonMessage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.comment .body .more .message .iconfont,
+.comment .sonBodyBox .sonBody .more .sonMessage .iconfont {
+    margin-top: 5%;
+    margin-right: 10px;
+    font-size: 20px;
+}
+ .bottom {
+    opacity: 0;
+    position: relative;
+    width: 1000px;
+    height: 50px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 50px;
+    text-align: center;  
+}
+ .bottom::after {
+    content: '';
+    width: 44%;
+    height: 0.1px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: grey;
+}
+ .bottom::before {
+    content: '';
+    width: 44%;
+    height: 0.1px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: grey;
+}
+ .bottom .text {
+    width: 200px;
+    margin: 0 auto;
+    font-size: 14px;
+    color: grey;
+}
+
+/* 点击回复出现的输入框 */
+.subComment_inputBox {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: end;
+    width: 1200px;
+    height: 70px;
+    margin: 0 auto;
+}
+.subComment_inputBox .user_picture {
+    transition: all .8s;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    margin-right: 25px;
+    margin-left: 30px;
+    overflow: hidden;
+}
+.subComment_inputBox .user_picture img {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+}
+.subComment_inputBox .text {
+    transition: all .8s;
+    width: 900px;
+    height: 70px;
+    margin-right: 20px;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    font-size: 20px;
+    font-family: '宋体';
+}
+.subComment_inputBox .text:focus {
+    height: 100px;
+}
+.subComment_inputBox .text:focus+ button{
+    height: 100px;
+}
+.subComment_inputBox button {
+    transition: all .8s;
+    width: 130px;
+    height: 70px;
+    border-radius: 15px;
+    outline: none;
+    border: 1px solid;
+    background-color: seagreen;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    cursor: pointer;
+}
+/* 遮罩层 */
+.mate {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: url(../images/flying_flower_background2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: -1;
+}

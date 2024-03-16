@@ -122,8 +122,7 @@ public class PoetryBattleRecordsServiceImpl
                 redisUtils.changeBattleUserStatue(user2.getUid());
 
                 // 存储对战对象
-                // String keyword = keywords.get((int) (Math.random() * (keywords.size() - 1)));
-                String keyword = null;
+                String keyword = keywords[(int) (Math.random() * (keywords.length - 1))];
                 savePoetryBattleRecords(keyword, user1, user2);
 
                 log.info("匹配出两个玩家: " + uid1 + "," + uid2);
@@ -287,6 +286,8 @@ public class PoetryBattleRecordsServiceImpl
         }
 
         int reward = 0;// 奖励
+        if(Objects.equals(poetryBattleRecords.getOutcome(), user.getUid()))
+            reward = reward + 5;
         // 获取用户对战详情进行结果返回
         List<PoetryBattleDetail> poetryBattleDetails = poetryBattleDetailService.getBattleDetail(poetryBattleRecord.getId());
         for(PoetryBattleDetail poetryBattleDetail : poetryBattleDetails){
@@ -295,8 +296,6 @@ public class PoetryBattleRecordsServiceImpl
                 reward = reward + 2;
             }
         }
-        if(poetryBattleRecords.getOutcome().equals(user.getUid()))
-            reward = reward + 5;
         UserInfo one = userInfoService.getOne(user.getUid());
         one.setMoney(one.getMoney() + reward);
         userInfoService.updateById(one);
